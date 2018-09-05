@@ -84,9 +84,8 @@
 .field-line{
     margin-bottom: 10px;
 }
-.u-form-group input[type="email"],
-.u-form-group input[type="password"]{
-    width: calc(50% - 22px);
+.MuiFormControl-root-1{
+    width: calc(50% - 22px) !important;
     height:45px;
     outline: none;
     border: 1px solid #ddd;

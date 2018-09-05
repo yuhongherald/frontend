@@ -43,31 +43,29 @@ class Login extends React.Component {
                     </a>
                 </div>
 
-                <form action="/">
-                    <h2 className="card-heading">Create a new account</h2>
+                <form action="/" className="email-login">
 
                     <div className="field-line">
                         <TextField className="u-form-group"
-                            name="email"
-
+                                   name="email"
                         />
                     </div>
 
                     <div className="field-line">
                         <TextField className="u-form-group"
-                            type="password"
-                            name="password"
-
+                                   type="password"
+                                   name="password"
                         />
                     </div>
-
 
                     <div className="u-form-group">
                         <button>Sign Up</button>
                     </div>
 
+                    <div className="u-form-group">
+                        <a href="#" className="forgot-password">Forgot password?</a>
+                    </div>
 
-                    <Card>Don't have an account? <Link to="/signup">Create one</Link>.</Card>
                 </form>
 
             </div>

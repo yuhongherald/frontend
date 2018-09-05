@@ -9,7 +9,6 @@ const routes = {
         childRoutes: [
             {
                 path: '/',
-                exactly: true,
                 component: Index
             },
             {
