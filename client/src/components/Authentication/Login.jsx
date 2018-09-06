@@ -1,14 +1,54 @@
 import React from 'react';
-import {Link} from 'react-router';
 import './css/Login.css';
 import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
+import FacebookLogin from 'react-facebook-login';
+import GoogleLogin from 'react-google-login';
+require('dotenv').config();
+
 
 class Login extends React.Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            user: {
+                'username': '',
+                'password': ''
+            },
+            'isSignIn': false
+        };
+        this.getAuth = this.getAuth.bind(this);
+        this.onChange = this.onChange.bind(this);
+        this.responseFacebook = this.responseFacebook.bind(this);
+        this.responseGoogle = this.responseGoogle.bind(this);
+    }
+
+
+    getAuth() {
+        console.log(this.state.user);
+    }
+
+    onChange(event) {
+        const field = event.target.name;
+        const user = this.state.user;
+        user[field] = event.target.value;
+        this.setState({
+            user: user
+        });
+    }
+
+    responseFacebook(response) {
+        console.log(response);
+        this.setState({
+            'isSignIn': true
+        })
+    }
+
+    responseGoogle(response) {
+        console.log(response);
+        this.setState({
+            'isSignIn': true
+        })
     }
 
     componentDidMount() {
@@ -23,31 +63,37 @@ class Login extends React.Component {
     }
 
     render() {
-
+        const FACEBOOK_APP_ID = process.env.FACEBOOK_APP_ID;
+        const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
         return (
-
-
             <div className="login-box">
                 <div className="lb-header">
                     <a href="#" className="active" id="login-box-link">Login</a>
                     <a href="#" id="signup-box-link">Sign Up</a>
                 </div>
                 <div className="social-login">
-                    <a href="#">
-                        <i className="fab fa-facebook-f fa-lg"></i>
-                        Login in with facebook
-                    </a>
-                    <a href="#">
-                        <i className="fab fa-google-plus-g fa-lg"></i>
-                        log in with Google
-                    </a>
+                    <FacebookLogin
+                        appId={FACEBOOK_APP_ID}
+                        autoLoad={true}
+                        fields="name,email,picture"
+                        // onClick={componentClicked}
+                        callback={this.responseFacebook}
+                    />
+
+                    <GoogleLogin
+                        clientId={GOOGLE_CLIENT_ID}
+                        buttonText="Login"
+                        onSuccess={this.responseGoogle}
+                        onFailure={this.responseGoogle}
+                    />
                 </div>
 
-                <form action="/" className="email-login">
-
+                <form className="email-login">
                     <div className="field-line">
                         <TextField className="u-form-group"
-                                   name="email"
+                                   name="username"
+                                   value={this.state.user.username}
+                                   onChange={this.onChange}
                         />
                     </div>
 
@@ -55,11 +101,13 @@ class Login extends React.Component {
                         <TextField className="u-form-group"
                                    type="password"
                                    name="password"
+                                   value={this.state.user.password}
+                                   onChange={this.onChange}
                         />
                     </div>
 
                     <div className="u-form-group">
-                        <button>Sign Up</button>
+                        <button onSubmit={this.getAuth}>Sign Up</button>
                     </div>
 
                     <div className="u-form-group">

@@ -12,6 +12,7 @@ app.use(express.static('./client/dist/'));
 app.listen(PORT);
 console.log(`Listening on port ${PORT}`);
 
+
 // Redirect all server requests to /index.html which will download all the JS resources
 // This will enable react router to work on refreshing
 app.get('/*', function(req, res) {
@@ -20,4 +21,6 @@ app.get('/*', function(req, res) {
             res.status(500).send(err)
         }
     })
-})
+});
+
+
