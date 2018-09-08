@@ -1,6 +1,7 @@
 import Base from './components/Main/Base.jsx';
 import Login from './components/Authentication/Login.jsx';
 import Index from './components/Main/Index.jsx';
+import CreateEvent from './components/Events/CreateEvent.jsx';
 import Auth from './modules/Auth';
 
 const routes = {
@@ -22,8 +23,18 @@ const routes = {
                     Auth.deauthenticateUser();
 
                     // change the current URL to /
-                    replace('/');
+                    replace('/login');
                 }
+            },
+            {
+                path: '/events/new',
+                exactly: true,
+                component: CreateEvent
+            },
+            {
+                path: '/events/:eventID',
+                exactly: true,
+                component: Event
             }
 
         ]

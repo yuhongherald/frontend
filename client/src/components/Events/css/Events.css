@@ -1,0 +1,17 @@
+.u-form-group-pink button{
+    width:25%;
+    background-color: #f55692;
+    border: none;
+    outline: none;
+    color: #fff;
+    font-size: 1em;
+    font-weight: normal;
+    padding: 14px 0px 14px 0px;
+    border-radius: 2px;
+    text-transform: uppercase;
+}
+
+/* Datepicker */
+.SingleDatePicker {
+    display: block !important
+}

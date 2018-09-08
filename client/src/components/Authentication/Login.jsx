@@ -3,7 +3,12 @@ import './css/Login.css';
 import TextField from '@material-ui/core/TextField';
 import FacebookLogin from 'react-facebook-login';
 import GoogleLogin from 'react-google-login';
+import Auth from '../../modules/Auth';
+import {browserHistory} from 'react-router';
+import axios from "axios";
+
 require('dotenv').config();
+import {Validator} from 'jsonschema';
 
 
 class Login extends React.Component {
@@ -25,7 +30,20 @@ class Login extends React.Component {
 
 
     getAuth() {
+        // axios({
+        //     method: 'post',
+        //     url: 'localhost:5000/v1/user/login',
+        //     data: this.state.user
+        // }).then(function (response) {
+        //     // handle success
+        //     Auth.authenticateUser("1", this.state.user);
+        // }).catch(function (error) {
+        //     // handle error
+        //     console.log(error);
+        // });
         console.log(this.state.user);
+        Auth.authenticateUser("1", this.state.user);
+
     }
 
     onChange(event) {
@@ -41,11 +59,36 @@ class Login extends React.Component {
         console.log(response);
         this.setState({
             'isSignIn': true
-        })
+        });
+
+        let authData = {
+            'username': response.name,
+            'token': response.accessToken
+        };
+
+        // // Validate the data before sending to backend
+        // let v = new Validator();
+        // let userSchema = {
+        //     "username": {"type": "string"},
+        //     "password": {"type": "string"}
+        // };
+        // let isValid = v.validate(authData, userSchema);
+        // if (isValid) {
+        //     console.log('Valid request');
+        Auth.authenticateUser("1", authData);
+        browserHistory.push('/');
+        // }
+        // else {
+        //     console.log('invalid request')
+        // }
+
+
+        //TODO send data to backend
+
     }
 
     responseGoogle(response) {
-        console.log(response);
+
         this.setState({
             'isSignIn': true
         })
@@ -107,7 +150,7 @@ class Login extends React.Component {
                     </div>
 
                     <div className="u-form-group">
-                        <button onSubmit={this.getAuth}>Sign Up</button>
+                        <button type="button" onClick={this.getAuth}>Sign Up</button>
                     </div>
 
                     <div className="u-form-group">

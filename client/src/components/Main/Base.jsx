@@ -1,22 +1,18 @@
 import React, {PropTypes} from 'react';
 import {Link} from 'react-router';
 import Auth from '../../modules/Auth';
-import Index from '../Main/Index.jsx';
-
 
 const styles = {
     navbar: {
-        display: 'inline-block',
-        color: 'yellow',
-        marginLeft: '5px',
-        marginRight: '5px'
+        color: '#f55692',
+        paddingTop: '10px'
     },
 };
 
 class Base extends React.Component {
 
     constructor(props) {
-        super(props)
+        super(props);
 
     }
 
@@ -26,52 +22,71 @@ class Base extends React.Component {
 
 
     render() {
-        const { children } = this.props;
+        const {children} = this.props;
 
         return (
             <div>
-                <header id='header' style={{marginBottom: '0px'}}>
-                    <h1>
-                        <a href='/'>
-                            MyApp
-                        </a>
-                    </h1>
+                <div>
+                    <div id="navigation-header">
+                        <nav className="navbar navbar-default" role="navigation">
+                            <div className="container">
+                                <div className="navbar-header">
+                                    <button type="button" className="navbar-toggle" data-toggle="collapse"
+                                            data-target="#bs-example-navbar-collapse-1">
+                                        <span className="sr-only">Toggle navigation</span>
+                                        <span className="icon-bar"></span>
+                                        <span className="icon-bar"></span>
+                                        <span className="icon-bar"></span>
+                                    </button>
+                                    <a className="navbar-brand" href="index.html">
+                                       App name
+                                    </a>
+                                </div>
+                                <span className="pull-right search-btn"><span className="glyphicon glyphicon-search"></span></span>
+                                <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                                    {Auth.isUserAuthenticated() ? (
+                                        <ul className="nav navbar-nav navbar-right">
+                                            <li><Link to={`/`}>Events</Link></li>
+                                            <li style={styles.navbar}>
+                                                <i className="fas fa-user" aria-hidden="true"></i>
+                                                {Auth.getUserData().username}
+                                            </li>
+                                            <li><Link to={`/logout`}>Log out</Link></li>
+                                        </ul>
+                                    ) : (
+                                        <ul className="nav navbar-nav navbar-right">
+                                            <li className="nav navbar-left-link"><Link to={`/login`}>Log in</Link></li>
+                                            <li className="nav"><Link to={`/events`}>Register</Link></li>
+                                        </ul>
 
-                    {Auth.isUserAuthenticated() ? (
-                        <div style={{float: 'right'}}>
-                            <p style={styles.navbar}>
-                                <i className="fa fa-user user-icon" aria-hidden="true"></i>
-                                {Auth.getUserData().d.EmailAddress}
-                            </p>
-                            <p style={styles.navbar}><Link to={`/login`}>Log out</Link></p>
-                            <p style={styles.navbar}><Link to={`/logout`}>Check out</Link></p>
-                        </div>
-                    ) : (
-                        <div id='notifications' style={{float: 'right'}}>
-                            <p className="nav navbar-left-link"><Link to={`/login`}>Log in</Link></p>
-                            <p className="nav"><Link to={`/events`}>Register</Link></p>
-                        </div>
-                    )}
+                                    )}
+                                </div>
+                            </div>
+                        </nav>
 
-                </header>
+                    </div>
+                </div>
+
+
 
                 {Auth.isUserAuthenticated() ? (
                     <div style={{marginTop: '50px'}}>
-                        <Index/>
                     </div>
                 ) : (
-                    <div></div>
+                    <div>
+                    </div>
                 )}
 
-                <div style={{marginBottom: '80px'}}>
+                <div style={{marginTop: '118px', minWidth: '100%'}}>
                     {children}
                 </div>
 
+
             </div>
+
         )
     }
 }
-
 
 
 export default Base;
