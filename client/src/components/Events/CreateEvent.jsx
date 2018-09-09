@@ -1,13 +1,11 @@
 import React, {PropTypes} from 'react';
-import {Link} from 'react-router';
 import Auth from '../../modules/Auth';
-import 'react-dates/initialize';
-import {SingleDatePicker} from 'react-dates';
-import 'react-dates/lib/css/_datepicker.css';
+import {ReactDatez} from 'react-datez';
+import 'react-datez/dist/css/react-datez.css';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import '../Events/css/Events.css';
-
+import TextField from '@material-ui/core/TextField';
 
 
 class CreateEvent extends React.Component {
@@ -15,10 +13,76 @@ class CreateEvent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            title: '',
-            location: ''
+            data: {
+                title: '',
+                location: '',
+                description: '',
+                category: '',
+                maxQuota: '',
+                startTime: '10:00',
+                endTime: '10:00'
+            }
         }
+        this.handleClick = this.handleClick.bind(this);
+        this.onChange = this.onChange.bind(this);
+        this.selectCategory = this.selectCategory.bind(this);
+        this.changeStartTime = this.changeStartTime.bind(this);
+        this.changeEndTime = this.changeEndTime.bind(this);
+        this.changeStartDate = this.changeStartDate.bind(this);
+        this.changeEndDate = this.changeEndDate.bind(this);
+    }
 
+    selectCategory(event) {
+        event.preventDefault();
+        const data = this.state.data;
+        data['category'] = event.target.value;
+        this.setState({
+            data: data
+        });
+    }
+
+    onChange(event) {
+        event.preventDefault();
+        const field = event.target.name;
+        const data = this.state.data;
+        data[field] = event.target.value;
+        this.setState({
+            data: data
+        });
+    }
+
+    changeStartTime(time) {
+        this.setState({startTime: time})
+    }
+
+    changeEndTime(time) {
+        this.setState({endTime: time})
+    }
+
+    changeStartDate(date) {
+        this.setState({startDate: date})
+
+    }
+
+    changeEndDate(date) {
+        this.setState({endDate: date})
+
+    }
+
+    handleClick() {
+        let postData = {
+            "event_title": this.state.data.title,
+            "event_desc": this.state.data.description,
+            "max_quota": this.state.data.maxQuota,
+            "event_type": this.state.data.category,
+            "event_start_date": this.state.startDate,
+            "event_end_date": this.state.endDate,
+            "event_start_time": this.state.startTime,
+            "event_end_time": this.state.endTime,
+            "is_open_ended": true,
+            "location": this.state.data.location
+        }
+        console.log(postData);
     }
 
     componentWillMount() {
@@ -26,25 +90,27 @@ class CreateEvent extends React.Component {
     }
 
 
-    render(){
+    render() {
         const options = [
-            { value: 'music', label: 'Music' },
-            { value: 'art', label: 'Art' }
+            {value: 'music', label: 'Music'},
+            {value: 'art', label: 'Art'}
         ];
         const defaultOption = options[0];
-        return(
+        return (
             <div id="section-contactform">
                 <div className="container">
                     <div className="col-md-12 text-center">
                         <h1>Create your own event</h1>
                     </div>
-                    <form >
+                    <form>
                         <div className="col-md-3 col-subject">
                             <div className="form-group">
                                 <label className="control-label">TITLE
                                     <span>*</span>
                                 </label>
-                                <input type="text" className="form-control" id="formInput113" required/>
+                                <input type="text" className="form-control" id="formInput113" name="title"
+                                       onChange={this.onChange}
+                                       value={this.state.data.title} required/>
                             </div>
                         </div>
                         <div className="col-md-3 col-subject">
@@ -52,40 +118,80 @@ class CreateEvent extends React.Component {
                                 <label className="control-label">LOCATION
                                     <span>*</span>
                                 </label>
-                                <input type="email" className="form-control" id="formInput113" required/>
+                                <input type="email" className="form-control" id="formInput113" name="location"
+                                       onChange={this.onChange}
+                                       value={this.state.data.location} required/>
                             </div>
                         </div>
-                        <div className="col-md-3 col-phone">
-                            <div className="form-group">
-                                <label className="control-label">DATE
-                                    <span>*</span>
-                                </label>
-                                <SingleDatePicker style={{display: 'block'}}
-                                    date={this.state.date} // momentPropTypes.momentObj or null
-                                    onDateChange={date => this.setState({date})} // PropTypes.func.isRequired
-                                    focused={this.state.focused} // PropTypes.bool
-                                    onFocusChange={({ focused }) => this.setState({focused})} // PropTypes.func.isRequired
-                                    id="your_unique_id" // PropTypes.string.isRequired,
-                                />
-                            </div>
-                        </div>
-
                         <div className="col-md-3 col-phone">
                             <div className="form-group">
                                 <label className="control-label">CATEGORY
                                     <span>*</span>
                                 </label>
-                                <Dropdown options={options} onChange={this._onSelect} value={defaultOption} placeholder="Select an option" />
+                                <Dropdown options={options} onChange={this.selectCategory} value={defaultOption}
+                                          placeholder="Select an option"/>
 
                             </div>
                         </div>
+                        <div className="col-md-3 col-subject">
+                            <div className="form-group">
+                                <label className="control-label">NUMBER OF PARTICIPANTS
+                                    <span>*</span>
+                                </label>
+                                <input type="email" className="form-control" id="formInput113" name="maxQuota"
+                                       onChange={this.onChange}
+                                       value={this.state.data.maxQuota} required/>
+                            </div>
+                        </div>
+                        <div className="col-md-3 col-phone">
+                            <div className="form-group">
+                                <label className="control-label">START DATE
+                                    <span>*</span>
+                                </label>
+                                <ReactDatez name="dateInput" handleChange={this.changeStartDate}
+                                            value={this.state.startDate}/>
+                            </div>
+                        </div>
+
+                        <div className="col-md-3 col-phone">
+                            <div className="form-group">
+                                <label className="control-label">END DATE
+                                </label>
+                                <ReactDatez name="dateInput" handleChange={this.changeEndDate}
+                                            value={this.state.endDate}/>
+                            </div>
+                        </div>
+
+                        <div className="col-md-3 col-phone">
+                            <div className="form-group">
+                                <label className="control-label">START TIME
+                                </label>
+                                <TextField
+                                    id="time"
+                                    type="time"
+                                    defaultValue="07:30"
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    inputProps={{
+                                        step: 300, // 5 min
+                                    }}
+                                />
+                            </div>
+                        </div>
+
+
 
                         <div className="col-md-12 col-message">
                             <div className="form-group">
-                                <label className="control-label" >DESCRIPTION</label>
-                                <textarea className="form-control" rows="10" id="formInput135"></textarea>
+                                <label className="control-label">DESCRIPTION</label>
+                                <textarea className="form-control" rows="10" id="formInput135" name="description"
+                                          onChange={this.onChange}
+                                          value={this.state.data.description}></textarea>
                             </div>
-                            <button className="btn btn-warning pull-right btn-subscribe" type="submit">SUBMIT</button>
+                            <button className="btn btn-warning pull-right btn-subscribe" type="submit"
+                                    onClick={this.handleClick}>CREATE EVENT
+                            </button>
                         </div>
                     </form>
                 </div>

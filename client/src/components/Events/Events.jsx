@@ -1,12 +1,23 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
 import Filters from '../Events/Filters.jsx';
+import EventsByPage from '../Events/EventsByPage.jsx';
+import Pagination from "react-js-pagination";
 
 
 class Events extends React.Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            activePage: 1,
+            totalCount: 300
+        };
+        this.handlePageChange = this.handlePageChange.bind(this);
+    }
+
+    handlePageChange(pageNumber) {
+        console.log(`active page is ${pageNumber}`);
+        this.setState({activePage: pageNumber});
     }
 
     componentDidMount() {
@@ -46,52 +57,8 @@ class Events extends React.Component {
                                 </div>
                             </div>
                         </div>
-                        <div className="swiper-slide">
-                            <img src="assets/images/slider.jpg" height="650"/>
-                            <div className="container text-slide">
-                                <div className="text-slider4">
-                                    <div>
-                                        <span className="country-label">Milano</span>
-                                    </div>
-                                    <h3>The Awesome Party Event</h3>
-                                    <span className="address"><i className="fa fa-map-marker"></i> 541 Avenue Street, Milano</span>
-                                    <p><span>Genre:</span> Rock &nbsp <span>Date:</span> 11/11/2016
-                                        &nbsp <span>Artists:</span> Jonathan Doe, Megan Tylor
-                                        &nbsp<span>People:</span> 5000+</p>
-                                    <div className="pricing">
-                                        <i className="fa fa-dollar"></i>
-                                        <h1>59</h1>
-                                        <p>/ PER PERSON</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="swiper-slide">
-                            <img src="assets/images/slider.jpg" height="650"/>
-                            <div className="container text-slide">
-                                <div className="text-slider4">
-                                    <div>
-                                        <span className="country-label">Milano</span>
-                                    </div>
-                                    <h3>The Awesome Party Event</h3>
-                                    <span className="address"><i className="fa fa-map-marker"></i> 541 Avenue Street, Milano</span>
-                                    <p><span>Genre:</span> Rock &nbsp <span>Date:</span> 11/11/2016
-                                        &nbsp <span>Artists:</span> Jonathan Doe, Megan Tylor
-                                        &nbsp<span>People:</span> 5000+</p>
-                                    <div className="pricing">
-                                        <i className="fa fa-dollar"></i>
-                                        <h1>59</h1>
-                                        <p>/ PER PERSON</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
-                    {/*Add Pagination*/}
-                    <div className="swiper-pagination"></div>
-                    {/*Add Arrows*/}
-                    <div className="swiper-button-next"></div>
-                    <div className="swiper-button-prev"></div>
+
                 </div>
                 {/*Section Slider*/}
                 {/*Section Breadcrumb*/}
@@ -164,7 +131,7 @@ class Events extends React.Component {
                                         <a href=""><h5>This Month</h5></a>
                                     </div>
                                 </div>
-                                <Filters />
+                                <Filters/>
                             </div>
                             <div className="content-right col-md-9">
                                 <div className="row">
@@ -199,23 +166,6 @@ class Events extends React.Component {
                                             <button type="button" className="btn btn-black">FILTER</button>
                                         </div>
                                     </div>
-                                    <div className="col-md-2 col-sm-12 col-xs-12 view-wrap">
-                                        <ul className="nav-tabs tabination view-tabs">
-                                            <li>
-                                                <a href="#grid-view" data-toggle="tab"> <i
-                                                    className="fa-th-large fa fa-2x"></i></a>
-                                            </li>
-                                            <li className="active">
-                                                <a href="#list-view" data-toggle="tab"> <i
-                                                    className="fa-th-list fa fa-2x" aria-hidden="true"></i></a>
-                                            </li>
-                                            <li>
-                                                <a href="#locations-view" data-toggle="tab"> <i
-                                                    className="fa-map-marker fa fa-2x"></i></a>
-                                            </li>
-                                        </ul>
-
-                                    </div>
 
                                 </div>
 
@@ -223,310 +173,20 @@ class Events extends React.Component {
                                 <div className="tab-content">
                                     {/*LIST VIEW*/}
                                     <div id="list-view" className="tab-pane fade active in" role="tabpanel">
-                                        <div
-                                            className="col-md-12 col-sm-12 col-xs-12 the-artist the-artist-horizontal events-page-list pad0 m-bot60">
-                                            <a href="events-details.html"><img
-                                                src="assets/images/latestblog-img.png"
-                                                className="img-responsive"/></a>
-                                            <div className="text-slider3">
-                                                <div>
-                                                    <span className="country-label">Milano</span>
-                                                </div>
-                                                <h3>The Awesome Party Event</h3>
-                                                <span className="address"><i className="fa fa-map-marker"></i> 541 Avenue Street, Milano</span>
-                                                <p><span>Genre:</span> Rock &nbsp<span>Date:</span> 11/11/2016
-                                                    &nbsp <span>Artists:</span> Jonathan Doe, Megan Tylor
-                                                    &nbsp<span>People:</span> 5000+</p>
-                                                <div className="pricing">
-                                                    <i className="fa fa-dollar"></i>
-                                                    <h1>59</h1>
-                                                    <p>/ PER PERSON</p>
-                                                </div>
-                                            </div>
-                                            <div className="contents pad0 col-md-12">
-                                                <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit
-                                                    esse molestie consequat, vel illum dolore eu feugiat nulla
-                                                    facilisis at vero eros et accumsan et iusto odio dignissim qui
-                                                    blandit praesent luptatum zzril delenit augue duis dolore te
-                                                    feugait nulla facilisi. Lorem ipsum dolor sit amet,
-                                                    consectetuer. orem ipsum dolor sit amet, consetetur sadipscing
-                                                    elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-                                                    dolore magna aliquyam erat, sed diam voluptua. At vero eos et
-                                                    accusam et justo duo dolores et ea rebum. </p>
-                                            </div>
-                                        </div>
-                                        <div
-                                            className="col-md-12 col-sm-12 col-xs-12 the-artist the-artist-horizontal events-page-list pad0 m-bot60">
-                                            <a href="events-details.html"><img
-                                                src="assets/images/latestblog-img.png"
-                                                className="img-responsive"/></a>
-                                            <div className="text-slider3">
-                                                <div>
-                                                    <span className="country-label">Milano</span>
-                                                </div>
-                                                <h3>The Awesome Party Event</h3>
-                                                <span className="address"><i className="fa fa-map-marker"></i> 541 Avenue Street, Milano</span>
-                                                <p><span>Genre:</span> Rock &nbsp<span>Date:</span> 11/11/2016
-                                                    &nbsp <span>Artists:</span> Jonathan Doe, Megan Tylor
-                                                    &nbsp<span>People:</span> 5000+</p>
-                                                <div className="pricing">
-                                                    <i className="fa fa-dollar"></i>
-                                                    <h1>59</h1>
-                                                    <p>/ PER PERSON</p>
-                                                </div>
-                                            </div>
-                                            <div className="contents pad0 col-md-12">
-                                                <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit
-                                                    esse molestie consequat, vel illum dolore eu feugiat nulla
-                                                    facilisis at vero eros et accumsan et iusto odio dignissim qui
-                                                    blandit praesent luptatum zzril delenit augue duis dolore te
-                                                    feugait nulla facilisi. Lorem ipsum dolor sit amet,
-                                                    consectetuer. orem ipsum dolor sit amet, consetetur sadipscing
-                                                    elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-                                                    dolore magna aliquyam erat, sed diam voluptua. At vero eos et
-                                                    accusam et justo duo dolores et ea rebum. </p>
-                                            </div>
-                                        </div>
-                                        <div
-                                            className="col-md-12 col-sm-12 col-xs-12 the-artist the-artist-horizontal events-page-list pad0 m-bot60">
-                                            <a href="events-details.html"><img
-                                                src="assets/images/latestblog-img.png"
-                                                className="img-responsive"/></a>
-                                            <div className="text-slider3">
-                                                <div>
-                                                    <span className="country-label">Milano</span>
-                                                </div>
-                                                <h3>The Awesome Party Event</h3>
-                                                <span className="address"><i className="fa fa-map-marker"></i> 541 Avenue Street, Milano</span>
-                                                <p><span>Genre:</span> Rock &nbsp<span>Date:</span> 11/11/2016
-                                                    &nbsp <span>Artists:</span> Jonathan Doe, Megan Tylor
-                                                    &nbsp<span>People:</span> 5000+</p>
-                                                <div className="pricing">
-                                                    <i className="fa fa-dollar"></i>
-                                                    <h1>59</h1>
-                                                    <p>/ PER PERSON</p>
-                                                </div>
-                                            </div>
-                                            <div className="contents pad0 col-md-12">
-                                                <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit
-                                                    esse molestie consequat, vel illum dolore eu feugiat nulla
-                                                    facilisis at vero eros et accumsan et iusto odio dignissim qui
-                                                    blandit praesent luptatum zzril delenit augue duis dolore te
-                                                    feugait nulla facilisi. Lorem ipsum dolor sit amet,
-                                                    consectetuer. orem ipsum dolor sit amet, consetetur sadipscing
-                                                    elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-                                                    dolore magna aliquyam erat, sed diam voluptua. At vero eos et
-                                                    accusam et justo duo dolores et ea rebum. </p>
-                                            </div>
-                                        </div>
+                                        <EventsByPage activePage={this.state.activePage}/>
+
                                         {/*PAGINATION*/}
                                         <div className="col-md-12 pad0 pagination-section text-center pos-inherit">
-                                            <ul className="pagination">
-                                                <li>
-                                                    <a href="#"><i className="fa fa-chevron-left"></i> PREV</a>
-                                                </li>
-                                                <li className="active">
-                                                    <a href="#">01 <span className="sr-only">(current)</span></a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">02</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">03</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">04</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">05</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">NEXT <i className="fa fa-chevron-right"></i></a>
-                                                </li>
-                                            </ul>
+                                            <Pagination
+                                                activePage={this.state.activePage}
+                                                itemsCountPerPage={10}
+                                                totalItemsCount={this.state.totalCount}
+                                                pageRangeDisplayed={5}
+                                                onChange={this.handlePageChange}
+                                            />
                                         </div>
                                     </div>
-                                    {/*GRID VIEW*/}
-                                    <div id="grid-view" className="tab-pane fade eventslistartist-item"
-                                         role="tabpanel">
-                                        <div className="row">
-                                            <div className="item col-md-4">
-                                                <a href="events-details.html"><img
-                                                    src="assets/images/featured-img.png" width="100%" height="250"/></a>
-                                                <div className="col-md-12 events-description eventslistartist-grid">
-                                                    <span className="country-label">Milano</span>
-                                                    <div className="events-text">
-                                                        <h3>Greenday Live Open Air</h3>
-                                                        <p><span>Genre:</span> Rock <span>Date:</span> 11/11/2016
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="item col-md-4">
-                                                <a href="events-details.html"><img
-                                                    src="assets/images/featured-img.png" width="100%" height="250"/></a>
-                                                <div className="col-md-12 events-description eventslistartist-grid">
-                                                    <span className="country-label">Milano</span>
-                                                    <div className="events-text">
-                                                        <h3>Greenday Live Open Air</h3>
-                                                        <p><span>Genre:</span> Rock <span>Date:</span> 11/11/2016
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="item col-md-4">
-                                                <a href="events-details.html"><img
-                                                    src="assets/images/featured-img.png" width="100%" height="250"/></a>
-                                                <div className="col-md-12 events-description eventslistartist-grid">
-                                                    <span className="country-label">Milano</span>
-                                                    <div className="events-text">
-                                                        <h3>Greenday Live Open Air</h3>
-                                                        <p><span>Genre:</span> Rock <span>Date:</span> 11/11/2016
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="item col-md-4">
-                                                <a href="events-details.html"><img
-                                                    src="assets/images/featured-img.png" width="100%" height="250"/></a>
-                                                <div className="col-md-12 events-description eventslistartist-grid">
-                                                    <span className="country-label">Milano</span>
-                                                    <div className="events-text">
-                                                        <h3>Greenday Live Open Air</h3>
-                                                        <p><span>Genre:</span> Rock <span>Date:</span> 11/11/2016
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="item col-md-4">
-                                                <a href="events-details.html"><img
-                                                    src="assets/images/featured-img.png" width="100%" height="250"/></a>
-                                                <div className="col-md-12 events-description eventslistartist-grid">
-                                                    <span className="country-label">Milano</span>
-                                                    <div className="events-text">
-                                                        <h3>Greenday Live Open Air</h3>
-                                                        <p><span>Genre:</span> Rock <span>Date:</span> 11/11/2016
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="item col-md-4">
-                                                <a href="events-details.html"><img
-                                                    src="assets/images/featured-img.png" width="100%" height="250"/></a>
-                                                <div className="col-md-12 events-description eventslistartist-grid">
-                                                    <span className="country-label">Milano</span>
-                                                    <div className="events-text">
-                                                        <h3>Greenday Live Open Air</h3>
-                                                        <p><span>Genre:</span> Rock <span>Date:</span> 11/11/2016
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="item col-md-4">
-                                                <a href="events-details.html"><img
-                                                    src="assets/images/featured-img.png" width="100%" height="250"/></a>
-                                                <div className="col-md-12 events-description eventslistartist-grid">
-                                                    <span className="country-label">Milano</span>
-                                                    <div className="events-text">
-                                                        <h3>Greenday Live Open Air</h3>
-                                                        <p><span>Genre:</span> Rock <span>Date:</span> 11/11/2016
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="item col-md-4">
-                                                <a href="events-details.html"><img
-                                                    src="assets/images/featured-img.png" width="100%" height="250"/></a>
-                                                <div className="col-md-12 events-description eventslistartist-grid">
-                                                    <span className="country-label">Milano</span>
-                                                    <div className="events-text">
-                                                        <h3>Greenday Live Open Air</h3>
-                                                        <p><span>Genre:</span> Rock <span>Date:</span> 11/11/2016
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="item col-md-4">
-                                                <a href="events-details.html"><img
-                                                    src="assets/images/featured-img.png" width="100%" height="250"/></a>
-                                                <div className="col-md-12 events-description eventslistartist-grid">
-                                                    <span className="country-label">Milano</span>
-                                                    <div className="events-text">
-                                                        <h3>Greenday Live Open Air</h3>
-                                                        <p><span>Genre:</span> Rock <span>Date:</span> 11/11/2016
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="item col-md-4">
-                                                <a href="events-details.html"><img
-                                                    src="assets/images/featured-img.png" width="100%" height="250"/></a>
-                                                <div className="col-md-12 events-description eventslistartist-grid">
-                                                    <span className="country-label">Milano</span>
-                                                    <div className="events-text">
-                                                        <h3>Greenday Live Open Air</h3>
-                                                        <p><span>Genre:</span> Rock <span>Date:</span> 11/11/2016
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="item col-md-4">
-                                                <a href="events-details.html"><img
-                                                    src="assets/images/featured-img.png" width="100%" height="250"/></a>
-                                                <div className="col-md-12 events-description eventslistartist-grid">
-                                                    <span className="country-label">Milano</span>
-                                                    <div className="events-text">
-                                                        <h3>Greenday Live Open Air</h3>
-                                                        <p><span>Genre:</span> Rock <span>Date:</span> 11/11/2016
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="item col-md-4">
-                                                <a href="events-details.html"><img
-                                                    src="assets/images/featured-img.png" width="100%" height="250"/></a>
-                                                <div className="col-md-12 events-description eventslistartist-grid">
-                                                    <span className="country-label">Milano</span>
-                                                    <div className="events-text">
-                                                        <h3>Greenday Live Open Air</h3>
-                                                        <p><span>Genre:</span> Rock <span>Date:</span> 11/11/2016
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {/*PAGINATION*/}
-                                        <div className="col-md-12 pad0 pagination-section text-center pos-inherit">
-                                            <ul className="pagination">
-                                                <li>
-                                                    <a href="#"><i className="fa fa-chevron-left"></i> PREV</a>
-                                                </li>
-                                                <li className="active">
-                                                    <a href="#">01 <span className="sr-only">(current)</span></a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">02</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">03</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">04</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">05</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">NEXT <i className="fa fa-chevron-right"></i></a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    {/*GRID LOCATIONS VIEW*/}
-                                    <div id="locations-view" className="tab-pane fade tab-pane-map2"
-                                         role="tabpanel">
-                                        <div id="map2"></div>
-                                    </div>
+
                                 </div>
                             </div>
                         </div>

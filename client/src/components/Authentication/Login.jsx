@@ -8,8 +8,6 @@ import {browserHistory} from 'react-router';
 import axios from "axios";
 
 require('dotenv').config();
-import {Validator} from 'jsonschema';
-
 
 class Login extends React.Component {
 
@@ -41,12 +39,14 @@ class Login extends React.Component {
         //     // handle error
         //     console.log(error);
         // });
-        console.log(this.state.user);
-        Auth.authenticateUser("1", this.state.user);
+        let postData = this.state.user;
+        console.log(postData);
+        Auth.authenticateUser(this.state.user);
 
     }
 
     onChange(event) {
+        event.preventDefault();
         const field = event.target.name;
         const user = this.state.user;
         user[field] = event.target.value;
@@ -150,7 +150,7 @@ class Login extends React.Component {
                     </div>
 
                     <div className="u-form-group">
-                        <button type="button" onClick={this.getAuth}>Sign Up</button>
+                        <button type="button" onClick={this.getAuth}>Log in</button>
                     </div>
 
                     <div className="u-form-group">

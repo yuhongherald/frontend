@@ -1,7 +1,10 @@
 import Base from './components/Main/Base.jsx';
 import Login from './components/Authentication/Login.jsx';
+import Signup from './components/Authentication/Signup.jsx';
 import Index from './components/Main/Index.jsx';
 import CreateEvent from './components/Events/CreateEvent.jsx';
+import EventsByPage from "./components/Events/EventsByPage.jsx";
+import Event from "./components/Events/Event.jsx";
 import Auth from './modules/Auth';
 
 const routes = {
@@ -11,6 +14,15 @@ const routes = {
             {
                 path: '/',
                 component: Index
+            },
+            {
+                path: '/events',
+                component: Index
+            },
+            {
+                path: '/signup',
+                exactly: true,
+                component: Signup
             },
             {
                 path: '/login',
@@ -35,8 +47,12 @@ const routes = {
                 path: '/events/:eventID',
                 exactly: true,
                 component: Event
+            },
+            {
+                path: '/events/page/1',
+                exactly: true,
+                component: EventsByPage
             }
-
         ]
     }
 ;

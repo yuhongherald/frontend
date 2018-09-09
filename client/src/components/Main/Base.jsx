@@ -56,7 +56,7 @@ class Base extends React.Component {
                                     ) : (
                                         <ul className="nav navbar-nav navbar-right">
                                             <li className="nav navbar-left-link"><Link to={`/login`}>Log in</Link></li>
-                                            <li className="nav"><Link to={`/events`}>Register</Link></li>
+                                            <li className="nav"><Link to={`/signup`}>Register</Link></li>
                                         </ul>
 
                                     )}
