@@ -6,6 +6,7 @@ import GoogleLogin from 'react-google-login';
 import Auth from '../../modules/Auth';
 import {browserHistory} from 'react-router';
 import axios from "axios";
+import {Link} from 'react-router';
 
 require('dotenv').config();
 
@@ -56,7 +57,6 @@ class Login extends React.Component {
     }
 
     responseFacebook(response) {
-        console.log(response);
         this.setState({
             'isSignIn': true
         });
@@ -75,8 +75,9 @@ class Login extends React.Component {
         // let isValid = v.validate(authData, userSchema);
         // if (isValid) {
         //     console.log('Valid request');
-        Auth.authenticateUser("1", authData);
-        browserHistory.push('/');
+        Auth.authenticateUser(authData);
+        browserHistory.push('/')
+
         // }
         // else {
         //     console.log('invalid request')
@@ -98,7 +99,7 @@ class Login extends React.Component {
     }
 
     componentWillMount() {
-
+        console.log(Auth.getUserData());
     }
 
     componentDidUpdate() {
@@ -111,21 +112,19 @@ class Login extends React.Component {
         return (
             <div className="login-box">
                 <div className="lb-header">
-                    <a href="#" className="active" id="login-box-link">Login</a>
-                    <a href="#" id="signup-box-link">Sign Up</a>
+                    <Link to="/login" className="active" id="login-box-link">Login</Link>
+                    <Link to="/signup" id="signup-box-link">Sign Up</Link>
                 </div>
                 <div className="social-login">
                     <FacebookLogin
                         appId={FACEBOOK_APP_ID}
-                        autoLoad={true}
                         fields="name,email,picture"
-                        // onClick={componentClicked}
                         callback={this.responseFacebook}
                     />
 
                     <GoogleLogin
                         clientId={GOOGLE_CLIENT_ID}
-                        buttonText="Login"
+                        buttonText="Login with Google"
                         onSuccess={this.responseGoogle}
                         onFailure={this.responseGoogle}
                     />
@@ -134,6 +133,7 @@ class Login extends React.Component {
                 <form className="email-login">
                     <div className="field-line">
                         <TextField className="u-form-group"
+                                   label="Username"
                                    name="username"
                                    value={this.state.user.username}
                                    onChange={this.onChange}
@@ -142,6 +142,7 @@ class Login extends React.Component {
 
                     <div className="field-line">
                         <TextField className="u-form-group"
+                                   label="password"
                                    type="password"
                                    name="password"
                                    value={this.state.user.password}
@@ -152,6 +153,7 @@ class Login extends React.Component {
                     <div className="u-form-group">
                         <button type="button" onClick={this.getAuth}>Log in</button>
                     </div>
+
 
                     <div className="u-form-group">
                         <a href="#" className="forgot-password">Forgot password?</a>

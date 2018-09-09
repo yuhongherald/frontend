@@ -29,6 +29,7 @@ class Auth {
      *
      */
     static deauthenticateUser() {
+        sessionStorage.removeItem('userData');
         localStorage.removeItem('userData');
     }
 

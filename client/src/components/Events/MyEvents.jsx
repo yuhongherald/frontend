@@ -17,7 +17,9 @@ class MyEvents extends React.Component {
     render() {
         if (this.state.events) {
             return (
-                <div></div>
+                <div>
+
+                </div>
             )
         }
         else {
