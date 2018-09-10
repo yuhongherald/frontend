@@ -38,11 +38,12 @@ class Base extends React.Component {
                                         <span className="icon-bar"></span>
                                         <span className="icon-bar"></span>
                                     </button>
-                                    <a className="navbar-brand" href="index.html">
-                                       App name
-                                    </a>
+                                    <Link to="/" className="navbar-brand" >
+                                        App name
+                                    </Link>
                                 </div>
-                                <span className="pull-right search-btn"><span className="glyphicon glyphicon-search"></span></span>
+                                <span className="pull-right search-btn"><span
+                                    className="glyphicon glyphicon-search"></span></span>
                                 <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                                     {Auth.isUserAuthenticated() ? (
                                         <ul className="nav navbar-nav navbar-right">
@@ -67,15 +68,6 @@ class Base extends React.Component {
                     </div>
                 </div>
 
-
-
-                {Auth.isUserAuthenticated() ? (
-                    <div style={{marginTop: '50px'}}>
-                    </div>
-                ) : (
-                    <div>
-                    </div>
-                )}
 
                 <div style={{marginTop: '118px', minWidth: '100%'}}>
                     {children}

@@ -24,21 +24,17 @@ class Index extends React.Component {
     }
 
     render() {
-        if (Auth.isUserAuthenticated()) {
-            return (
-                <div>
-                    <div className="u-form-group-pink" style={{margin: '0 auto', textAlign: 'center', margin: '40px 0px 20px 0px'}}>
-                        <Link to={`/events/new`}><button type="button">Create event</button></Link>
-                    </div>
-                    <Events/>
+        return (
+            <div>
+                <div className="u-form-group-pink"
+                     style={{margin: '0 auto', textAlign: 'center', margin: '40px 0px 20px 0px'}}>
+                    <Link to={`/events/new`}>
+                        <button type="button">Create event</button>
+                    </Link>
                 </div>
-            )
-        }
-        else {
-            return (
-                <div>Please sign in</div>
-            )
-        }
+                <Events/>
+            </div>
+        )
     }
 }
 

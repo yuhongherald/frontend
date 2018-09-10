@@ -14,6 +14,7 @@ class Signup extends React.Component {
             user: {
                 name: '',
                 username: '',
+                phone_number:'',
                 email: '',
                 password: ''
 
@@ -64,6 +65,15 @@ class Signup extends React.Component {
                                 name="name"
                                 onChange={this.onChange}
                                 value={this.state.user.name}
+                            />
+                        </div>
+
+                        <div className="field-line">
+                            <TextField
+                                label="Phone number"
+                                name="phone_number"
+                                onChange={this.onChange}
+                                value={this.state.user.phone_number}
                             />
                         </div>
 

@@ -1,44 +1,37 @@
 class Auth {
 
     /**
-     * Authenticate a user. Save a token string in Local Storage
+     * Authenticate a user. Save the user data in session Storage
      *
      * @param {string} userData
      */
     static authenticateUser(userData) {
-        localStorage.setItem('userData', JSON.stringify(userData));
+        sessionStorage.setItem('userData', JSON.stringify(userData));
 
     }
 
     /**
-     * Check if a user is authenticated - check if a token is saved in Local Storage
+     * Check if a user is authenticated - check if a token is saved in session Storage
      *
      * @returns {boolean}
      */
     static isUserAuthenticated() {
-        return localStorage.getItem('userData') !== null;
+        return sessionStorage.getItem('userData') !== null;
 
     }
 
     static getUserData() {
-        return JSON.parse(localStorage.getItem('userData'));
+        return JSON.parse(sessionStorage.getItem('userData'));
     }
 
     /**
-     * Deauthenticate a user. Remove a token from Local Storage.
+     * Deauthenticate a user. Remove a token from session Storage.
      *
      */
     static deauthenticateUser() {
         sessionStorage.removeItem('userData');
-        localStorage.removeItem('userData');
+        sessionStorage.removeItem('userData');
     }
-
-    /**
-     * Get a token value.
-     *
-     * @returns {string}
-     */
-
 
 }
 

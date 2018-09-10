@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import '../Events/css/Events.css'
 import {events} from '../Events/data.js';
-import axios from "axios";
+import axios from 'axios';
 
 class EventsByPage extends React.Component {
 
@@ -35,16 +35,15 @@ class EventsByPage extends React.Component {
         //             error: error.desc
         //         })
         //     })
-
-    }
-
-    componentWillMount() {
-        // this.getData();
-        console.log(this.state.activePage);
+        
         this.setState({
             events: events
         })
 
+    }
+
+    componentWillMount() {
+        this.getData();
     }
 
 
@@ -52,7 +51,7 @@ class EventsByPage extends React.Component {
         if (this.state.events) {
             const listOfEvents = this.state.events.map((event) =>
                 <div key={event.pk}
-                    className="col-md-12 col-sm-12 col-xs-12 the-artist the-artist-horizontal events-page-list pad0 m-bot60">
+                     className="col-md-12 col-sm-12 col-xs-12 the-artist the-artist-horizontal events-page-list pad0 m-bot60">
                     <a href="events-details.html"><img
                         src="assets/images/latestblog-img.png"
                         className="img-responsive"/></a>
@@ -63,7 +62,8 @@ class EventsByPage extends React.Component {
                         <h3>{event.fields.event_desc}</h3>
                         <span className="address"><i className="fa fa-map-marker"></i> 541 Avenue Street, Milano</span>
                         <p>
-                            <span>Genre:</span> {event.fields.event_type} <span> Date:</span> {event.fields.event_start_date} - {event.fields.event_end_date}
+                            <span>Genre:</span> {event.fields.event_type}
+                            <span> Date:</span> {event.fields.event_start_date} - {event.fields.event_end_date}
                             <span>People:</span> {event.fields.num_participants}</p>
                         {/*<div className="pricing">*/}
                         {/*<i className="fa fa-dollar"></i>*/}

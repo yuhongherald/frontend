@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react';
+import Modal from 'react-responsive-modal';
 
 
 // Showing one event details
@@ -7,9 +8,21 @@ class Event extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            event: true
+            event: true,
+            open: false
         }
+        this.onOpenModal = this.onOpenModal.bind(this);
+        this.onCloseModal = this.onCloseModal.bind(this);
     }
+
+    onOpenModal() {
+        this.setState({ open: true });
+    };
+
+    onCloseModal() {
+        this.setState({ open: false });
+    };
+
 
     componentWillMount() {
 
@@ -17,9 +30,13 @@ class Event extends React.Component {
 
 
     render() {
+        
         if (this.state.event) {
             return (
                 <div id="section-aboutus" className="section-eventsdetails">
+                    <Modal open={this.state.open} onClose={this.onCloseModal} center>
+                        <h2>Registration form</h2>
+                    </Modal>
                     <div className="container">
                         <div id="list-view">
                             <div className="col-md-8 the-artist the-artist-horizontal events-page-list pad0 m-bot60">
@@ -42,6 +59,9 @@ class Event extends React.Component {
                                         <h1>59</h1>
                                         <p>/ PER PERSON</p>
                                     </div>
+                                </div>
+                                <div>
+                                    <h3>Rating</h3>
                                 </div>
                                 <div className="contents pad0 col-md-12">
                                     <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie
@@ -66,7 +86,11 @@ class Event extends React.Component {
                                         consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
                                         labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et
                                         accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
-                                        takimata sanctus est Lorem ipsum dolor sit amet.</p>
+                                        takimata sanctus est Lorem ipsum dolor sit amet.
+                                    </p>
+                                    <button type="button" onClick={this.onOpenModal}>Register</button>
+
+
                                 </div>
                                 <div className="button-share-events col-md-12 pad0">
                                     <button type="button" className="btn btn-info">

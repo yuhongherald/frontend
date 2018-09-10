@@ -25,20 +25,20 @@ class CreateEvent extends React.Component {
         }
         this.handleClick = this.handleClick.bind(this);
         this.onChange = this.onChange.bind(this);
-        this.selectCategory = this.selectCategory.bind(this);
+        this.onSelect = this.onSelect.bind(this);
         this.changeStartTime = this.changeStartTime.bind(this);
         this.changeEndTime = this.changeEndTime.bind(this);
         this.changeStartDate = this.changeStartDate.bind(this);
         this.changeEndDate = this.changeEndDate.bind(this);
     }
 
-    selectCategory(event) {
-        event.preventDefault();
+    onSelect(e) {
         const data = this.state.data;
-        data['category'] = event.target.value;
+        data['category'] = e.value;
         this.setState({
             data: data
         });
+
     }
 
     onChange(event) {
@@ -77,8 +77,8 @@ class CreateEvent extends React.Component {
             "event_type": this.state.data.category,
             "event_start_date": this.state.startDate,
             "event_end_date": this.state.endDate,
-            "event_start_time": this.state.startTime,
-            "event_end_time": this.state.endTime,
+            "event_start_time": this.state.data.startTime,
+            "event_end_time": this.state.data.endTime,
             "is_open_ended": true,
             "location": this.state.data.location
         }
@@ -128,7 +128,7 @@ class CreateEvent extends React.Component {
                                 <label className="control-label">CATEGORY
                                     <span>*</span>
                                 </label>
-                                <Dropdown options={options} onChange={this.selectCategory} value={defaultOption}
+                                <Dropdown options={options} onChange={this.onSelect} value={defaultOption}
                                           placeholder="Select an option"/>
 
                             </div>
@@ -155,15 +155,6 @@ class CreateEvent extends React.Component {
 
                         <div className="col-md-3 col-phone">
                             <div className="form-group">
-                                <label className="control-label">END DATE
-                                </label>
-                                <ReactDatez name="dateInput" handleChange={this.changeEndDate}
-                                            value={this.state.endDate}/>
-                            </div>
-                        </div>
-
-                        <div className="col-md-3 col-phone">
-                            <div className="form-group">
                                 <label className="control-label">START TIME
                                 </label>
                                 <TextField
@@ -176,6 +167,40 @@ class CreateEvent extends React.Component {
                                     inputProps={{
                                         step: 300, // 5 min
                                     }}
+                                    name="startTime"
+                                    onChange={this.onChange}
+                                    value={this.state.data.startTime}
+                                />
+                            </div>
+                        </div>
+
+                        <div className="col-md-3 col-phone">
+                            <div className="form-group">
+                                <label className="control-label">END DATE
+                                </label>
+                                <ReactDatez name="dateInput" handleChange={this.changeEndDate}
+                                            value={this.state.endDate}/>
+                            </div>
+                        </div>
+
+
+                        <div className="col-md-3 col-phone">
+                            <div className="form-group">
+                                <label className="control-label">END TIME
+                                </label>
+                                <TextField
+                                    id="time"
+                                    type="time"
+                                    defaultValue="07:30"
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    inputProps={{
+                                        step: 300, // 5 min
+                                    }}
+                                    name="endTime"
+                                    onChange={this.onChange}
+                                    value={this.state.data.endTime}
                                 />
                             </div>
                         </div>

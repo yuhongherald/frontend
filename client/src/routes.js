@@ -5,6 +5,9 @@ import Index from './components/Main/Index.jsx';
 import CreateEvent from './components/Events/CreateEvent.jsx';
 import EventsByPage from "./components/Events/EventsByPage.jsx";
 import Event from "./components/Events/Event.jsx";
+import MyEvents from "./components/Events/MyEvents.jsx";
+import CreatedEvents from "./components/Events/CreateEvent.jsx";
+import AttendingEvents from "./components/Events/AttendingEvents.jsx";
 import Auth from './modules/Auth';
 
 const routes = {
@@ -52,6 +55,21 @@ const routes = {
                 path: '/events/page/1',
                 exactly: true,
                 component: EventsByPage
+            },
+            {
+                path: '/my_events',
+                exactly: true,
+                component: MyEvents
+            },
+            {
+                path: '/my_created_events',
+                exactly: true,
+                component: CreatedEvents
+            },
+            {
+                path: '/my_scheduled_events',
+                exactly: true,
+                component: AttendingEvents
             }
         ]
     }
