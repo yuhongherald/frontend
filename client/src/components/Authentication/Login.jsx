@@ -5,8 +5,8 @@ import FacebookLogin from 'react-facebook-login';
 import GoogleLogin from 'react-google-login';
 import Auth from '../../modules/Auth';
 import {browserHistory} from 'react-router';
-import axios from "axios";
 import {Link} from 'react-router';
+import userController from '../../controllers/userController.js';
 
 require('dotenv').config();
 
@@ -19,7 +19,8 @@ class Login extends React.Component {
                 'username': '',
                 'password': ''
             },
-            'isSignIn': false
+            isSignIn: false,
+            error: false
         };
         this.getAuth = this.getAuth.bind(this);
         this.onChange = this.onChange.bind(this);
@@ -29,20 +30,26 @@ class Login extends React.Component {
 
 
     getAuth() {
-        // axios({
-        //     method: 'post',
-        //     url: 'localhost:5000/v1/user/login',
-        //     data: this.state.user
-        // }).then(function (response) {
-        //     // handle success
-        //     Auth.authenticateUser("1", this.state.user);
-        // }).catch(function (error) {
-        //     // handle error
-        //     console.log(error);
-        // });
         let postData = this.state.user;
-        console.log(postData);
-        Auth.authenticateUser(this.state.user);
+        let response = userController.logIn(postData);
+        console.log(response);
+        if (response.status == 'success') {
+            this.setState({
+                user: {
+                    username: response.username,
+                    password: response.password,
+                    uuid: response.uuid
+                },
+                isSignIn: true
+            });
+            Auth.authenticateUser(this.state.user);
+        }
+        else {
+            this.setState({
+                error: response.desc
+            });
+        }
+
 
     }
 
@@ -107,6 +114,7 @@ class Login extends React.Component {
     }
 
     render() {
+
         const FACEBOOK_APP_ID = process.env.FACEBOOK_APP_ID;
         const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
         return (
@@ -160,6 +168,12 @@ class Login extends React.Component {
                     </div>
 
                 </form>
+
+                {this.state.error ? (
+                    <div style={{color: 'red'}}>{this.state.error}</div>
+                ) : (
+                    <div></div>
+                )}
 
             </div>
         )

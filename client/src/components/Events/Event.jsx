@@ -23,6 +23,10 @@ class Event extends React.Component {
         this.setState({ open: false });
     };
 
+    getData(){
+
+    }
+
 
     componentWillMount() {
 

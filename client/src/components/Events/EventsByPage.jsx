@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import '../Events/css/Events.css'
-import {events} from '../Events/data.js';
-import axios from 'axios';
+import eventController from '../../controllers/eventController.js';
+import Pagination from "react-js-pagination";
 
 class EventsByPage extends React.Component {
 
@@ -10,35 +10,40 @@ class EventsByPage extends React.Component {
         this.state = {
             events: false,
             error: false,
-            activePage: this.props.activePage
-        }
+            activePage: 1,
+            totalCount: 300,
+            totalPages: 1
+        };
         this.getData = this.getData.bind(this);
+        this.handlePageChange = this.handlePageChange.bind(this);
 
     }
 
-    getData() {
-        // axios.get('/api/vi/event/list', {
-        //     params: {
-        //         page_limit: 10,
-        //         page_num: this.state.activePage
-        //     }
-        // })
-        //     .then(function (response) {
-        //         // handle success
-        //         this.setState({
-        //             events: response.data.events
-        //         })
-        //     })
-        //     .catch(function (error) {
-        //         // handle error
-        //         this.setState({
-        //             error: error.desc
-        //         })
-        //     })
-        
+    handlePageChange(pageNumber) {
+        console.log(`active page is ${pageNumber}`);
         this.setState({
-            events: events
-        })
+            activePage: pageNumber
+        });
+    }
+
+    getData() {
+        let data = {
+            pageLimit: 10,
+            pageNum: this.props.activePage
+        };
+        let response = eventController.getEvents(data);
+        console.log(response);
+        if (response.status == 'success') {
+            this.setState({
+                totalCount: response.total_pages,
+                events: response.events
+            });
+        }
+        else {
+            this.setState({
+                error: response.desc
+            });
+        }
 
     }
 
@@ -86,7 +91,19 @@ class EventsByPage extends React.Component {
             );
             return (
                 <div>
-                    {listOfEvents}
+                    <div>
+                        {listOfEvents}
+                    </div>
+                    {/*PAGINATION*/}
+                    <div className="col-md-12 pad0 pagination-section text-center pos-inherit">
+                        <Pagination
+                            activePage={this.state.activePage}
+                            itemsCountPerPage={10}
+                            totalItemsCount={this.state.totalCount}
+                            pageRangeDisplayed={5}
+                            onChange={this.handlePageChange}
+                        />
+                    </div>
                 </div>
             )
         }

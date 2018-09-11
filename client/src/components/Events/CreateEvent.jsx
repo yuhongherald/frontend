@@ -6,6 +6,7 @@ import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import '../Events/css/Events.css';
 import TextField from '@material-ui/core/TextField';
+import eventController from '../../controllers/eventController.js';
 
 
 class CreateEvent extends React.Component {
@@ -21,7 +22,10 @@ class CreateEvent extends React.Component {
                 maxQuota: '',
                 startTime: '10:00',
                 endTime: '10:00'
-            }
+            },
+            error: false,
+            submissionSuccess: false,
+            submissionError: false
         }
         this.handleClick = this.handleClick.bind(this);
         this.onChange = this.onChange.bind(this);
@@ -81,8 +85,18 @@ class CreateEvent extends React.Component {
             "event_end_time": this.state.data.endTime,
             "is_open_ended": true,
             "location": this.state.data.location
+        };
+        let response = eventController.createEvent(postData);
+        if (response.status == 'success') {
+            this.setState({
+                submissionSuccess: true
+            });
         }
-        console.log(postData);
+        else {
+            this.setState({
+                submissionError: response.desc
+            });
+        }
     }
 
     componentWillMount() {
@@ -206,7 +220,6 @@ class CreateEvent extends React.Component {
                         </div>
 
 
-
                         <div className="col-md-12 col-message">
                             <div className="form-group">
                                 <label className="control-label">DESCRIPTION</label>
@@ -220,6 +233,12 @@ class CreateEvent extends React.Component {
                         </div>
                     </form>
                 </div>
+
+                {this.state.submissionError ? (
+                    <div style={{color: 'red'}}>{this.state.submissionError}</div>
+                ) : (
+                    <div></div>
+                )}
             </div>
         )
     }

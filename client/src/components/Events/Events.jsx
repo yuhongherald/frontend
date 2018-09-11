@@ -1,7 +1,6 @@
 import React from 'react';
 import Filters from '../Events/Filters.jsx';
 import EventsByPage from '../Events/EventsByPage.jsx';
-import Pagination from "react-js-pagination";
 
 
 class Events extends React.Component {
@@ -9,16 +8,11 @@ class Events extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            activePage: 1,
-            totalCount: 300
         };
-        this.handlePageChange = this.handlePageChange.bind(this);
+
     }
 
-    handlePageChange(pageNumber) {
-        console.log(`active page is ${pageNumber}`);
-        this.setState({activePage: pageNumber});
-    }
+
 
     componentDidMount() {
 
@@ -175,16 +169,7 @@ class Events extends React.Component {
                                     <div id="list-view" className="tab-pane fade active in" role="tabpanel">
                                         <EventsByPage activePage={this.state.activePage}/>
 
-                                        {/*PAGINATION*/}
-                                        <div className="col-md-12 pad0 pagination-section text-center pos-inherit">
-                                            <Pagination
-                                                activePage={this.state.activePage}
-                                                itemsCountPerPage={10}
-                                                totalItemsCount={this.state.totalCount}
-                                                pageRangeDisplayed={5}
-                                                onChange={this.handlePageChange}
-                                            />
-                                        </div>
+
                                     </div>
 
                                 </div>
