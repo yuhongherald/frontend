@@ -40,7 +40,7 @@ class Event extends React.Component {
                     <div className="container">
                         <div id="list-view">
                             <div className="col-md-8 the-artist the-artist-horizontal events-page-list pad0 m-bot60">
-                                <img src="assets/images/latestblog-img.png" className="img-responsive"/>
+                                <img src="../assets/images/latestblog-img.png" className="img-responsive"/>
                                 <div className="text-slider3">
                                     <div>
                                         <span className="country-label">Milano</span>
@@ -147,7 +147,7 @@ class Event extends React.Component {
                         <div className="col-md-12 sidebar-eventsdetails artist-information padr0">
                             <h3>Artist Information</h3>
                             <div className="col-md-3 padl0">
-                                <img src="assets/images/photo_Artist_Details.jpg"
+                                <img src="../assets/images/photo_Artist_Details.jpg"
                                      className="img-responsive img-circle"/>
                             </div>
                             <div className="col-md-9">

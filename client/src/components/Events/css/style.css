@@ -711,7 +711,7 @@ figure.figure2.hover:after {
 
 /* 1.2 Section Upcoming Events*/
 #section-upcomingevents{
-    background-image: url('assets/images/upcomingevents-bg.jpg');
+    /*background-image: url('../../assets/images/upcomingevents-bg.jpg');*/
     background-repeat: no-repeat;
     background-size: auto;
     margin-bottom: 85px;
@@ -2727,7 +2727,7 @@ figure.figure2.hover:after {
  * 07.FOOTER SECTION *
  ====================*/
 #section-footer{
-    background-image: url('assets/images/footer-bg.jpg');
+    /*background-image: url('../../assets/images/footer-bg.jpg');*/
     background-repeat: no-repeat;
     background-size: cover;
     color: #ffffff;
