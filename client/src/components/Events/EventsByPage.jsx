@@ -50,8 +50,12 @@ class EventsByPage extends React.Component {
     render() {
         return (
             <div>
+                <div>
                 {this.getForm()}
+                </div>
+                <div>
                 {this.getFormattedEventStatus()}
+                </div>
             </div>
         )
     }
