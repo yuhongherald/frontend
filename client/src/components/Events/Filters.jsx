@@ -11,7 +11,6 @@ class Filters extends React.Component {
     }
 
     componentWillMount() {
-
     }
 
 

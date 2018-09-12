@@ -10685,6 +10685,8 @@ var _reactJsPagination = __webpack_require__(324);
 
 var _reactJsPagination2 = _interopRequireDefault(_reactJsPagination);
 
+var _reactRouter = __webpack_require__(22);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -10717,7 +10719,6 @@ var EventsByPage = function (_React$Component) {
     _createClass(EventsByPage, [{
         key: 'handlePageChange',
         value: function handlePageChange(pageNumber) {
-            console.log('active page is ' + pageNumber);
             this.setState({
                 activePage: pageNumber
             });
@@ -10725,22 +10726,25 @@ var EventsByPage = function (_React$Component) {
     }, {
         key: 'getData',
         value: function getData() {
+            var _this2 = this;
+
             var data = {
                 pageLimit: 10,
-                pageNum: this.props.activePage
+                pageNum: this.state.activePage
             };
-            var response = _eventController2.default.getEvents(data);
-            console.log(response);
-            if (response.status == 'success') {
-                this.setState({
-                    totalCount: response.total_pages,
-                    events: response.events
-                });
-            } else {
-                this.setState({
-                    error: response.desc
-                });
-            }
+
+            _eventController2.default.getEvents(data).then(function (response) {
+                if (response.status == 'success') {
+                    _this2.setState({
+                        totalCount: response.total_pages,
+                        events: JSON.parse(response.events)
+                    });
+                } else {
+                    _this2.setState({
+                        error: response.desc
+                    });
+                }
+            });
         }
     }, {
         key: 'componentWillMount',
@@ -10750,7 +10754,7 @@ var EventsByPage = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
-            if (this.state.events) {
+            if (this.state.events[0] && this.state.events) {
                 var listOfEvents = this.state.events.map(function (event) {
                     return _react2.default.createElement(
                         'div',
@@ -10770,15 +10774,23 @@ var EventsByPage = function (_React$Component) {
                                 'div',
                                 null,
                                 _react2.default.createElement(
-                                    'span',
-                                    { className: 'country-label' },
-                                    event.fields.event_title
+                                    _reactRouter.Link,
+                                    { to: '/events/' + event.pk },
+                                    _react2.default.createElement(
+                                        'span',
+                                        { className: 'country-label' },
+                                        event.fields.event_title
+                                    )
                                 )
                             ),
                             _react2.default.createElement(
-                                'h3',
-                                null,
-                                event.fields.event_desc
+                                _reactRouter.Link,
+                                { to: '/events/' + event.pk },
+                                _react2.default.createElement(
+                                    'h3',
+                                    null,
+                                    event.fields.event_desc
+                                )
                             ),
                             _react2.default.createElement(
                                 'span',
@@ -10836,6 +10848,12 @@ var EventsByPage = function (_React$Component) {
                         })
                     )
                 );
+            } else if (!this.state.events[0]) {
+                return _react2.default.createElement(
+                    'div',
+                    null,
+                    'No event'
+                );
             } else if (this.state.error) {
                 return _react2.default.createElement(
                     'div',
@@ -10874,20 +10892,21 @@ var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+_axios2.default.defaults.withCredentials = true;
+
 var endPoint = "http://54.169.251.138";
 
 var eventController = {};
 
 eventController.getEvents = function (data) {
-    console.log(data);
-    _axios2.default.get(endPoint + '/api/v1/event/list/', {
+    var response = _axios2.default.get(endPoint + '/api/v1/event/list/', {
         params: {
             page_limit: data.pageLimit,
             page_num: data.pageNum
         }
     }).then(function (response) {
         // handle success
-        return response;
+        return response.data;
     }).catch(function (error) {
         // handle error
         return {
@@ -10895,6 +10914,7 @@ eventController.getEvents = function (data) {
             desc: error
         };
     });
+    return response;
 };
 
 eventController.getEvent = function (data) {
@@ -10904,7 +10924,7 @@ eventController.getEvent = function (data) {
         }
     }).then(function (response) {
         // handle success
-        return response;
+        return response.data;
     }).catch(function (error) {
         // handle error
         return { error: error };
@@ -10912,13 +10932,18 @@ eventController.getEvent = function (data) {
 };
 
 eventController.createEvent = function (data) {
-    (0, _axios2.default)({
-        method: 'post',
-        url: endPoint + '/api/v1/create_event/',
-        data: data
-    }).then(function (response) {
+    console.log(data);
+    var response = _axios2.default.post(endPoint + '/api/v1/event/create_event/', {
+        "event_title": data.event_title,
+        "event_desc": data.event_desc,
+        "max_quota": parseInt(data.max_quota),
+        "event_type": data.event_type,
+        "event_start_date": data.event_start_date,
+        "event_end_date": data.event_end_date,
+        "is_open_ended": data.is_open_ended
+    }, { headers: { 'Content-Type': 'application/json' } }).then(function (response) {
         // handle success
-        return response;
+        return response.data;
     }).catch(function (error) {
         // handle error
         return {
@@ -10926,16 +10951,13 @@ eventController.createEvent = function (data) {
             desc: error
         };
     });
+    return response;
 };
 
 eventController.participateEvent = function (data) {
-    (0, _axios2.default)({
-        method: 'post',
-        url: endPoint + '/api/v1/event/participate/',
-        data: data
-    }).then(function (response) {
+    _axios2.default.post(endPoint + '/api/v1/event/participate/', data).then(function (response) {
         // handle success
-        return response;
+        return response.data;
     }).catch(function (error) {
         // handle error
         return { error: error };
@@ -35415,24 +35437,28 @@ var Login = function (_React$Component) {
     _createClass(Login, [{
         key: 'getAuth',
         value: function getAuth() {
+            var _this2 = this;
+
             var postData = this.state.user;
-            var response = _userController2.default.logIn(postData);
-            console.log(response);
-            if (response.status == 'success') {
-                this.setState({
-                    user: {
-                        username: response.username,
-                        password: response.password,
-                        uuid: response.uuid
-                    },
-                    isSignIn: true
-                });
-                _Auth2.default.authenticateUser(this.state.user);
-            } else {
-                this.setState({
-                    error: response.desc
-                });
-            }
+            _userController2.default.logIn(postData).then(function (response) {
+                if (response.status == 'success') {
+                    _this2.setState({
+                        user: {
+                            username: response.username,
+                            password: response.password,
+                            uuid: response.uuid
+                        },
+                        isSignIn: true
+                    });
+                    _Auth2.default.authenticateUser(_this2.state.user);
+                    _reactRouter.hashHistory.goBack();
+                    ;
+                } else {
+                    _this2.setState({
+                        error: response.desc
+                    });
+                }
+            });
         }
     }, {
         key: 'onChange',
@@ -35454,45 +35480,36 @@ var Login = function (_React$Component) {
 
             var authData = {
                 'username': response.name,
+                'email': response.email,
                 'token': response.accessToken
             };
 
-            // // Validate the data before sending to backend
-            // let v = new Validator();
-            // let userSchema = {
-            //     "username": {"type": "string"},
-            //     "password": {"type": "string"}
-            // };
-            // let isValid = v.validate(authData, userSchema);
-            // if (isValid) {
-            //     console.log('Valid request');
             _Auth2.default.authenticateUser(authData);
-            _reactRouter.browserHistory.push('/');
-
-            // }
-            // else {
-            //     console.log('invalid request')
-            // }
-
-
-            //TODO send data to backend
+            setTimeout(_reactRouter.hashHistory.goBack(), 1000);
         }
     }, {
         key: 'responseGoogle',
         value: function responseGoogle(response) {
+            console.log(response);
 
             this.setState({
                 'isSignIn': true
             });
+
+            var authData = {
+                'username': response.w3.ig,
+                'email': response.w3.U3,
+                'token': response.Zi.access_token
+            };
+            _Auth2.default.authenticateUser(authData);
+            setTimeout(_reactRouter.hashHistory.goBack(), 1000);
         }
     }, {
         key: 'componentDidMount',
         value: function componentDidMount() {}
     }, {
         key: 'componentWillMount',
-        value: function componentWillMount() {
-            console.log(_Auth2.default.getUserData());
-        }
+        value: function componentWillMount() {}
     }, {
         key: 'componentDidUpdate',
         value: function componentDidUpdate() {}
@@ -35500,88 +35517,97 @@ var Login = function (_React$Component) {
         key: 'render',
         value: function render() {
 
-            var FACEBOOK_APP_ID = undefined;
-            var GOOGLE_CLIENT_ID = undefined;
+            var FACEBOOK_APP_ID = "2122033841390157";
+            var GOOGLE_CLIENT_ID = "241565389594-ap4tdnhank1tke90tf4mr28ugrcqpvgc.apps.googleusercontent.com";
             return _react2.default.createElement(
                 'div',
-                { className: 'login-box' },
+                null,
                 _react2.default.createElement(
-                    'div',
-                    { className: 'lb-header' },
-                    _react2.default.createElement(
-                        _reactRouter.Link,
-                        { to: '/login', className: 'active', id: 'login-box-link' },
-                        'Login'
-                    ),
-                    _react2.default.createElement(
-                        _reactRouter.Link,
-                        { to: '/signup', id: 'signup-box-link' },
-                        'Sign Up'
-                    )
+                    'h3',
+                    { style: { textAlign: 'center', 'color': 'rgb(209, 72, 54)', margin: '40px 0px 40px 0px' } },
+                    'Please log in'
                 ),
                 _react2.default.createElement(
                     'div',
-                    { className: 'social-login' },
-                    _react2.default.createElement(_reactFacebookLogin2.default, {
-                        appId: FACEBOOK_APP_ID,
-                        fields: 'name,email,picture',
-                        callback: this.responseFacebook
-                    }),
-                    _react2.default.createElement(_reactGoogleLogin2.default, {
-                        clientId: GOOGLE_CLIENT_ID,
-                        buttonText: 'Login with Google',
-                        onSuccess: this.responseGoogle,
-                        onFailure: this.responseGoogle
-                    })
-                ),
-                _react2.default.createElement(
-                    'form',
-                    { className: 'email-login' },
+                    { className: 'login-box' },
                     _react2.default.createElement(
                         'div',
-                        { className: 'field-line' },
-                        _react2.default.createElement(_TextField2.default, { className: 'u-form-group',
-                            label: 'Username',
-                            name: 'username',
-                            value: this.state.user.username,
-                            onChange: this.onChange
-                        })
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'field-line' },
-                        _react2.default.createElement(_TextField2.default, { className: 'u-form-group',
-                            label: 'password',
-                            type: 'password',
-                            name: 'password',
-                            value: this.state.user.password,
-                            onChange: this.onChange
-                        })
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'u-form-group' },
+                        { className: 'lb-header' },
                         _react2.default.createElement(
-                            'button',
-                            { type: 'button', onClick: this.getAuth },
-                            'Log in'
+                            _reactRouter.Link,
+                            { to: '/login', className: 'active', id: 'login-box-link' },
+                            'Login'
+                        ),
+                        _react2.default.createElement(
+                            _reactRouter.Link,
+                            { to: '/signup', id: 'signup-box-link' },
+                            'Sign Up'
                         )
                     ),
                     _react2.default.createElement(
                         'div',
-                        { className: 'u-form-group' },
+                        { className: 'social-login' },
+                        _react2.default.createElement(_reactFacebookLogin2.default, {
+                            appId: FACEBOOK_APP_ID,
+                            fields: 'name,email,picture',
+                            callback: this.responseFacebook
+                        }),
+                        _react2.default.createElement(_reactGoogleLogin2.default, {
+                            clientId: GOOGLE_CLIENT_ID,
+                            buttonText: 'Login with Google',
+                            onSuccess: this.responseGoogle,
+                            onFailure: this.responseGoogle
+                        })
+                    ),
+                    _react2.default.createElement(
+                        'form',
+                        { className: 'email-login' },
                         _react2.default.createElement(
-                            'a',
-                            { href: '#', className: 'forgot-password' },
-                            'Forgot password?'
+                            'div',
+                            { className: 'field-line' },
+                            _react2.default.createElement(_TextField2.default, { className: 'u-form-group',
+                                label: 'Username',
+                                name: 'username',
+                                value: this.state.user.username,
+                                onChange: this.onChange
+                            })
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'field-line' },
+                            _react2.default.createElement(_TextField2.default, { className: 'u-form-group',
+                                label: 'password',
+                                type: 'password',
+                                name: 'password',
+                                value: this.state.user.password,
+                                onChange: this.onChange
+                            })
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'u-form-group' },
+                            _react2.default.createElement(
+                                'button',
+                                { type: 'button', onClick: this.getAuth },
+                                'Log in'
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'u-form-group' },
+                            _react2.default.createElement(
+                                'a',
+                                { href: '#', className: 'forgot-password' },
+                                'Forgot password?'
+                            )
                         )
-                    )
-                ),
-                this.state.error ? _react2.default.createElement(
-                    'div',
-                    { style: { color: 'red' } },
-                    this.state.error
-                ) : _react2.default.createElement('div', null)
+                    ),
+                    this.state.error ? _react2.default.createElement(
+                        'div',
+                        { style: { color: 'red' } },
+                        this.state.error
+                    ) : _react2.default.createElement('div', null)
+                )
             );
         }
     }]);
@@ -35600,7 +35626,7 @@ exports = module.exports = __webpack_require__(41)(false);
 
 
 // module
-exports.push([module.i, ".login-box{\n    position:relative;\n    margin: 10px auto;\n    width: 500px;\n    height: 380px;\n    background-color: #fff;\n    padding: 10px;\n    border-radius: 3px;\n    -webkit-box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.33);\n    -moz-box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.33);\n    box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.33);\n}\n.lb-header{\n    position:relative;\n    color: #00415d;\n    margin: 5px 5px 10px 5px;\n    padding-bottom:10px;\n    border-bottom: 1px solid #eee;\n    text-align:center;\n    height:28px;\n}\n.lb-header a{\n    margin: 0 25px;\n    padding: 0 20px;\n    text-decoration: none;\n    color: #666;\n    font-weight: bold;\n    font-size: 15px;\n    -webkit-transition: all 0.1s linear;\n    -moz-transition: all 0.1s linear;\n    transition: all 0.1s linear;\n}\n.lb-header .active{\n    color: #029f5b;\n    font-size: 18px;\n}\n.social-login{\n    position:relative;\n    float: left;\n    width: 100%;\n    height:auto;\n    padding: 10px 0 15px 0;\n    border-bottom: 1px solid #eee;\n}\n.social-login a{\n    position:relative;\n    float: left;\n    width:calc(40% - 8px);\n    text-decoration: none;\n    color: #fff;\n    border: 1px solid rgba(0,0,0,0.05);\n    padding: 12px;\n    border-radius: 2px;\n    font-size: 12px;\n    text-transform: uppercase;\n    margin: 0 3%;\n    text-align:center;\n}\n.social-login a i{\n    position: relative;\n    float: left;\n    width: 20px;\n    top: 2px;\n}\n.social-login a:first-child{\n    background-color: #49639F;\n}\n.social-login a:last-child{\n    background-color: #DF4A32;\n}\n.email-login,.email-signup{\n    position:relative;\n    float: left;\n    width: 100%;\n    height:auto;\n    margin-top: 20px;\n    text-align:center;\n}\n.u-form-group{\n    width:100%;\n    margin-bottom: 20px;\n}\n\n.field-line{\n    margin-bottom: 10px;\n}\n.MuiFormControl-root-1{\n    width: calc(50% - 22px) !important;\n    height:45px;\n    outline: none;\n    border: 1px solid #ddd;\n    padding: 0 10px;\n    border-radius: 2px;\n    color: #333;\n    font-size:0.8rem;\n    -webkit-transition:all 0.1s linear;\n    -moz-transition:all 0.1s linear;\n    transition:all 0.1s linear;\n}\n.u-form-group input:focus{\n    border-color: #358efb;\n}\n.u-form-group button{\n    width:50%;\n    background-color: #1CB94E;\n    border: none;\n    outline: none;\n    color: #fff;\n    font-size: 14px;\n    font-weight: normal;\n    padding: 14px 0;\n    border-radius: 2px;\n    text-transform: uppercase;\n}\n.forgot-password{\n    width:50%;\n    text-align: left;\n    text-decoration: underline;\n    color: #888;\n    font-size: 0.75rem;\n}", ""]);
+exports.push([module.i, ".login-box{\n    position:relative;\n    margin: 10px auto;\n    width: 500px;\n    height: 380px;\n    background-color: #fff;\n    padding: 10px;\n    border-radius: 3px;\n    -webkit-box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.33);\n    -moz-box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.33);\n    box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.33);\n}\n.lb-header{\n    position:relative;\n    color: #00415d;\n    margin: 5px 5px 10px 5px;\n    padding-bottom:10px;\n    border-bottom: 1px solid #eee;\n    text-align:center;\n    height:28px;\n}\n.lb-header a{\n    margin: 0 25px;\n    padding: 0 20px;\n    text-decoration: none;\n    color: #666;\n    font-weight: bold;\n    font-size: 15px;\n    -webkit-transition: all 0.1s linear;\n    -moz-transition: all 0.1s linear;\n    transition: all 0.1s linear;\n}\n.lb-header .active{\n    color: #029f5b;\n    font-size: 18px;\n}\n.social-login{\n    position:relative;\n    float: left;\n    width: 100%;\n    height:auto;\n    padding: 10px 0 15px 0;\n    border-bottom: 1px solid #eee;\n}\n.social-login a{\n    position:relative;\n    float: left;\n    width:calc(40% - 8px);\n    text-decoration: none;\n    color: #fff;\n    border: 1px solid rgba(0,0,0,0.05);\n    padding: 12px;\n    border-radius: 2px;\n    font-size: 12px;\n    text-transform: uppercase;\n    margin: 0 3%;\n    text-align:center;\n}\n.social-login a i{\n    position: relative;\n    float: left;\n    width: 20px;\n    top: 2px;\n}\n.social-login a:first-child{\n    background-color: #49639F;\n}\n.social-login a:last-child{\n    background-color: #DF4A32;\n}\n.email-login,.email-signup{\n    position:relative;\n    float: left;\n    width: 100%;\n    height:auto;\n    margin-top: 20px;\n    text-align:center;\n}\n.u-form-group-pink{\n    width:100%;\n    margin-bottom: 20px;\n    padding: 20px;\n}\n\n.field-line{\n    margin-bottom: 10px;\n}\n.MuiFormControl-root-1{\n    width: calc(50% - 22px) !important;\n    height:45px;\n    outline: none;\n    border: 1px solid #ddd;\n    padding: 0 10px;\n    border-radius: 2px;\n    color: #333;\n    font-size:0.8rem;\n    -webkit-transition:all 0.1s linear;\n    -moz-transition:all 0.1s linear;\n    transition:all 0.1s linear;\n}\n.u-form-group input:focus{\n    border-color: #358efb;\n}\n.u-form-group button{\n    width:50%;\n    background-color: #1CB94E;\n    border: none;\n    outline: none;\n    color: #fff;\n    font-size: 14px;\n    font-weight: normal;\n    padding: 14px 0;\n    border-radius: 2px;\n    text-transform: uppercase;\n}\n.forgot-password{\n    width:50%;\n    text-align: left;\n    text-decoration: underline;\n    color: #888;\n    font-size: 0.75rem;\n}", ""]);
 
 // exports
 
@@ -46209,22 +46235,21 @@ var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var userController = {};
+_axios2.default.defaults.withCredentials = true;
+
 var endPoint = "http://54.169.251.138";
+
+var userController = {};
 
 userController.register = function (data) {};
 
 userController.logIn = function (data) {
-    (0, _axios2.default)({
-        method: 'post',
-        url: endPoint + '/api/v1/user/login/',
-        data: data,
-        headers: {
-            'Access-Control-Allow-Origin': '*'
-        }
+    var response = _axios2.default.post(endPoint + '/api/v1/user/login/', {
+        username: data.username,
+        password: data.password
     }).then(function (response) {
         // handle success
-        return response;
+        return response.data;
     }).catch(function (error) {
         // handle error
         return {
@@ -46232,6 +46257,7 @@ userController.logIn = function (data) {
             desc: error
         };
     });
+    return response;
 };
 
 userController.confirmAccount = function (data) {};
@@ -47173,8 +47199,8 @@ function config (options) {
     const parsed = parse(fs.readFileSync(dotenvPath, { encoding }))
 
     Object.keys(parsed).forEach(function (key) {
-      if (!Object({"NODE_ENV":undefined,"FACEBOOK_APP_ID":undefined,"GOOGLE_CLIENT_ID":undefined}).hasOwnProperty(key)) {
-        Object({"NODE_ENV":undefined,"FACEBOOK_APP_ID":undefined,"GOOGLE_CLIENT_ID":undefined})[key] = parsed[key]
+      if (!Object({"NODE_ENV":undefined,"FACEBOOK_APP_ID":"2122033841390157","GOOGLE_CLIENT_ID":"241565389594-ap4tdnhank1tke90tf4mr28ugrcqpvgc.apps.googleusercontent.com"}).hasOwnProperty(key)) {
+        Object({"NODE_ENV":undefined,"FACEBOOK_APP_ID":"2122033841390157","GOOGLE_CLIENT_ID":"241565389594-ap4tdnhank1tke90tf4mr28ugrcqpvgc.apps.googleusercontent.com"})[key] = parsed[key]
       }
     })
 
@@ -47823,7 +47849,7 @@ exports = module.exports = __webpack_require__(41)(false);
 
 
 // module
-exports.push([module.i, ".u-form-group-pink button{\n    width:25%;\n    background-color: #f55692;\n    border: none;\n    outline: none;\n    color: #fff;\n    font-size: 1em;\n    font-weight: normal;\n    padding: 14px 0px 14px 0px;\n    border-radius: 2px;\n    text-transform: uppercase;\n}\n\n/* Datepicker */\n.SingleDatePicker {\n    display: block !important\n}", ""]);
+exports.push([module.i, ".u-form-group-pink button{\n    width:50%;\n    background-color: #f55692;\n    border: none;\n    outline: none;\n    color: #fff;\n    font-size: 1em;\n    font-weight: normal;\n    padding: 14px 0px 14px 0px;\n    border-radius: 2px;\n    text-transform: uppercase;\n}\n\n/* Datepicker */\n.SingleDatePicker {\n    display: block !important\n}\n", ""]);
 
 // exports
 
@@ -47891,119 +47917,6 @@ var Events = function (_React$Component) {
                 null,
                 _react2.default.createElement(
                     'div',
-                    { className: 'swiper-container' },
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'swiper-wrapper' },
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'swiper-slide' },
-                            _react2.default.createElement('img', { src: 'assets/images/slider.jpg', height: '650' }),
-                            _react2.default.createElement(
-                                'div',
-                                { className: 'container text-slide' },
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: 'text-slider4' },
-                                    _react2.default.createElement(
-                                        'div',
-                                        null,
-                                        _react2.default.createElement(
-                                            'span',
-                                            { className: 'country-label' },
-                                            'Milano'
-                                        )
-                                    ),
-                                    _react2.default.createElement(
-                                        'h3',
-                                        null,
-                                        'The Awesome Party Event'
-                                    ),
-                                    _react2.default.createElement(
-                                        'span',
-                                        { className: 'address' },
-                                        _react2.default.createElement('i', { className: 'fa fa-map-marker' }),
-                                        ' 541 Avenue Street, Milano'
-                                    ),
-                                    _react2.default.createElement(
-                                        'p',
-                                        null,
-                                        _react2.default.createElement(
-                                            'span',
-                                            null,
-                                            'Genre:'
-                                        ),
-                                        ' Rock &nbsp ',
-                                        _react2.default.createElement(
-                                            'span',
-                                            null,
-                                            'Date:'
-                                        ),
-                                        ' 11/11/2016 &nbsp ',
-                                        _react2.default.createElement(
-                                            'span',
-                                            null,
-                                            'Artists:'
-                                        ),
-                                        ' Jonathan Doe, Megan Tylor &nbsp',
-                                        _react2.default.createElement(
-                                            'span',
-                                            null,
-                                            'People:'
-                                        ),
-                                        ' 5000+'
-                                    ),
-                                    _react2.default.createElement(
-                                        'div',
-                                        { className: 'pricing' },
-                                        _react2.default.createElement('i', { className: 'fa fa-dollar' }),
-                                        _react2.default.createElement(
-                                            'h1',
-                                            null,
-                                            '59'
-                                        ),
-                                        _react2.default.createElement(
-                                            'p',
-                                            null,
-                                            '/ PER PERSON'
-                                        )
-                                    )
-                                )
-                            )
-                        )
-                    )
-                ),
-                _react2.default.createElement(
-                    'div',
-                    { id: 'section-breadcrumb' },
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'container' },
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'col-md-12 content-breadcrumb' },
-                            _react2.default.createElement(
-                                'p',
-                                null,
-                                _react2.default.createElement(
-                                    'a',
-                                    { href: 'index.html' },
-                                    'Homepage'
-                                ),
-                                ' ',
-                                _react2.default.createElement(
-                                    'span',
-                                    null,
-                                    _react2.default.createElement('i', {
-                                        className: 'fa fa-chevron-right' })
-                                ),
-                                ' Events Page List'
-                            )
-                        )
-                    )
-                ),
-                _react2.default.createElement(
-                    'div',
                     { id: 'section-contentblogs', className: 'section-artistlist' },
                     _react2.default.createElement(
                         'div',
@@ -48017,259 +47930,12 @@ var Events = function (_React$Component) {
                                 _react2.default.createElement(
                                     'h3',
                                     null,
-                                    'Events Page List'
-                                ),
-                                _react2.default.createElement(
-                                    'p',
-                                    null,
-                                    'Subtitle goes here.'
+                                    'All Events'
                                 )
                             ),
                             _react2.default.createElement(
                                 'div',
-                                { className: 'content-right col-md-3 z10' },
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: 'sidebar-searchbar col-md-12 pad0 col-sm-12' },
-                                    _react2.default.createElement(
-                                        'h4',
-                                        null,
-                                        'SEARCH BAR'
-                                    ),
-                                    _react2.default.createElement(
-                                        'div',
-                                        { id: 'custom-search-input' },
-                                        _react2.default.createElement(
-                                            'div',
-                                            { className: 'input-group col-xs-12 col-sm-12 col-md-12' },
-                                            _react2.default.createElement('input', { type: 'text', className: 'search-query form-control',
-                                                placeholder: 'search for something' }),
-                                            _react2.default.createElement(
-                                                'span',
-                                                { className: 'input-group-btn' },
-                                                _react2.default.createElement(
-                                                    'button',
-                                                    { className: 'btn btn-danger',
-                                                        type: 'button' },
-                                                    _react2.default.createElement('span', { className: ' glyphicon glyphicon-search' })
-                                                )
-                                            )
-                                        )
-                                    )
-                                ),
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: 'sidebar-googlemap col-md-12 pad0 col-sm-12' },
-                                    _react2.default.createElement(
-                                        'h4',
-                                        null,
-                                        'GOOGLE MAP'
-                                    ),
-                                    _react2.default.createElement('div', { id: 'map' }),
-                                    _react2.default.createElement(
-                                        'div',
-                                        { className: 'custom-checkbox list-0' },
-                                        _react2.default.createElement('input', { type: 'checkbox', className: 'list-0', name: 'list-0', id: 'list-0',
-                                            value: 'other' }),
-                                        ' near me',
-                                        _react2.default.createElement('label', { htmlFor: 'list-0' })
-                                    )
-                                ),
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: 'sidebar-location col-md-12 pad0 col-sm-12' },
-                                    _react2.default.createElement(
-                                        'h4',
-                                        null,
-                                        'LOCATION'
-                                    )
-                                ),
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: 'sidebar-selectdate col-md-12 pad0 col-sm-12' },
-                                    _react2.default.createElement(
-                                        'h4',
-                                        null,
-                                        'SELECT DATE'
-                                    ),
-                                    _react2.default.createElement('div', { className: 'dates' })
-                                ),
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: 'sidebar-popularcategories col-md-12 pad0 col-sm-12' },
-                                    _react2.default.createElement(
-                                        'div',
-                                        { className: 'col-md-12 popularcategories-item border-btm' },
-                                        _react2.default.createElement(
-                                            'a',
-                                            { href: '' },
-                                            _react2.default.createElement(
-                                                'h5',
-                                                null,
-                                                'Today'
-                                            )
-                                        )
-                                    ),
-                                    _react2.default.createElement(
-                                        'div',
-                                        { className: 'col-md-12 popularcategories-item border-btm' },
-                                        _react2.default.createElement('a', { href: '' }),
-                                        _react2.default.createElement(
-                                            'h5',
-                                            null,
-                                            'Tomorrow'
-                                        )
-                                    ),
-                                    _react2.default.createElement(
-                                        'div',
-                                        { className: 'col-md-12 popularcategories-item border-btm' },
-                                        _react2.default.createElement(
-                                            'a',
-                                            { href: '' },
-                                            _react2.default.createElement(
-                                                'h5',
-                                                null,
-                                                'This Week'
-                                            )
-                                        )
-                                    ),
-                                    _react2.default.createElement(
-                                        'div',
-                                        { className: 'col-md-12 popularcategories-item border-btm' },
-                                        _react2.default.createElement(
-                                            'a',
-                                            { href: '' },
-                                            _react2.default.createElement(
-                                                'h5',
-                                                null,
-                                                'This Weekend'
-                                            )
-                                        )
-                                    ),
-                                    _react2.default.createElement(
-                                        'div',
-                                        { className: 'col-md-12 popularcategories-item border-btm' },
-                                        _react2.default.createElement(
-                                            'a',
-                                            { href: '' },
-                                            _react2.default.createElement(
-                                                'h5',
-                                                null,
-                                                'Next Week'
-                                            )
-                                        )
-                                    ),
-                                    _react2.default.createElement(
-                                        'div',
-                                        { className: 'col-md-12 popularcategories-item' },
-                                        _react2.default.createElement(
-                                            'a',
-                                            { href: '' },
-                                            _react2.default.createElement(
-                                                'h5',
-                                                null,
-                                                'This Month'
-                                            )
-                                        )
-                                    )
-                                ),
-                                _react2.default.createElement(_Filters2.default, null)
-                            ),
-                            _react2.default.createElement(
-                                'div',
                                 { className: 'content-right col-md-9' },
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: 'row' },
-                                    _react2.default.createElement(
-                                        'div',
-                                        { className: 'col-md-4 col-sm-12 col-xs-12 show-result' },
-                                        _react2.default.createElement(
-                                            'h4',
-                                            { className: 'title' },
-                                            ' FILTER SELECTED '
-                                        ),
-                                        _react2.default.createElement(
-                                            'div',
-                                            { className: 'col-md-4 col-sm-1 col-xs-2 tagss pad0' },
-                                            _react2.default.createElement(
-                                                'span',
-                                                { className: 'alert custom-tags alert-dismissible', role: 'alert' },
-                                                _react2.default.createElement(
-                                                    'button',
-                                                    {
-                                                        type: 'button', className: 'close', 'data-dismiss': 'alert', 'aria-label': 'Close' },
-                                                    _react2.default.createElement(
-                                                        'span',
-                                                        { 'aria-hidden': 'true' },
-                                                        '\xD7'
-                                                    )
-                                                ),
-                                                ' Genre'
-                                            )
-                                        ),
-                                        _react2.default.createElement(
-                                            'div',
-                                            { className: 'col-md-4 col-sm-1 col-xs-2 tagss pad0' },
-                                            _react2.default.createElement(
-                                                'span',
-                                                { className: 'alert custom-tags alert-dismissible', role: 'alert' },
-                                                _react2.default.createElement(
-                                                    'button',
-                                                    {
-                                                        type: 'button', className: 'close', 'data-dismiss': 'alert', 'aria-label': 'Close' },
-                                                    _react2.default.createElement(
-                                                        'span',
-                                                        { 'aria-hidden': 'true' },
-                                                        '\xD7'
-                                                    )
-                                                ),
-                                                ' Typee'
-                                            )
-                                        ),
-                                        _react2.default.createElement(
-                                            'div',
-                                            { className: 'col-md-4 col-sm-1 col-xs-2 tagss pad0' },
-                                            _react2.default.createElement(
-                                                'span',
-                                                { className: 'alert custom-tags alert-dismissible', role: 'alert' },
-                                                _react2.default.createElement(
-                                                    'button',
-                                                    {
-                                                        type: 'button', className: 'close', 'data-dismiss': 'alert', 'aria-label': 'Close' },
-                                                    _react2.default.createElement(
-                                                        'span',
-                                                        { 'aria-hidden': 'true' },
-                                                        '\xD7'
-                                                    )
-                                                ),
-                                                ' Price'
-                                            )
-                                        )
-                                    ),
-                                    _react2.default.createElement(
-                                        'div',
-                                        { className: 'col-md-6 col-sm-12 col-xs-12 show-result sort-by' },
-                                        _react2.default.createElement(
-                                            'h4',
-                                            { className: 'title' },
-                                            ' SORT BY '
-                                        ),
-                                        _react2.default.createElement(
-                                            'div',
-                                            { className: 'date-filters' },
-                                            _react2.default.createElement('input', { className: 'form-control date1', id: 'date3', name: 'date',
-                                                placeholder: '07/15/2016', type: 'text' }),
-                                            _react2.default.createElement('input', { className: 'form-control date2', id: 'date4', name: 'date',
-                                                placeholder: '07/15/2016', type: 'text' }),
-                                            _react2.default.createElement(
-                                                'button',
-                                                { type: 'button', className: 'btn btn-black' },
-                                                'FILTER'
-                                            )
-                                        )
-                                    )
-                                ),
                                 _react2.default.createElement(
                                     'div',
                                     { className: 'tab-content' },
@@ -48548,6 +48214,8 @@ var _eventController = __webpack_require__(128);
 
 var _eventController2 = _interopRequireDefault(_eventController);
 
+var _reactRouter = __webpack_require__(22);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -48569,10 +48237,10 @@ var CreateEvent = function (_React$Component) {
                 title: '',
                 location: '',
                 description: '',
-                category: '',
-                maxQuota: '',
-                startTime: '10:00',
-                endTime: '10:00'
+                category: 'Choose an option',
+                maxQuota: 20,
+                startTime: '00:00',
+                endTime: '00:00'
             },
             error: false,
             submissionSuccess: false,
@@ -48592,7 +48260,8 @@ var CreateEvent = function (_React$Component) {
         key: 'onSelect',
         value: function onSelect(e) {
             var data = this.state.data;
-            data['category'] = e.value;
+            data['category'] = 1.0;
+            console.log(e.value);
             this.setState({
                 data: data
             });
@@ -48629,38 +48298,51 @@ var CreateEvent = function (_React$Component) {
             this.setState({ endDate: date });
         }
     }, {
+        key: 'formatDate',
+        value: function formatDate(date) {
+            return new Date(date).toISOString().substr(0, 10);
+        }
+    }, {
         key: 'handleClick',
-        value: function handleClick() {
+        value: function handleClick(event) {
+            var _this2 = this;
+
+            event.preventDefault();
             var postData = {
                 "event_title": this.state.data.title,
                 "event_desc": this.state.data.description,
                 "max_quota": this.state.data.maxQuota,
                 "event_type": this.state.data.category,
-                "event_start_date": this.state.startDate,
-                "event_end_date": this.state.endDate,
-                "event_start_time": this.state.data.startTime,
-                "event_end_time": this.state.data.endTime,
+                "event_start_date": this.formatDate(this.state.startDate) + " " + this.state.data.startTime,
+                "event_end_date": this.formatDate(this.state.endDate) + " " + this.state.data.endTime,
                 "is_open_ended": true,
                 "location": this.state.data.location
             };
-            var response = _eventController2.default.createEvent(postData);
-            if (response.status == 'success') {
-                this.setState({
-                    submissionSuccess: true
-                });
-            } else {
-                this.setState({
-                    submissionError: response.desc
-                });
-            }
+            _eventController2.default.createEvent(postData).then(function (response) {
+                console.log(response);
+                if (response.status === 'success') {
+                    _this2.setState({
+                        submissionSuccess: true
+                    });
+                    // browserHistory.push('/');
+                } else {
+                    _this2.setState({
+                        submissionError: response.desc
+                    });
+                }
+            });
         }
     }, {
         key: 'componentWillMount',
-        value: function componentWillMount() {}
+        value: function componentWillMount() {
+            if (!_Auth2.default.getUserData()) {
+                _reactRouter.browserHistory.push('/login');
+            }
+        }
     }, {
         key: 'render',
         value: function render() {
-            var options = [{ value: 'music', label: 'Music' }, { value: 'art', label: 'Art' }];
+            var options = [{ value: 'none', label: 'Choose an option' }, { value: 'music', label: 'Music' }, { value: 'art', label: 'Art' }];
             var defaultOption = options[0];
             return _react2.default.createElement(
                 'div',
@@ -48717,7 +48399,7 @@ var CreateEvent = function (_React$Component) {
                                         '*'
                                     )
                                 ),
-                                _react2.default.createElement('input', { type: 'email', className: 'form-control', id: 'formInput113', name: 'location',
+                                _react2.default.createElement('input', { type: 'text', className: 'form-control', id: 'formInput113', name: 'location',
                                     onChange: this.onChange,
                                     value: this.state.data.location, required: true })
                             )
@@ -48738,8 +48420,8 @@ var CreateEvent = function (_React$Component) {
                                         '*'
                                     )
                                 ),
-                                _react2.default.createElement(_reactDropdown2.default, { options: options, onChange: this.onSelect, value: defaultOption,
-                                    placeholder: 'Select an option' })
+                                _react2.default.createElement(_reactDropdown2.default, { options: options, onChange: this.onSelect, value: this.state.data.category,
+                                    placeholder: 'Select an option', required: true })
                             )
                         ),
                         _react2.default.createElement(
@@ -48758,7 +48440,7 @@ var CreateEvent = function (_React$Component) {
                                         '*'
                                     )
                                 ),
-                                _react2.default.createElement('input', { type: 'email', className: 'form-control', id: 'formInput113', name: 'maxQuota',
+                                _react2.default.createElement('input', { type: 'number', className: 'form-control', id: 'formInput113', name: 'maxQuota',
                                     onChange: this.onChange,
                                     value: this.state.data.maxQuota, required: true })
                             )
@@ -48780,7 +48462,7 @@ var CreateEvent = function (_React$Component) {
                                     )
                                 ),
                                 _react2.default.createElement(_reactDatez.ReactDatez, { name: 'dateInput', handleChange: this.changeStartDate,
-                                    value: this.state.startDate })
+                                    value: this.state.startDate, required: true })
                             )
                         ),
                         _react2.default.createElement(
@@ -48869,7 +48551,7 @@ var CreateEvent = function (_React$Component) {
                             ),
                             _react2.default.createElement(
                                 'button',
-                                { className: 'btn btn-warning pull-right btn-subscribe', type: 'submit',
+                                { className: 'btn btn-warning pull-right btn-subscribe',
                                     onClick: this.handleClick },
                                 'CREATE EVENT'
                             )
@@ -49311,6 +48993,14 @@ var _reactResponsiveModal = __webpack_require__(336);
 
 var _reactResponsiveModal2 = _interopRequireDefault(_reactResponsiveModal);
 
+__webpack_require__(346);
+
+var _Auth = __webpack_require__(27);
+
+var _Auth2 = _interopRequireDefault(_Auth);
+
+var _reactRouter = __webpack_require__(22);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -49340,7 +49030,11 @@ var Event = function (_React$Component) {
     _createClass(Event, [{
         key: 'onOpenModal',
         value: function onOpenModal() {
-            this.setState({ open: true });
+            if (!_Auth2.default.getUserData()) {
+                _reactRouter.browserHistory.push('/login');
+            } else {
+                this.setState({ open: true });
+            }
         }
     }, {
         key: 'onCloseModal',
@@ -49350,6 +49044,9 @@ var Event = function (_React$Component) {
     }, {
         key: 'getData',
         value: function getData() {}
+    }, {
+        key: 'confirmEvent',
+        value: function confirmEvent() {}
     }, {
         key: 'componentWillMount',
         value: function componentWillMount() {}
@@ -49363,12 +49060,26 @@ var Event = function (_React$Component) {
                     { id: 'section-aboutus', className: 'section-eventsdetails' },
                     _react2.default.createElement(
                         _reactResponsiveModal2.default,
-                        { open: this.state.open, onClose: this.onCloseModal, center: true },
+                        { open: this.state.open, onClose: this.onCloseModal, center: true, className: 'popup centred' },
+                        _react2.default.createElement('span', { className: 'yes-reply centred' }),
+                        _react2.default.createElement('span', { className: 'no-reply centred' }),
                         _react2.default.createElement(
-                            'h2',
+                            'p',
                             null,
-                            'Registration form'
-                        )
+                            'Please confirm your registration '
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'button yes transition', style: { float: 'right' } },
+                            'Confirm'
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'button no transition', style: { float: 'right' },
+                                onClick: this.onCloseModal },
+                            'Cancel'
+                        ),
+                        _react2.default.createElement('div', { className: 'refresh transition' })
                     ),
                     _react2.default.createElement(
                         'div',
@@ -50859,6 +50570,52 @@ var AttendingEvents = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = AttendingEvents;
+
+/***/ }),
+/* 345 */,
+/* 346 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(347);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(42)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../../../node_modules/css-loader/index.js!./Event.css", function() {
+			var newContent = require("!!../../../../../node_modules/css-loader/index.js!./Event.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 347 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(41)(false);
+// imports
+
+
+// module
+exports.push([module.i, "/* Modal popup */\n\n.styles_modal__gNwvD{\n    width: 1000px;\n}\n.popup {\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    width: 400px;\n    height: 100px;\n    background: #f1f1f1;\n    border-radius: 5px;\n    overflow: hidden;\n    padding: 20px;\n    text-align: right;\n    z-index: 1;\n}\n\n.popup.active {\n    width: 80px;\n    height: 80px;\n    border-radius: 50%;\n    -webkit-transition: .5s;\n    -moz-transition: .5s;\n    transition: .5s;\n    -webkit-transition-timing-function: cubic-bezier(.4,0,.5,1);\n    -moz-transition-timing-function: cubic-bezier(.4,0,.5,1);\n    transition-timing-function: cubic-bezier(.4,0,.5,1);\n}\n\n.popup p {\n    margin: 0 0 20px;\n    text-align: left;\n}\n\n.button {\n    display: inline-block;\n    padding: 10px 30px;\n    border-radius: 3px;\n    color: #ffffff;\n    position: relative;\n    cursor: pointer;\n}\n\n.button.yes {\n    background: rgb(26, 188, 156);\n    margin-left: 6px;\n}\n\n.button.yes:hover {\n    background: rgb(29, 200, 166);\n}\n\n.button.no {\n    background: rgb(216, 73, 90);\n}\n\n.button.no:hover {\n    background: rgb(231, 79, 97);\n}\n\n.button:before {\n    content: \"\";\n    position: absolute;\n    width: 800px;\n    height: 800px;\n    top: 50%;\n    left: 50%;\n    transform: translateX(-50%)translateY(-50%)scale(0);\n    border-radius: 50%;\n    z-index: 10;\n    -webkit-transition: .5s;\n    -moz-transition: .5s;\n    transition: .5s;\n    -webkit-transition-timing-function: cubic-bezier(.4,0,.5,1);\n    -moz-transition-timing-function: cubic-bezier(.4,0,.5,1);\n    transition-timing-function: cubic-bezier(.4,0,.5,1);\n}\n\n.yes:before {\n    background: rgba(26, 188, 156, 1);\n}\n\n.no:before {\n    background: rgb(216, 73, 90);\n}\n\n.button.active:before {\n    transform: translateX(-50%)translateY(-50%)scale(1);\n}\n\n/* YES NO REPLY */\n\n.yes-reply,.no-reply {\n    display: none;\n    position: absolute;\n    z-index: 20;\n    left: 50%;\n    top: 50%;\n    width: 80px;\n    height: 80px;\n}\n\n/* YES REPLY */\n\n.yes-reply.active,.no-reply.active {\n    display: block;\n}\n\n.yes-reply:before, .yes-reply:after,.no-reply:before, .no-reply:after {\n    -webkit-transition: .5s;\n    -moz-transition: .5s;\n    transition: .5s;\n    -webkit-transition-timing-function: cubic-bezier(.4,0,.5,1);\n    -moz-transition-timing-function: cubic-bezier(.4,0,.5,1);\n    transition-timing-function: cubic-bezier(.4,0,.5,1);\n}\n\n.yes-reply:before {\n    content: \"\";\n    position: absolute;\n    width: 0px;\n    height: 10px;\n    background: white;\n    -webkit-transform: rotate(-45deg);\n    -moz-transform: rotate(-45deg);\n    transform: rotate(-45deg);\n    -webkit-border-radius: 5px;\n    -moz-border-radius: 5px;\n    border-radius: 5px;\n    top: 54px;\n    left: 26px;\n    -webkit-transform-origin: top left;\n    -moz-transform-origin: top left;\n    transform-origin: top left;\n}\n\n.yes-reply:after {\n    content: \"\";\n    position: absolute;\n    width: 0px;\n    height: 10px;\n    background: white;\n    -webkit-transform: rotate(225deg);\n    -moz-transform: rotate(225deg);\n    transform: rotate(225deg);\n    -webkit-border-radius: 5px;\n    -moz-border-radius: 5px;\n    border-radius: 5px;\n    top: 61px;\n    left: 33px;\n    -webkit-transform-origin: top left;\n    -moz-transform-origin: top left;\n    transform-origin: top left;\n}\n\n.yes-reply.active:before {\n    width: 50px;\n}\n\n.yes-reply.active:after {\n    width: 30px;\n}\n\n/* NO REPLY */\n\n.no-reply:before,.no-reply:after {\n    content: \"\";\n    position: absolute;\n    width: 0px;\n    height: 10px;\n    background: white;\n    -webkit-border-radius: 5px;\n    -moz-border-radius: 5px;\n    border-radius: 5px;\n    top: 50%;\n    left: 50%;\n    -webkit-transform-origin: top left;\n    -moz-transform-origin: top left;\n    transform-origin: top left;\n}\n\n.no-reply:before {\n    -webkit-transform: rotate(-45deg)translateX(-50%)translateY(-50%);\n    -moz-transform: rotate(-45deg)translateX(-50%)translateY(-50%);\n    transform: rotate(-45deg)translateX(-50%)translateY(-50%);\n}\n\n.no-reply:after {\n    -webkit-transform: rotate(45deg)translateX(-50%)translateY(-50%);\n    -moz-transform: rotate(45deg)translateX(-50%)translateY(-50%);\n    transform: rotate(45deg)translateX(-50%)translateY(-50%);\n}\n\n.no-reply.active:before,.no-reply.active:after {\n    width: 50px;\n}\n\n.styles_closeButton__20ID4 {\n    display: none;\n}", ""]);
+
+// exports
+
 
 /***/ })
 /******/ ]);

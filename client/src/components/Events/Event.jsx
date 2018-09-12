@@ -1,6 +1,8 @@
 import React, {PropTypes} from 'react';
 import Modal from 'react-responsive-modal';
-
+import '../Events/css/Event.css';
+import Auth from "../../modules/Auth";
+import {browserHistory} from "react-router";
 
 // Showing one event details
 class Event extends React.Component {
@@ -16,14 +18,24 @@ class Event extends React.Component {
     }
 
     onOpenModal() {
-        this.setState({ open: true });
+        if (!Auth.getUserData()) {
+            browserHistory.push('/login');
+        }
+        else {
+            this.setState({open: true});
+        }
+
     };
 
     onCloseModal() {
-        this.setState({ open: false });
+        this.setState({open: false});
     };
 
-    getData(){
+    getData() {
+
+    }
+
+    confirmEvent() {
 
     }
 
@@ -34,12 +46,19 @@ class Event extends React.Component {
 
 
     render() {
-        
+
         if (this.state.event) {
             return (
                 <div id="section-aboutus" className="section-eventsdetails">
-                    <Modal open={this.state.open} onClose={this.onCloseModal} center>
-                        <h2>Registration form</h2>
+                    <Modal open={this.state.open} onClose={this.onCloseModal} center className="popup centred">
+                        <span className="yes-reply centred"></span>
+                        <span className="no-reply centred"></span>
+                        <p>Please confirm your registration </p>
+                        <div className="button yes transition" style={{float: 'right'}}>Confirm</div>
+                        <div className="button no transition" style={{float: 'right'}}
+                             onClick={this.onCloseModal}>Cancel
+                        </div>
+                        <div className="refresh transition"></div>
                     </Modal>
                     <div className="container">
                         <div id="list-view">
@@ -108,36 +127,6 @@ class Event extends React.Component {
                                     </button>
                                 </div>
 
-
-                                {/*<div className="col-md-12 pad0 left4">*/}
-                                {/*<h3>Photo Gallery</h3>*/}
-                                {/*<div className="content pad0">*/}
-                                {/*<div className="col-md-3 pad0 col-sm-6 col-xs-12">*/}
-                                {/*<img src="assets/images/latestevent-img.png"/>*/}
-                                {/*</div>*/}
-                                {/*<div className="col-md-3 pad0 col-sm-6 col-xs-12">*/}
-                                {/*<img src="assets/images/latestevent-img.png"/>*/}
-                                {/*</div>*/}
-                                {/*<div className="col-md-3 pad0 col-sm-6 col-xs-12">*/}
-                                {/*<img src="assets/images/latestevent-img.png"/>*/}
-                                {/*</div>*/}
-                                {/*<div className="col-md-3 pad0 col-sm-6 col-xs-12">*/}
-                                {/*<img src="assets/images/latestevent-img.png"/>*/}
-                                {/*</div>*/}
-                                {/*<div className="col-md-3 pad0 col-sm-6 col-xs-12">*/}
-                                {/*<img src="assets/images/latestevent-img.png"/>*/}
-                                {/*</div>*/}
-                                {/*<div className="col-md-3 pad0 col-sm-6 col-xs-12">*/}
-                                {/*<img src="assets/images/latestevent-img.png"/>*/}
-                                {/*</div>*/}
-                                {/*<div className="col-md-3 pad0 col-sm-6 col-xs-12">*/}
-                                {/*<img src="assets/images/latestevent-img.png"/>*/}
-                                {/*</div>*/}
-                                {/*<div className="col-md-3 pad0 col-sm-6 col-xs-12">*/}
-                                {/*<img src="assets/images/latestevent-img.png"/>*/}
-                                {/*</div>*/}
-                                {/*</div>*/}
-                                {/*</div>*/}
                                 <div className="col-md-12 pad0 left5">
                                     <h3>Event Position</h3>
                                     <div className="content pad0">

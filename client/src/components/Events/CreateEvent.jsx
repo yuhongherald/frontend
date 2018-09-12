@@ -7,6 +7,7 @@ import 'react-dropdown/style.css';
 import '../Events/css/Events.css';
 import TextField from '@material-ui/core/TextField';
 import eventController from '../../controllers/eventController.js';
+import {browserHistory} from 'react-router';
 
 
 class CreateEvent extends React.Component {
@@ -18,10 +19,10 @@ class CreateEvent extends React.Component {
                 title: '',
                 location: '',
                 description: '',
-                category: '',
-                maxQuota: '',
-                startTime: '10:00',
-                endTime: '10:00'
+                category: 'Choose an option',
+                maxQuota: 20,
+                startTime: '00:00',
+                endTime: '00:00'
             },
             error: false,
             submissionSuccess: false,
@@ -38,7 +39,8 @@ class CreateEvent extends React.Component {
 
     onSelect(e) {
         const data = this.state.data;
-        data['category'] = e.value;
+        data['category'] = 1.0;
+        console.log(e.value);
         this.setState({
             data: data
         });
@@ -73,39 +75,48 @@ class CreateEvent extends React.Component {
 
     }
 
-    handleClick() {
+    formatDate(date) {
+        return new Date(date).toISOString().substr(0, 10);
+    }
+
+    handleClick(event) {
+        event.preventDefault();
         let postData = {
             "event_title": this.state.data.title,
             "event_desc": this.state.data.description,
             "max_quota": this.state.data.maxQuota,
             "event_type": this.state.data.category,
-            "event_start_date": this.state.startDate,
-            "event_end_date": this.state.endDate,
-            "event_start_time": this.state.data.startTime,
-            "event_end_time": this.state.data.endTime,
+            "event_start_date": this.formatDate(this.state.startDate) + " " + this.state.data.startTime,
+            "event_end_date": this.formatDate(this.state.endDate) + " " + this.state.data.endTime,
             "is_open_ended": true,
             "location": this.state.data.location
         };
-        let response = eventController.createEvent(postData);
-        if (response.status == 'success') {
-            this.setState({
-                submissionSuccess: true
-            });
-        }
-        else {
-            this.setState({
-                submissionError: response.desc
-            });
-        }
+        eventController.createEvent(postData).then(response => {
+            console.log(response);
+            if (response.status === 'success') {
+                this.setState({
+                    submissionSuccess: true
+                });
+                // browserHistory.push('/');
+            }
+            else {
+                this.setState({
+                    submissionError: response.desc
+                });
+            }
+        });
     }
 
     componentWillMount() {
-
+        if (!Auth.getUserData()) {
+            browserHistory.push('/login');
+        }
     }
 
 
     render() {
         const options = [
+            {value: 'none', label: 'Choose an option'},
             {value: 'music', label: 'Music'},
             {value: 'art', label: 'Art'}
         ];
@@ -132,7 +143,7 @@ class CreateEvent extends React.Component {
                                 <label className="control-label">LOCATION
                                     <span>*</span>
                                 </label>
-                                <input type="email" className="form-control" id="formInput113" name="location"
+                                <input type="text" className="form-control" id="formInput113" name="location"
                                        onChange={this.onChange}
                                        value={this.state.data.location} required/>
                             </div>
@@ -142,8 +153,8 @@ class CreateEvent extends React.Component {
                                 <label className="control-label">CATEGORY
                                     <span>*</span>
                                 </label>
-                                <Dropdown options={options} onChange={this.onSelect} value={defaultOption}
-                                          placeholder="Select an option"/>
+                                <Dropdown options={options} onChange={this.onSelect} value={this.state.data.category}
+                                          placeholder="Select an option" required/>
 
                             </div>
                         </div>
@@ -152,7 +163,7 @@ class CreateEvent extends React.Component {
                                 <label className="control-label">NUMBER OF PARTICIPANTS
                                     <span>*</span>
                                 </label>
-                                <input type="email" className="form-control" id="formInput113" name="maxQuota"
+                                <input type="number" className="form-control" id="formInput113" name="maxQuota"
                                        onChange={this.onChange}
                                        value={this.state.data.maxQuota} required/>
                             </div>
@@ -163,7 +174,7 @@ class CreateEvent extends React.Component {
                                     <span>*</span>
                                 </label>
                                 <ReactDatez name="dateInput" handleChange={this.changeStartDate}
-                                            value={this.state.startDate}/>
+                                            value={this.state.startDate} required/>
                             </div>
                         </div>
 
@@ -227,7 +238,7 @@ class CreateEvent extends React.Component {
                                           onChange={this.onChange}
                                           value={this.state.data.description}></textarea>
                             </div>
-                            <button className="btn btn-warning pull-right btn-subscribe" type="submit"
+                            <button className="btn btn-warning pull-right btn-subscribe"
                                     onClick={this.handleClick}>CREATE EVENT
                             </button>
                         </div>

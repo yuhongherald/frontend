@@ -1,12 +1,12 @@
 import axios from 'axios';
+axios.defaults.withCredentials = true;
 
 const endPoint = "http://54.169.251.138";
 
 let eventController = {};
 
 eventController.getEvents = (data) => {
-    console.log(data);
-    axios.get(endPoint + '/api/v1/event/list/', {
+    let response = axios.get(endPoint + '/api/v1/event/list/', {
         params: {
             page_limit: data.pageLimit,
             page_num: data.pageNum
@@ -14,7 +14,7 @@ eventController.getEvents = (data) => {
     })
         .then(function (response) {
             // handle success
-            return response
+            return response.data;
         })
         .catch(function (error) {
             // handle error
@@ -22,7 +22,8 @@ eventController.getEvents = (data) => {
                 status: 'failed',
                 desc: error
             }
-        })
+        });
+    return response;
 }
 
 eventController.getEvent = (data) => {
@@ -33,7 +34,7 @@ eventController.getEvent = (data) => {
     })
         .then(function (response) {
             // handle success
-            return response
+            return response.data
         })
         .catch(function (error) {
             // handle error
@@ -42,14 +43,19 @@ eventController.getEvent = (data) => {
 }
 
 eventController.createEvent = (data) => {
-    axios({
-        method: 'post',
-        url: endPoint + '/api/v1/create_event/',
-        data: data
-    })
+    console.log(data);
+    let response = axios.post(endPoint + '/api/v1/event/create_event/', {
+        "event_title": data.event_title,
+        "event_desc": data.event_desc,
+        "max_quota": parseInt(data.max_quota),
+        "event_type": data.event_type,
+        "event_start_date": data.event_start_date,
+        "event_end_date": data.event_end_date,
+        "is_open_ended": data.is_open_ended
+    }, {headers: { 'Content-Type': 'application/json' }})
         .then(function (response) {
             // handle success
-            return response
+            return response.data
         })
         .catch(function (error) {
             // handle error
@@ -58,17 +64,14 @@ eventController.createEvent = (data) => {
                 desc: error
             }
         })
+    return response;
 }
 
 eventController.participateEvent = (data) => {
-    axios({
-        method: 'post',
-        url: endPoint + '/api/v1/event/participate/',
-        data: data
-    })
+    axios.post(endPoint + '/api/v1/event/participate/', data)
         .then(function (response) {
             // handle success
-            return response
+            return response.data
         })
         .catch(function (error) {
             // handle error

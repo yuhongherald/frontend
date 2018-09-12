@@ -1,24 +1,22 @@
 import axios from 'axios';
+axios.defaults.withCredentials = true;
+
+let endPoint = "http://54.169.251.138";
 
 let userController = {};
-let endPoint = "http://54.169.251.138";
 
 userController.register = (data) => {
 
 };
 
 userController.logIn = (data) => {
-    axios({
-        method: 'post',
-        url: endPoint + '/api/v1/user/login/',
-        data: data,
-        headers: {
-            'Access-Control-Allow-Origin': '*',
-        }
+    let response = axios.post(endPoint + '/api/v1/user/login/', {
+        username: data.username,
+        password: data.password
     })
         .then(function (response) {
             // handle success
-            return response
+            return response.data
         })
         .catch(function (error) {
             // handle error
@@ -27,6 +25,7 @@ userController.logIn = (data) => {
                 desc: error
             }
         })
+    return response;
 }
 
 userController.confirmAccount = (data) => {
