@@ -38,7 +38,7 @@ class Events extends React.Component {
                 <div className="swiper-container">
                     <div className="swiper-wrapper">
                         <div className="swiper-slide">
-                            <img src="assets/images/slider.jpg" height="650"/>
+                            <img src="../assets/images/slider.jpg" height="650"/>
                             <div className="container text-slide">
                                 <div className="text-slider4">
                                     <div>
