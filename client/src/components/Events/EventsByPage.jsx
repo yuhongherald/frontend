@@ -8,10 +8,10 @@ import { render } from 'react-dom';
 import Modal from 'react-modal';
 import SlidingPane from 'react-sliding-pane';
 import 'react-sliding-pane/dist/react-sliding-pane.css';
+import './css/filter.css';
 import Filters from './Filters.jsx';
 
 class EventsByPage extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -74,10 +74,8 @@ class EventsByPage extends React.Component {
 
     getSlidingPane() {
         return <div ref={ref => this.el = ref}>
-            <button onClick={() => this.setState({ isPaneOpen: true })}>Click me to open right pane!</button>
+            <button className = "btn" onClick={() => this.setState({ isPaneOpen: true })}>Click me to open right pane!</button>
             <SlidingPane
-                className='some-custom-class'
-                overlayClassName='some-custom-overlay-class'
                 isOpen={ this.state.isPaneOpen }
                 title='Filters'
                 from='left'
