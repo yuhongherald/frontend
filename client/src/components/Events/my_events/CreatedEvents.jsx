@@ -1,9 +1,6 @@
 import React, {PropTypes} from 'react';
-import 'axios'
+import 'axios' from 'axios';
 
-from
-'axios';
-import {events} from '../Events/data.js';
 
 class CreatedEvents extends React.Component {
 
@@ -30,11 +27,11 @@ class CreatedEvents extends React.Component {
     render() {
         if (this.state.events) {
             const listOfEvents = this.state.events.map((event) =>
-                <div key={event.pk}
-                <h3>{events.event_title}</h3>
-                <p>{events.event_desc}</p>
-        </div>
-        )
+                <div key={event.pk}>
+                    <h3>{events.event_title}</h3>
+                    <p>{events.event_desc}</p>
+                </div>
+            )
 
             return (
                 {listOfEvents}

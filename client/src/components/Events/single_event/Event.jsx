@@ -1,8 +1,9 @@
 import React, {PropTypes} from 'react';
 import Modal from 'react-responsive-modal';
-import '../Events/css/Event.css';
-import Auth from "../../modules/Auth";
+import '../css/Event.css';
+import Auth from "../../../modules/Auth";
 import {browserHistory} from "react-router";
+import eventController from "../../../controllers/eventController";
 
 // Showing one event details
 class Event extends React.Component {
@@ -11,37 +12,65 @@ class Event extends React.Component {
         super(props);
         this.state = {
             event: true,
-            open: false
+            openConfirmModal: false,
+            openTokenModal: false
         }
-        this.onOpenModal = this.onOpenModal.bind(this);
-        this.onCloseModal = this.onCloseModal.bind(this);
+        this.onOpenConfirmModal = this.onOpenConfirmModal.bind(this);
+        this.onCloseConfirmModal = this.onCloseConfirmModal.bind(this);
+        this.onOpenTokenModal = this.onOpenTokenModal.bind(this);
+        this.onCloseTokenModal = this.onCloseTokenModal.bind(this);
+        this.confirmEvent = this.confirmEvent.bind(this);
+
     }
 
-    onOpenModal() {
+    onOpenConfirmModal() {
         if (!Auth.getUserData()) {
             browserHistory.push('/login');
         }
         else {
-            this.setState({open: true});
+            this.setState({openConfirmModal: true});
         }
 
     };
 
-    onCloseModal() {
-        this.setState({open: false});
+    onCloseConfirmModal() {
+        this.setState({openConfirmModal: false});
     };
 
-    getData() {
+    onOpenTokenModal() {
+        this.setState({openTokenModal: true});
+    }
 
+    onCloseTokenModal() {
+        this.setState({openTokenModal: true});
+    }
+
+
+    getData() {
+        let data = {
+            eeid: this.props.params.eventID
+        };
+
+        eventController.getEvent(data).then(response => {
+            if (response.status == 'success') {
+                this.setState({
+                    event: response.data.event
+                });
+            }
+            else {
+                this.setState({
+                    error: response.desc
+                });
+            }
+        });
     }
 
     confirmEvent() {
-
+        this.onCloseConfirmModal();
+        this.onOpenTokenModal();
     }
 
-
     componentWillMount() {
-
     }
 
 
@@ -50,14 +79,25 @@ class Event extends React.Component {
         if (this.state.event) {
             return (
                 <div id="section-aboutus" className="section-eventsdetails">
-                    <Modal open={this.state.open} onClose={this.onCloseModal} center className="popup centred">
+                    <Modal open={this.state.openConfirmModal} onClose={this.onCloseConfirmModal} center
+                           className="popup centred">
                         <span className="yes-reply centred"></span>
                         <span className="no-reply centred"></span>
                         <p>Please confirm your registration </p>
-                        <div className="button yes transition" style={{float: 'right'}}>Confirm</div>
-                        <div className="button no transition" style={{float: 'right'}}
-                             onClick={this.onCloseModal}>Cancel
+                        <div className="button yes transition" style={{float: 'right'}}
+                             onClick={this.confirmEvent}>Confirm
                         </div>
+                        <div className="button no transition" style={{float: 'right'}}
+                             onClick={this.onCloseConfirmModal}>Cancel
+                        </div>
+                        <div className="refresh transition"></div>
+                    </Modal>
+                    <Modal open={this.state.openTokenModal} onClose={this.onCloseTokenModal} center
+                           className="popup centred">
+                        <span className="yes-reply centred"></span>
+                        <span className="no-reply centred"></span>
+                        <p>Please key in the registration code sent to your mobile number</p>
+
                         <div className="refresh transition"></div>
                     </Modal>
                     <div className="container">
@@ -111,7 +151,8 @@ class Event extends React.Component {
                                         accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
                                         takimata sanctus est Lorem ipsum dolor sit amet.
                                     </p>
-                                    <button type="button" onClick={this.onOpenModal}>Register</button>
+                                    <button type="button" onClick={this.onOpenConfirmModal}>Register
+                                    </button>
 
 
                                 </div>
@@ -179,6 +220,11 @@ class Event extends React.Component {
                         </div>
                     </div>
                 </div>
+            )
+        }
+        else if (this.state.error) {
+            return (
+                <div>{this.state.error}</div>
             )
         }
         else {

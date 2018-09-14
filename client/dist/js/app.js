@@ -2120,6 +2120,16 @@ var Auth = function () {
             return sessionStorage.getItem('userData') !== null;
         }
     }, {
+        key: 'setID',
+        value: function setID(uuid) {
+            sessionStorage.setItem('uid', JSON.stringify(uuid));
+        }
+    }, {
+        key: 'getID',
+        value: function getID() {
+            sessionStorage.getItem('uid');
+        }
+    }, {
         key: 'getUserData',
         value: function getUserData() {
             return JSON.parse(sessionStorage.getItem('userData'));
@@ -10659,223 +10669,7 @@ module.exports = Cancel;
 
 
 /***/ }),
-/* 127 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-__webpack_require__(77);
-
-var _eventController = __webpack_require__(128);
-
-var _eventController2 = _interopRequireDefault(_eventController);
-
-var _reactJsPagination = __webpack_require__(324);
-
-var _reactJsPagination2 = _interopRequireDefault(_reactJsPagination);
-
-var _reactRouter = __webpack_require__(22);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var EventsByPage = function (_React$Component) {
-    _inherits(EventsByPage, _React$Component);
-
-    function EventsByPage(props) {
-        _classCallCheck(this, EventsByPage);
-
-        var _this = _possibleConstructorReturn(this, (EventsByPage.__proto__ || Object.getPrototypeOf(EventsByPage)).call(this, props));
-
-        _this.state = {
-            events: false,
-            error: false,
-            activePage: 1,
-            totalCount: 300,
-            totalPages: 1
-        };
-        _this.getData = _this.getData.bind(_this);
-        _this.handlePageChange = _this.handlePageChange.bind(_this);
-
-        return _this;
-    }
-
-    _createClass(EventsByPage, [{
-        key: 'handlePageChange',
-        value: function handlePageChange(pageNumber) {
-            this.setState({
-                activePage: pageNumber
-            });
-        }
-    }, {
-        key: 'getData',
-        value: function getData() {
-            var _this2 = this;
-
-            var data = {
-                pageLimit: 10,
-                pageNum: this.state.activePage
-            };
-
-            _eventController2.default.getEvents(data).then(function (response) {
-                if (response.status == 'success') {
-                    _this2.setState({
-                        totalCount: response.total_pages,
-                        events: JSON.parse(response.events)
-                    });
-                } else {
-                    _this2.setState({
-                        error: response.desc
-                    });
-                }
-            });
-        }
-    }, {
-        key: 'componentWillMount',
-        value: function componentWillMount() {
-            this.getData();
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            if (this.state.events[0] && this.state.events) {
-                var listOfEvents = this.state.events.map(function (event) {
-                    return _react2.default.createElement(
-                        'div',
-                        { key: event.pk,
-                            className: 'col-md-12 col-sm-12 col-xs-12 the-artist the-artist-horizontal events-page-list pad0 m-bot60' },
-                        _react2.default.createElement(
-                            'a',
-                            { href: 'events-details.html' },
-                            _react2.default.createElement('img', {
-                                src: 'assets/images/latestblog-img.png',
-                                className: 'img-responsive' })
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'text-slider3' },
-                            _react2.default.createElement(
-                                'div',
-                                null,
-                                _react2.default.createElement(
-                                    _reactRouter.Link,
-                                    { to: '/events/' + event.pk },
-                                    _react2.default.createElement(
-                                        'span',
-                                        { className: 'country-label' },
-                                        event.fields.event_title
-                                    )
-                                )
-                            ),
-                            _react2.default.createElement(
-                                _reactRouter.Link,
-                                { to: '/events/' + event.pk },
-                                _react2.default.createElement(
-                                    'h3',
-                                    null,
-                                    event.fields.event_desc
-                                )
-                            ),
-                            _react2.default.createElement(
-                                'span',
-                                { className: 'address' },
-                                _react2.default.createElement('i', { className: 'fa fa-map-marker' }),
-                                ' 541 Avenue Street, Milano'
-                            ),
-                            _react2.default.createElement(
-                                'p',
-                                null,
-                                _react2.default.createElement(
-                                    'span',
-                                    null,
-                                    'Genre:'
-                                ),
-                                ' ',
-                                event.fields.event_type,
-                                _react2.default.createElement(
-                                    'span',
-                                    null,
-                                    ' Date:'
-                                ),
-                                ' ',
-                                event.fields.event_start_date,
-                                ' - ',
-                                event.fields.event_end_date,
-                                _react2.default.createElement(
-                                    'span',
-                                    null,
-                                    'People:'
-                                ),
-                                ' ',
-                                event.fields.num_participants
-                            )
-                        )
-                    );
-                });
-                return _react2.default.createElement(
-                    'div',
-                    null,
-                    _react2.default.createElement(
-                        'div',
-                        null,
-                        listOfEvents
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'col-md-12 pad0 pagination-section text-center pos-inherit' },
-                        _react2.default.createElement(_reactJsPagination2.default, {
-                            activePage: this.state.activePage,
-                            itemsCountPerPage: 10,
-                            totalItemsCount: this.state.totalCount,
-                            pageRangeDisplayed: 5,
-                            onChange: this.handlePageChange
-                        })
-                    )
-                );
-            } else if (!this.state.events[0]) {
-                return _react2.default.createElement(
-                    'div',
-                    null,
-                    'No event'
-                );
-            } else if (this.state.error) {
-                return _react2.default.createElement(
-                    'div',
-                    null,
-                    this.state.error
-                );
-            } else {
-                return _react2.default.createElement(
-                    'div',
-                    null,
-                    'Loading'
-                );
-            }
-        }
-    }]);
-
-    return EventsByPage;
-}(_react2.default.Component);
-
-exports.default = EventsByPage;
-
-/***/ }),
+/* 127 */,
 /* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10899,11 +10693,9 @@ var endPoint = "http://54.169.251.138";
 var eventController = {};
 
 eventController.getEvents = function (data) {
+    console.log(data);
     var response = _axios2.default.get(endPoint + '/api/v1/event/list/', {
-        params: {
-            page_limit: data.pageLimit,
-            page_num: data.pageNum
-        }
+        params: data
     }).then(function (response) {
         // handle success
         return response.data;
@@ -10911,16 +10703,16 @@ eventController.getEvents = function (data) {
         // handle error
         return {
             status: 'failed',
-            desc: error
+            desc: error.message
         };
     });
     return response;
 };
 
 eventController.getEvent = function (data) {
-    _axios2.default.get(endPoint + '/api/v1/event/', {
+    var response = _axios2.default.get(endPoint + '/api/v1/event/', {
         params: {
-            event_title: data.event_title
+            eeid: data.eeid
         }
     }).then(function (response) {
         // handle success
@@ -10929,6 +10721,7 @@ eventController.getEvent = function (data) {
         // handle error
         return { error: error };
     });
+    return response;
 };
 
 eventController.createEvent = function (data) {
@@ -35106,27 +34899,31 @@ var _Signup = __webpack_require__(317);
 
 var _Signup2 = _interopRequireDefault(_Signup);
 
-var _Index = __webpack_require__(320);
+var _Index = __webpack_require__(355);
 
 var _Index2 = _interopRequireDefault(_Index);
 
-var _CreateEvent = __webpack_require__(327);
+var _CreateEvent = __webpack_require__(359);
 
 var _CreateEvent2 = _interopRequireDefault(_CreateEvent);
 
-var _EventsByPage = __webpack_require__(127);
+var _EventsByPage = __webpack_require__(354);
 
 var _EventsByPage2 = _interopRequireDefault(_EventsByPage);
 
-var _Event = __webpack_require__(335);
+var _EventsByCategory = __webpack_require__(360);
+
+var _EventsByCategory2 = _interopRequireDefault(_EventsByCategory);
+
+var _Event = __webpack_require__(361);
 
 var _Event2 = _interopRequireDefault(_Event);
 
-var _MyEvents = __webpack_require__(343);
+var _MyEvents = __webpack_require__(362);
 
 var _MyEvents2 = _interopRequireDefault(_MyEvents);
 
-var _AttendingEvents = __webpack_require__(344);
+var _AttendingEvents = __webpack_require__(363);
 
 var _AttendingEvents2 = _interopRequireDefault(_AttendingEvents);
 
@@ -35185,6 +34982,10 @@ var routes = {
         path: '/my_scheduled_events',
         exactly: true,
         component: _AttendingEvents2.default
+    }, {
+        path: '/events/categories/:category',
+        exactly: true,
+        component: _EventsByCategory2.default
     }]
 };
 
@@ -46241,7 +46042,25 @@ var endPoint = "http://54.169.251.138";
 
 var userController = {};
 
-userController.register = function (data) {};
+userController.register = function (data) {
+    console.log(data);
+    var response = _axios2.default.post(endPoint + '/api/v1/user/register-request/', {
+        username: data.username,
+        password: data.password,
+        email: data.email,
+        phone_number: data.phone_number
+    }).then(function (response) {
+        // handle success
+        return response.data;
+    }).catch(function (error) {
+        // handle error
+        return {
+            status: 'failed',
+            desc: error
+        };
+    });
+    return response;
+};
 
 userController.logIn = function (data) {
     var response = _axios2.default.post(endPoint + '/api/v1/user/login/', {
@@ -46260,7 +46079,23 @@ userController.logIn = function (data) {
     return response;
 };
 
-userController.confirmAccount = function (data) {};
+userController.confirmAccount = function (data) {
+    console.log(data);
+    var response = _axios2.default.post(endPoint + '/api/v1/user/register-verify/', {
+        user_token: data.user_token,
+        uid: data.uid
+    }).then(function (response) {
+        // handle success
+        return response.data;
+    }).catch(function (error) {
+        // handle error
+        return {
+            status: 'failed',
+            desc: error
+        };
+    });
+    return response;
+};
 
 exports.default = userController;
 
@@ -47486,6 +47321,18 @@ var _Card2 = _interopRequireDefault(_Card);
 
 __webpack_require__(93);
 
+var _Auth = __webpack_require__(27);
+
+var _Auth2 = _interopRequireDefault(_Auth);
+
+var _userController = __webpack_require__(295);
+
+var _userController2 = _interopRequireDefault(_userController);
+
+var _reactResponsiveModal = __webpack_require__(336);
+
+var _reactResponsiveModal2 = _interopRequireDefault(_reactResponsiveModal);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -47511,10 +47358,18 @@ var Signup = function (_React$Component) {
                 password: ''
 
             },
-            error: false
+            user_token: '',
+            openTokenModal: false,
+            error: false,
+            isVerified: false,
+            isRegistered: false
         };
         _this.onChange = _this.onChange.bind(_this);
         _this.signUp = _this.signUp.bind(_this);
+        _this.onOpenTokenModal = _this.onOpenTokenModal.bind(_this);
+        _this.onCloseTokenModal = _this.onCloseTokenModal.bind(_this);
+        _this.verify = _this.verify.bind(_this);
+        _this.onChangeToken = _this.onChangeToken.bind(_this);
         return _this;
     }
 
@@ -47530,9 +47385,68 @@ var Signup = function (_React$Component) {
             });
         }
     }, {
+        key: 'onChangeToken',
+        value: function onChangeToken(event) {
+            event.preventDefault();
+            this.setState({
+                user_token: event.target.value
+            });
+            console.log(this.state.user_token);
+        }
+    }, {
         key: 'signUp',
         value: function signUp() {
-            console.log(this.state.user);
+            var _this2 = this;
+
+            var postData = this.state.user;
+            console.log(postData);
+            _userController2.default.register(postData).then(function (response) {
+                console.log(response);
+                if (response.status === 'success') {
+                    _this2.setState({
+                        openTokenModal: true,
+                        isRegistered: true
+                    });
+                    _Auth2.default.setID(response.uid);
+                } else {
+                    _this2.setState({
+                        error: response.desc
+                    });
+                }
+            });
+        }
+    }, {
+        key: 'verify',
+        value: function verify() {
+            var _this3 = this;
+
+            console.log();
+            var postData = {
+                user_token: this.state.user_token,
+                uid: _Auth2.default.getID()
+            };
+            _userController2.default.confirmAccount(postData).then(function (response) {
+                if (response.status === 'success') {
+                    _this3.setState({
+                        isVerified: true,
+                        openTokenModal: false
+                    });
+                } else {
+                    _this3.setState({
+                        error: response.desc
+                    });
+                }
+            });
+        }
+    }, {
+        key: 'onOpenTokenModal',
+        value: function onOpenTokenModal() {
+            this.setState({ openTokenModal: true });
+        }
+    }, {
+        key: 'onCloseTokenModal',
+        value: function onCloseTokenModal() {
+            this.setState({ openTokenModal: true });
         }
     }, {
         key: 'componentWillMount',
@@ -47540,109 +47454,161 @@ var Signup = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
-            if (this.state.error) {
+            if (this.state.error && !this.state.isRegistered) {
                 return _react2.default.createElement(
                     _Card2.default,
                     null,
                     this.state.error
                 );
+            } else if (this.state.isVerified) {
+                return _react2.default.createElement(
+                    _Card2.default,
+                    null,
+                    _react2.default.createElement(
+                        'h2',
+                        null,
+                        'You have successfully registered. You can now sign in'
+                    )
+                );
             } else {
                 return _react2.default.createElement(
                     'div',
-                    { className: 'login-box' },
+                    null,
                     _react2.default.createElement(
-                        'div',
-                        { className: 'lb-header' },
+                        _reactResponsiveModal2.default,
+                        { open: this.state.openTokenModal, onClose: this.onCloseTokenModal, center: true,
+                            className: 'popup centred' },
                         _react2.default.createElement(
-                            _reactRouter.Link,
-                            { to: '/login', id: 'login-box-link' },
-                            'Login'
+                            'p',
+                            null,
+                            'Please key in the registration code sent to your mobile number'
                         ),
                         _react2.default.createElement(
-                            _reactRouter.Link,
-                            { to: '/signup', className: 'active', id: 'signup-box-link' },
-                            'Sign Up'
-                        )
+                            'form',
+                            null,
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'field-line' },
+                                _react2.default.createElement(_TextField2.default, {
+                                    type: 'text',
+                                    name: 'user_token',
+                                    onChange: this.onChangeToken,
+                                    value: this.state.user_token
+                                })
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'u-form-group' },
+                                _react2.default.createElement(
+                                    'button',
+                                    { type: 'button', onClick: this.verify },
+                                    'Verify'
+                                )
+                            )
+                        ),
+                        this.state.error && this.state.isRegistered ? _react2.default.createElement(
+                            _Card2.default,
+                            null,
+                            this.state.error
+                        ) : _react2.default.createElement('div', null)
                     ),
                     _react2.default.createElement(
-                        'form',
-                        { className: 'email-login' },
-                        _react2.default.createElement(
-                            'h2',
-                            { className: 'card-heading' },
-                            'Sign up'
-                        ),
+                        'div',
+                        { className: 'login-box' },
                         _react2.default.createElement(
                             'div',
-                            { className: 'field-line' },
-                            _react2.default.createElement(_TextField2.default, {
-                                label: 'Full Name',
-                                name: 'name',
-                                onChange: this.onChange,
-                                value: this.state.user.name
-                            })
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'field-line' },
-                            _react2.default.createElement(_TextField2.default, {
-                                label: 'Phone number',
-                                name: 'phone_number',
-                                onChange: this.onChange,
-                                value: this.state.user.phone_number
-                            })
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'field-line' },
-                            _react2.default.createElement(_TextField2.default, {
-                                label: 'Username',
-                                name: 'username',
-                                onChange: this.onChange,
-                                value: this.state.user.username
-                            })
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'field-line' },
-                            _react2.default.createElement(_TextField2.default, {
-                                label: 'Email',
-                                name: 'email',
-                                onChange: this.onChange,
-                                value: this.state.user.email
-                            })
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'field-line' },
-                            _react2.default.createElement(_TextField2.default, {
-                                label: 'Password',
-                                type: 'password',
-                                name: 'password',
-                                onChange: this.onChange,
-                                value: this.state.user.password
-                            })
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'u-form-group' },
+                            { className: 'lb-header' },
                             _react2.default.createElement(
-                                'button',
-                                { type: 'button', onClick: this.signUp },
+                                _reactRouter.Link,
+                                { to: '/login', id: 'login-box-link' },
+                                ' Login '
+                            ),
+                            _react2.default.createElement(
+                                _reactRouter.Link,
+                                { to: '/signup', className: 'active', id: 'signup-box-link' },
                                 'Sign Up'
                             )
                         ),
                         _react2.default.createElement(
-                            'div',
-                            { className: 'u-form-group' },
+                            'form',
+                            { className: 'email-login' },
                             _react2.default.createElement(
-                                'p',
-                                null,
-                                'Already have an account? ',
+                                'h2',
+                                { className: 'card-heading' },
+                                'Sign up'
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'field-line' },
+                                _react2.default.createElement(_TextField2.default, {
+                                    label: 'Full Name',
+                                    name: 'name',
+                                    onChange: this.onChange,
+                                    value: this.state.user.name
+                                })
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'field-line' },
+                                _react2.default.createElement(_TextField2.default, {
+                                    label: 'Phone number',
+                                    name: 'phone_number',
+                                    onChange: this.onChange,
+                                    value: this.state.user.phone_number
+                                })
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'field-line' },
+                                _react2.default.createElement(_TextField2.default, {
+                                    label: 'Username',
+                                    name: 'username',
+                                    onChange: this.onChange,
+                                    value: this.state.user.username
+                                })
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'field-line' },
+                                _react2.default.createElement(_TextField2.default, {
+                                    label: 'Email',
+                                    name: 'email',
+                                    onChange: this.onChange,
+                                    value: this.state.user.email
+                                })
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'field-line' },
+                                _react2.default.createElement(_TextField2.default, {
+                                    label: 'Password',
+                                    type: 'password',
+                                    name: 'password',
+                                    onChange: this.onChange,
+                                    value: this.state.user.password
+                                })
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'u-form-group' },
                                 _react2.default.createElement(
-                                    _reactRouter.Link,
-                                    { to: '/login' },
-                                    'Log in'
+                                    'button',
+                                    { type: 'button', onClick: this.signUp },
+                                    'Sign Up'
+                                )
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'u-form-group' },
+                                _react2.default.createElement(
+                                    'p',
+                                    null,
+                                    'Already have an account? ',
+                                    _react2.default.createElement(
+                                        _reactRouter.Link,
+                                        { to: '/login' },
+                                        'Log in'
+                                    )
                                 )
                             )
                         )
@@ -47754,93 +47720,7 @@ var _default = (0, _withStyles.default)(styles, {
 exports.default = _default;
 
 /***/ }),
-/* 320 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactRouter = __webpack_require__(22);
-
-var _Auth = __webpack_require__(27);
-
-var _Auth2 = _interopRequireDefault(_Auth);
-
-__webpack_require__(77);
-
-var _Events = __webpack_require__(322);
-
-var _Events2 = _interopRequireDefault(_Events);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Index = function (_React$Component) {
-    _inherits(Index, _React$Component);
-
-    function Index(props) {
-        _classCallCheck(this, Index);
-
-        return _possibleConstructorReturn(this, (Index.__proto__ || Object.getPrototypeOf(Index)).call(this, props));
-    }
-
-    _createClass(Index, [{
-        key: 'componentDidMount',
-        value: function componentDidMount() {}
-    }, {
-        key: 'componentWillMount',
-        value: function componentWillMount() {}
-    }, {
-        key: 'componentDidUpdate',
-        value: function componentDidUpdate() {}
-    }, {
-        key: 'render',
-        value: function render() {
-            return _react2.default.createElement(
-                'div',
-                null,
-                _react2.default.createElement(
-                    'div',
-                    { className: 'u-form-group-pink',
-                        style: _defineProperty({ margin: '0 auto', textAlign: 'center' }, 'margin', '40px 0px 20px 0px') },
-                    _react2.default.createElement(
-                        _reactRouter.Link,
-                        { to: '/events/new' },
-                        _react2.default.createElement(
-                            'button',
-                            { type: 'button' },
-                            'Create event'
-                        )
-                    )
-                ),
-                _react2.default.createElement(_Events2.default, null)
-            );
-        }
-    }]);
-
-    return Index;
-}(_react2.default.Component);
-
-exports.default = Index;
-
-/***/ }),
+/* 320 */,
 /* 321 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -47855,217 +47735,8 @@ exports.push([module.i, ".u-form-group-pink button{\n    width:50%;\n    backgro
 
 
 /***/ }),
-/* 322 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _Filters = __webpack_require__(323);
-
-var _Filters2 = _interopRequireDefault(_Filters);
-
-var _EventsByPage = __webpack_require__(127);
-
-var _EventsByPage2 = _interopRequireDefault(_EventsByPage);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Events = function (_React$Component) {
-    _inherits(Events, _React$Component);
-
-    function Events(props) {
-        _classCallCheck(this, Events);
-
-        var _this = _possibleConstructorReturn(this, (Events.__proto__ || Object.getPrototypeOf(Events)).call(this, props));
-
-        _this.state = {};
-
-        return _this;
-    }
-
-    _createClass(Events, [{
-        key: 'componentDidMount',
-        value: function componentDidMount() {}
-    }, {
-        key: 'componentWillMount',
-        value: function componentWillMount() {}
-    }, {
-        key: 'componentDidUpdate',
-        value: function componentDidUpdate() {}
-    }, {
-        key: 'render',
-        value: function render() {
-            return _react2.default.createElement(
-                'div',
-                null,
-                _react2.default.createElement(
-                    'div',
-                    { id: 'section-contentblogs', className: 'section-artistlist' },
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'container' },
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'row' },
-                            _react2.default.createElement(
-                                'div',
-                                { className: 'col-md-12 text-center artistlist-title' },
-                                _react2.default.createElement(
-                                    'h3',
-                                    null,
-                                    'All Events'
-                                )
-                            ),
-                            _react2.default.createElement(
-                                'div',
-                                { className: 'content-right col-md-9' },
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: 'tab-content' },
-                                    _react2.default.createElement(
-                                        'div',
-                                        { id: 'list-view', className: 'tab-pane fade active in', role: 'tabpanel' },
-                                        _react2.default.createElement(_EventsByPage2.default, { activePage: this.state.activePage })
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            );
-        }
-    }]);
-
-    return Events;
-}(_react2.default.Component);
-
-exports.default = Events;
-
-/***/ }),
-/* 323 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactRouter = __webpack_require__(22);
-
-var _Auth = __webpack_require__(27);
-
-var _Auth2 = _interopRequireDefault(_Auth);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Filters = function (_React$Component) {
-    _inherits(Filters, _React$Component);
-
-    function Filters(props) {
-        _classCallCheck(this, Filters);
-
-        return _possibleConstructorReturn(this, (Filters.__proto__ || Object.getPrototypeOf(Filters)).call(this, props));
-    }
-
-    _createClass(Filters, [{
-        key: 'componentWillMount',
-        value: function componentWillMount() {}
-    }, {
-        key: 'render',
-        value: function render() {
-            return _react2.default.createElement(
-                'div',
-                null,
-                _react2.default.createElement(
-                    'div',
-                    { className: 'genre sidebar-popularcategories col-md-12 pad0 col-sm-12' },
-                    _react2.default.createElement(
-                        'h4',
-                        null,
-                        'CATEGORY'
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'col-md-12 popularcategories-item genre-type border-btm' },
-                        _react2.default.createElement(
-                            'h5',
-                            null,
-                            _react2.default.createElement(
-                                'label',
-                                null,
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: 'custom-checkbox' },
-                                    _react2.default.createElement('input', { type: 'checkbox', className: 'list-5', name: 'list-5', id: 'list-5',
-                                        value: '' }),
-                                    ' Music',
-                                    _react2.default.createElement('label', { htmlFor: 'list-5' })
-                                )
-                            )
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'col-md-12 popularcategories-item genre-type border-btm' },
-                        _react2.default.createElement(
-                            'h5',
-                            null,
-                            _react2.default.createElement(
-                                'label',
-                                null,
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: 'custom-checkbox' },
-                                    _react2.default.createElement('input', { type: 'checkbox', className: 'list-6', name: 'list-6', id: 'list-6',
-                                        value: '' }),
-                                    ' Art',
-                                    _react2.default.createElement('label', { htmlFor: 'list-6' })
-                                )
-                            )
-                        )
-                    )
-                )
-            );
-        }
-    }]);
-
-    return Filters;
-}(_react2.default.Component);
-
-exports.default = Filters;
-
-/***/ }),
+/* 322 */,
+/* 323 */,
 /* 324 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -48174,405 +47845,7 @@ Paginator.prototype.build = function(total_results, current_page) {
 Object.defineProperty(exports,"__esModule",{value:!0});var _createClass=function(){function e(e,t){for(var r=0;r<t.length;r++){var a=t[r];a.enumerable=a.enumerable||!1,a.configurable=!0,"value"in a&&(a.writable=!0),Object.defineProperty(e,a.key,a)}}return function(t,r,a){return r&&e(t.prototype,r),a&&e(t,a),t}}(),_react=__webpack_require__(1),_react2=_interopRequireDefault(_react),_propTypes=__webpack_require__(2),_propTypes2=_interopRequireDefault(_propTypes),_classnames=__webpack_require__(5),_classnames2=_interopRequireDefault(_classnames);function _interopRequireDefault(e){return e&&e.__esModule?e:{default:e}}function _defineProperty(e,t,r){return t in e?Object.defineProperty(e,t,{value:r,enumerable:!0,configurable:!0,writable:!0}):e[t]=r,e}function _classCallCheck(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function _possibleConstructorReturn(e,t){if(!e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!t||"object"!=typeof t&&"function"!=typeof t?e:t}function _inherits(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function, not "+typeof t);e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),t&&(Object.setPrototypeOf?Object.setPrototypeOf(e,t):e.__proto__=t)}var Page=function(e){function t(){return _classCallCheck(this,t),_possibleConstructorReturn(this,(t.__proto__||Object.getPrototypeOf(t)).apply(this,arguments))}return _inherits(t,_react.Component),_createClass(t,[{key:"handleClick",value:function(e){var t=this.props,r=t.isDisabled,a=t.pageNumber;e.preventDefault(),r||this.props.onClick(a)}},{key:"render",value:function(){var e,t=this.props,r=t.pageText,a=(t.pageNumber,t.activeClass),n=t.itemClass,s=t.linkClass,i=t.activeLinkClass,o=t.disabledClass,l=t.isActive,c=t.isDisabled,u=t.href,p=(0,_classnames2.default)(n,(_defineProperty(e={},a,l),_defineProperty(e,o,c),e)),f=(0,_classnames2.default)(s,_defineProperty({},i,l));return _react2.default.createElement("li",{className:p,onClick:this.handleClick.bind(this)},_react2.default.createElement("a",{className:f,href:u},r))}}]),t}();Page.defaultProps={activeClass:"active",disabledClass:"disabled",itemClass:void 0,linkClass:void 0,activeLinkCLass:void 0,isActive:!1,isDisabled:!1,href:"#"},exports.default=Page;
 
 /***/ }),
-/* 327 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _Auth = __webpack_require__(27);
-
-var _Auth2 = _interopRequireDefault(_Auth);
-
-var _reactDatez = __webpack_require__(328);
-
-__webpack_require__(330);
-
-var _reactDropdown = __webpack_require__(332);
-
-var _reactDropdown2 = _interopRequireDefault(_reactDropdown);
-
-__webpack_require__(333);
-
-__webpack_require__(77);
-
-var _TextField = __webpack_require__(64);
-
-var _TextField2 = _interopRequireDefault(_TextField);
-
-var _eventController = __webpack_require__(128);
-
-var _eventController2 = _interopRequireDefault(_eventController);
-
-var _reactRouter = __webpack_require__(22);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var CreateEvent = function (_React$Component) {
-    _inherits(CreateEvent, _React$Component);
-
-    function CreateEvent(props) {
-        _classCallCheck(this, CreateEvent);
-
-        var _this = _possibleConstructorReturn(this, (CreateEvent.__proto__ || Object.getPrototypeOf(CreateEvent)).call(this, props));
-
-        _this.state = {
-            data: {
-                title: '',
-                location: '',
-                description: '',
-                category: 'Choose an option',
-                maxQuota: 20,
-                startTime: '00:00',
-                endTime: '00:00'
-            },
-            error: false,
-            submissionSuccess: false,
-            submissionError: false
-        };
-        _this.handleClick = _this.handleClick.bind(_this);
-        _this.onChange = _this.onChange.bind(_this);
-        _this.onSelect = _this.onSelect.bind(_this);
-        _this.changeStartTime = _this.changeStartTime.bind(_this);
-        _this.changeEndTime = _this.changeEndTime.bind(_this);
-        _this.changeStartDate = _this.changeStartDate.bind(_this);
-        _this.changeEndDate = _this.changeEndDate.bind(_this);
-        return _this;
-    }
-
-    _createClass(CreateEvent, [{
-        key: 'onSelect',
-        value: function onSelect(e) {
-            var data = this.state.data;
-            data['category'] = 1.0;
-            console.log(e.value);
-            this.setState({
-                data: data
-            });
-        }
-    }, {
-        key: 'onChange',
-        value: function onChange(event) {
-            event.preventDefault();
-            var field = event.target.name;
-            var data = this.state.data;
-            data[field] = event.target.value;
-            this.setState({
-                data: data
-            });
-        }
-    }, {
-        key: 'changeStartTime',
-        value: function changeStartTime(time) {
-            this.setState({ startTime: time });
-        }
-    }, {
-        key: 'changeEndTime',
-        value: function changeEndTime(time) {
-            this.setState({ endTime: time });
-        }
-    }, {
-        key: 'changeStartDate',
-        value: function changeStartDate(date) {
-            this.setState({ startDate: date });
-        }
-    }, {
-        key: 'changeEndDate',
-        value: function changeEndDate(date) {
-            this.setState({ endDate: date });
-        }
-    }, {
-        key: 'formatDate',
-        value: function formatDate(date) {
-            return new Date(date).toISOString().substr(0, 10);
-        }
-    }, {
-        key: 'handleClick',
-        value: function handleClick(event) {
-            var _this2 = this;
-
-            event.preventDefault();
-            var postData = {
-                "event_title": this.state.data.title,
-                "event_desc": this.state.data.description,
-                "max_quota": this.state.data.maxQuota,
-                "event_type": this.state.data.category,
-                "event_start_date": this.formatDate(this.state.startDate) + " " + this.state.data.startTime,
-                "event_end_date": this.formatDate(this.state.endDate) + " " + this.state.data.endTime,
-                "is_open_ended": true,
-                "location": this.state.data.location
-            };
-            _eventController2.default.createEvent(postData).then(function (response) {
-                console.log(response);
-                if (response.status === 'success') {
-                    _this2.setState({
-                        submissionSuccess: true
-                    });
-                    // browserHistory.push('/');
-                } else {
-                    _this2.setState({
-                        submissionError: response.desc
-                    });
-                }
-            });
-        }
-    }, {
-        key: 'componentWillMount',
-        value: function componentWillMount() {
-            if (!_Auth2.default.getUserData()) {
-                _reactRouter.browserHistory.push('/login');
-            }
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            var options = [{ value: 'none', label: 'Choose an option' }, { value: 'music', label: 'Music' }, { value: 'art', label: 'Art' }];
-            var defaultOption = options[0];
-            return _react2.default.createElement(
-                'div',
-                { id: 'section-contactform' },
-                _react2.default.createElement(
-                    'div',
-                    { className: 'container' },
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'col-md-12 text-center' },
-                        _react2.default.createElement(
-                            'h1',
-                            null,
-                            'Create your own event'
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'form',
-                        null,
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'col-md-3 col-subject' },
-                            _react2.default.createElement(
-                                'div',
-                                { className: 'form-group' },
-                                _react2.default.createElement(
-                                    'label',
-                                    { className: 'control-label' },
-                                    'TITLE',
-                                    _react2.default.createElement(
-                                        'span',
-                                        null,
-                                        '*'
-                                    )
-                                ),
-                                _react2.default.createElement('input', { type: 'text', className: 'form-control', id: 'formInput113', name: 'title',
-                                    onChange: this.onChange,
-                                    value: this.state.data.title, required: true })
-                            )
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'col-md-3 col-subject' },
-                            _react2.default.createElement(
-                                'div',
-                                { className: 'form-group' },
-                                _react2.default.createElement(
-                                    'label',
-                                    { className: 'control-label' },
-                                    'LOCATION',
-                                    _react2.default.createElement(
-                                        'span',
-                                        null,
-                                        '*'
-                                    )
-                                ),
-                                _react2.default.createElement('input', { type: 'text', className: 'form-control', id: 'formInput113', name: 'location',
-                                    onChange: this.onChange,
-                                    value: this.state.data.location, required: true })
-                            )
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'col-md-3 col-phone' },
-                            _react2.default.createElement(
-                                'div',
-                                { className: 'form-group' },
-                                _react2.default.createElement(
-                                    'label',
-                                    { className: 'control-label' },
-                                    'CATEGORY',
-                                    _react2.default.createElement(
-                                        'span',
-                                        null,
-                                        '*'
-                                    )
-                                ),
-                                _react2.default.createElement(_reactDropdown2.default, { options: options, onChange: this.onSelect, value: this.state.data.category,
-                                    placeholder: 'Select an option', required: true })
-                            )
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'col-md-3 col-subject' },
-                            _react2.default.createElement(
-                                'div',
-                                { className: 'form-group' },
-                                _react2.default.createElement(
-                                    'label',
-                                    { className: 'control-label' },
-                                    'NUMBER OF PARTICIPANTS',
-                                    _react2.default.createElement(
-                                        'span',
-                                        null,
-                                        '*'
-                                    )
-                                ),
-                                _react2.default.createElement('input', { type: 'number', className: 'form-control', id: 'formInput113', name: 'maxQuota',
-                                    onChange: this.onChange,
-                                    value: this.state.data.maxQuota, required: true })
-                            )
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'col-md-3 col-phone' },
-                            _react2.default.createElement(
-                                'div',
-                                { className: 'form-group' },
-                                _react2.default.createElement(
-                                    'label',
-                                    { className: 'control-label' },
-                                    'START DATE',
-                                    _react2.default.createElement(
-                                        'span',
-                                        null,
-                                        '*'
-                                    )
-                                ),
-                                _react2.default.createElement(_reactDatez.ReactDatez, { name: 'dateInput', handleChange: this.changeStartDate,
-                                    value: this.state.startDate, required: true })
-                            )
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'col-md-3 col-phone' },
-                            _react2.default.createElement(
-                                'div',
-                                { className: 'form-group' },
-                                _react2.default.createElement(
-                                    'label',
-                                    { className: 'control-label' },
-                                    'START TIME'
-                                ),
-                                _react2.default.createElement(_TextField2.default, {
-                                    id: 'time',
-                                    type: 'time',
-                                    defaultValue: '07:30',
-                                    InputLabelProps: {
-                                        shrink: true
-                                    },
-                                    inputProps: {
-                                        step: 300 // 5 min
-                                    },
-                                    name: 'startTime',
-                                    onChange: this.onChange,
-                                    value: this.state.data.startTime
-                                })
-                            )
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'col-md-3 col-phone' },
-                            _react2.default.createElement(
-                                'div',
-                                { className: 'form-group' },
-                                _react2.default.createElement(
-                                    'label',
-                                    { className: 'control-label' },
-                                    'END DATE'
-                                ),
-                                _react2.default.createElement(_reactDatez.ReactDatez, { name: 'dateInput', handleChange: this.changeEndDate,
-                                    value: this.state.endDate })
-                            )
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'col-md-3 col-phone' },
-                            _react2.default.createElement(
-                                'div',
-                                { className: 'form-group' },
-                                _react2.default.createElement(
-                                    'label',
-                                    { className: 'control-label' },
-                                    'END TIME'
-                                ),
-                                _react2.default.createElement(_TextField2.default, {
-                                    id: 'time',
-                                    type: 'time',
-                                    defaultValue: '07:30',
-                                    InputLabelProps: {
-                                        shrink: true
-                                    },
-                                    inputProps: {
-                                        step: 300 // 5 min
-                                    },
-                                    name: 'endTime',
-                                    onChange: this.onChange,
-                                    value: this.state.data.endTime
-                                })
-                            )
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'col-md-12 col-message' },
-                            _react2.default.createElement(
-                                'div',
-                                { className: 'form-group' },
-                                _react2.default.createElement(
-                                    'label',
-                                    { className: 'control-label' },
-                                    'DESCRIPTION'
-                                ),
-                                _react2.default.createElement('textarea', { className: 'form-control', rows: '10', id: 'formInput135', name: 'description',
-                                    onChange: this.onChange,
-                                    value: this.state.data.description })
-                            ),
-                            _react2.default.createElement(
-                                'button',
-                                { className: 'btn btn-warning pull-right btn-subscribe',
-                                    onClick: this.handleClick },
-                                'CREATE EVENT'
-                            )
-                        )
-                    )
-                ),
-                this.state.submissionError ? _react2.default.createElement(
-                    'div',
-                    { style: { color: 'red' } },
-                    this.state.submissionError
-                ) : _react2.default.createElement('div', null)
-            );
-        }
-    }]);
-
-    return CreateEvent;
-}(_react2.default.Component);
-
-exports.default = CreateEvent;
-
-/***/ }),
+/* 327 */,
 /* 328 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -48973,461 +48246,7 @@ exports.push([module.i, ".Dropdown-root {\n  position: relative;\n}\n\n.Dropdown
 
 
 /***/ }),
-/* 335 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactResponsiveModal = __webpack_require__(336);
-
-var _reactResponsiveModal2 = _interopRequireDefault(_reactResponsiveModal);
-
-__webpack_require__(346);
-
-var _Auth = __webpack_require__(27);
-
-var _Auth2 = _interopRequireDefault(_Auth);
-
-var _reactRouter = __webpack_require__(22);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-// Showing one event details
-var Event = function (_React$Component) {
-    _inherits(Event, _React$Component);
-
-    function Event(props) {
-        _classCallCheck(this, Event);
-
-        var _this = _possibleConstructorReturn(this, (Event.__proto__ || Object.getPrototypeOf(Event)).call(this, props));
-
-        _this.state = {
-            event: true,
-            open: false
-        };
-        _this.onOpenModal = _this.onOpenModal.bind(_this);
-        _this.onCloseModal = _this.onCloseModal.bind(_this);
-        return _this;
-    }
-
-    _createClass(Event, [{
-        key: 'onOpenModal',
-        value: function onOpenModal() {
-            if (!_Auth2.default.getUserData()) {
-                _reactRouter.browserHistory.push('/login');
-            } else {
-                this.setState({ open: true });
-            }
-        }
-    }, {
-        key: 'onCloseModal',
-        value: function onCloseModal() {
-            this.setState({ open: false });
-        }
-    }, {
-        key: 'getData',
-        value: function getData() {}
-    }, {
-        key: 'confirmEvent',
-        value: function confirmEvent() {}
-    }, {
-        key: 'componentWillMount',
-        value: function componentWillMount() {}
-    }, {
-        key: 'render',
-        value: function render() {
-
-            if (this.state.event) {
-                return _react2.default.createElement(
-                    'div',
-                    { id: 'section-aboutus', className: 'section-eventsdetails' },
-                    _react2.default.createElement(
-                        _reactResponsiveModal2.default,
-                        { open: this.state.open, onClose: this.onCloseModal, center: true, className: 'popup centred' },
-                        _react2.default.createElement('span', { className: 'yes-reply centred' }),
-                        _react2.default.createElement('span', { className: 'no-reply centred' }),
-                        _react2.default.createElement(
-                            'p',
-                            null,
-                            'Please confirm your registration '
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'button yes transition', style: { float: 'right' } },
-                            'Confirm'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'button no transition', style: { float: 'right' },
-                                onClick: this.onCloseModal },
-                            'Cancel'
-                        ),
-                        _react2.default.createElement('div', { className: 'refresh transition' })
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'container' },
-                        _react2.default.createElement(
-                            'div',
-                            { id: 'list-view' },
-                            _react2.default.createElement(
-                                'div',
-                                { className: 'col-md-8 the-artist the-artist-horizontal events-page-list pad0 m-bot60' },
-                                _react2.default.createElement('img', { src: 'assets/images/latestblog-img.png', className: 'img-responsive' }),
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: 'text-slider3' },
-                                    _react2.default.createElement(
-                                        'div',
-                                        null,
-                                        _react2.default.createElement(
-                                            'span',
-                                            { className: 'country-label' },
-                                            'Milano'
-                                        )
-                                    ),
-                                    _react2.default.createElement(
-                                        'h3',
-                                        null,
-                                        'The Awesome Party Event'
-                                    ),
-                                    _react2.default.createElement(
-                                        'span',
-                                        { className: 'address' },
-                                        _react2.default.createElement('i', {
-                                            className: 'fa fa-map-marker' }),
-                                        ' 541 Avenue Street, Milano ',
-                                        _react2.default.createElement(
-                                            'div',
-                                            {
-                                                className: 'rating-stars' },
-                                            _react2.default.createElement(
-                                                'a',
-                                                { href: '#' },
-                                                _react2.default.createElement('i', { className: 'fa fa-lg fa-star' })
-                                            )
-                                        )
-                                    ),
-                                    _react2.default.createElement(
-                                        'p',
-                                        null,
-                                        _react2.default.createElement(
-                                            'span',
-                                            null,
-                                            'Genre:'
-                                        ),
-                                        ' Rock \xA0',
-                                        _react2.default.createElement(
-                                            'span',
-                                            null,
-                                            'Date:'
-                                        ),
-                                        ' 11/11/2016 \xA0',
-                                        _react2.default.createElement(
-                                            'span',
-                                            null,
-                                            'Artists:'
-                                        ),
-                                        ' Jonathan Doe, Megan Tylor \xA0',
-                                        _react2.default.createElement(
-                                            'span',
-                                            null,
-                                            'People:'
-                                        ),
-                                        ' 5000+'
-                                    ),
-                                    _react2.default.createElement(
-                                        'div',
-                                        { className: 'pricing' },
-                                        _react2.default.createElement('i', { className: 'fa fa-dollar' }),
-                                        _react2.default.createElement(
-                                            'h1',
-                                            null,
-                                            '59'
-                                        ),
-                                        _react2.default.createElement(
-                                            'p',
-                                            null,
-                                            '/ PER PERSON'
-                                        )
-                                    )
-                                ),
-                                _react2.default.createElement(
-                                    'div',
-                                    null,
-                                    _react2.default.createElement(
-                                        'h3',
-                                        null,
-                                        'Rating'
-                                    )
-                                ),
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: 'contents pad0 col-md-12' },
-                                    _react2.default.createElement(
-                                        'p',
-                                        null,
-                                        'Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, dolore eu nulla facilisis at vero eros accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla zzril facilisi, consectetuer.',
-                                        _react2.default.createElement('br', null),
-                                        _react2.default.createElement('br', null),
-                                        'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, eos ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.'
-                                    ),
-                                    _react2.default.createElement(
-                                        'button',
-                                        { type: 'button', onClick: this.onOpenModal },
-                                        'Register'
-                                    )
-                                ),
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: 'button-share-events col-md-12 pad0' },
-                                    _react2.default.createElement(
-                                        'button',
-                                        { type: 'button', className: 'btn btn-info' },
-                                        _react2.default.createElement('i', { className: 'fab fa-twitter' }),
-                                        ' Twitt'
-                                    ),
-                                    _react2.default.createElement(
-                                        'button',
-                                        { type: 'button', className: 'btn btn-primary' },
-                                        _react2.default.createElement('i', { className: 'far fa-thumbs-up' }),
-                                        ' Like'
-                                    ),
-                                    _react2.default.createElement(
-                                        'button',
-                                        { type: 'button', className: 'btn btn-danger' },
-                                        _react2.default.createElement('i', { className: 'fab fa-google-plus-g' })
-                                    )
-                                ),
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: 'col-md-12 pad0 left5' },
-                                    _react2.default.createElement(
-                                        'h3',
-                                        null,
-                                        'Event Position'
-                                    ),
-                                    _react2.default.createElement(
-                                        'div',
-                                        { className: 'content pad0' },
-                                        _react2.default.createElement('div', { id: 'map' })
-                                    )
-                                )
-                            )
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'content-right col-md-4' },
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'col-md-12 sidebar-eventsdetails artist-information padr0' },
-                            _react2.default.createElement(
-                                'h3',
-                                null,
-                                'Artist Information'
-                            ),
-                            _react2.default.createElement(
-                                'div',
-                                { className: 'col-md-3 padl0' },
-                                _react2.default.createElement('img', { src: 'assets/images/photo_Artist_Details.jpg',
-                                    className: 'img-responsive img-circle' })
-                            ),
-                            _react2.default.createElement(
-                                'div',
-                                { className: 'col-md-9' },
-                                _react2.default.createElement(
-                                    'h4',
-                                    null,
-                                    'Jack Gillenhall'
-                                ),
-                                _react2.default.createElement(
-                                    'span',
-                                    { className: 'country-label' },
-                                    'Rock'
-                                ),
-                                _react2.default.createElement(
-                                    'h5',
-                                    null,
-                                    'Singer'
-                                )
-                            ),
-                            _react2.default.createElement(
-                                'div',
-                                { className: 'col-md-12 pad0' },
-                                _react2.default.createElement(
-                                    'h6',
-                                    null,
-                                    'Biography'
-                                ),
-                                _react2.default.createElement(
-                                    'p',
-                                    null,
-                                    'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, invidunt ut labore et dolore.'
-                                )
-                            ),
-                            _react2.default.createElement(
-                                'div',
-                                { className: 'col-md-12 pad0 address' },
-                                _react2.default.createElement(
-                                    'p',
-                                    { className: 'lists' },
-                                    _react2.default.createElement(
-                                        'span',
-                                        null,
-                                        'Address'
-                                    ),
-                                    ': 185 Dow Street3207 Melbourne Australia'
-                                ),
-                                _react2.default.createElement(
-                                    'p',
-                                    { className: 'lists' },
-                                    _react2.default.createElement(
-                                        'span',
-                                        null,
-                                        'Fax:'
-                                    ),
-                                    ' 432 034 544'
-                                ),
-                                _react2.default.createElement(
-                                    'p',
-                                    { className: 'lists' },
-                                    _react2.default.createElement(
-                                        'span',
-                                        null,
-                                        'Phone:'
-                                    ),
-                                    ' 432 034 542'
-                                ),
-                                _react2.default.createElement(
-                                    'p',
-                                    { className: 'lists' },
-                                    _react2.default.createElement(
-                                        'span',
-                                        null,
-                                        'Email:'
-                                    ),
-                                    ' mail@artist.com'
-                                ),
-                                _react2.default.createElement(
-                                    'p',
-                                    { className: 'lists' },
-                                    _react2.default.createElement(
-                                        'span',
-                                        null,
-                                        'Website:'
-                                    ),
-                                    ' artistwebsite.com'
-                                )
-                            )
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'col-md-12 address-eventmanager' },
-                            _react2.default.createElement(
-                                'div',
-                                { className: 'col-md-12 pad0 address' },
-                                _react2.default.createElement(
-                                    'h3',
-                                    null,
-                                    'Event: Manager'
-                                ),
-                                _react2.default.createElement(
-                                    'h4',
-                                    null,
-                                    'John Warlick'
-                                ),
-                                _react2.default.createElement(
-                                    'p',
-                                    { className: 'lists' },
-                                    _react2.default.createElement(
-                                        'span',
-                                        null,
-                                        'Phone:'
-                                    ),
-                                    ' 432 034 542'
-                                ),
-                                _react2.default.createElement(
-                                    'p',
-                                    { className: 'lists' },
-                                    _react2.default.createElement(
-                                        'span',
-                                        null,
-                                        'Fax:'
-                                    ),
-                                    ' 432 034 544'
-                                ),
-                                _react2.default.createElement(
-                                    'p',
-                                    { className: 'lists' },
-                                    _react2.default.createElement(
-                                        'span',
-                                        null,
-                                        'Email:'
-                                    ),
-                                    ' mail@artist.com'
-                                ),
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: 'social-links' },
-                                    _react2.default.createElement(
-                                        'a',
-                                        { href: '#' },
-                                        _react2.default.createElement('i', { className: 'fab fa-facebook-f fa-lg' })
-                                    ),
-                                    _react2.default.createElement(
-                                        'a',
-                                        { href: '#' },
-                                        _react2.default.createElement('i', { className: 'fab fa-twitter fa-lg' })
-                                    ),
-                                    _react2.default.createElement(
-                                        'a',
-                                        { href: '#' },
-                                        _react2.default.createElement('i', { className: 'fab fa-google-plus-g fa-lg' })
-                                    ),
-                                    _react2.default.createElement(
-                                        'a',
-                                        { href: '#' },
-                                        _react2.default.createElement('i', { className: 'fab fa-instagram fa-lg' })
-                                    )
-                                )
-                            )
-                        )
-                    )
-                );
-            } else {
-                return _react2.default.createElement(
-                    'div',
-                    null,
-                    'Loading'
-                );
-            }
-        }
-    }]);
-
-    return Event;
-}(_react2.default.Component);
-
-exports.default = Event;
-
-/***/ }),
+/* 335 */,
 /* 336 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -50423,7 +49242,1868 @@ module.exports = function removeClass(element, className) {
 
 
 /***/ }),
-/* 343 */
+/* 343 */,
+/* 344 */,
+/* 345 */,
+/* 346 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(347);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(42)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../../../node_modules/css-loader/index.js!./Event.css", function() {
+			var newContent = require("!!../../../../../node_modules/css-loader/index.js!./Event.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 347 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(41)(false);
+// imports
+
+
+// module
+exports.push([module.i, "/* Modal popup */\n\n.styles_modal__gNwvD{\n    width: 1000px;\n}\n.popup {\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    width: 400px;\n    height: 100px;\n    background: #f1f1f1;\n    border-radius: 5px;\n    overflow: hidden;\n    padding: 20px;\n    text-align: right;\n    z-index: 1;\n}\n\n.popup.active {\n    width: 80px;\n    height: 80px;\n    border-radius: 50%;\n    -webkit-transition: .5s;\n    -moz-transition: .5s;\n    transition: .5s;\n    -webkit-transition-timing-function: cubic-bezier(.4,0,.5,1);\n    -moz-transition-timing-function: cubic-bezier(.4,0,.5,1);\n    transition-timing-function: cubic-bezier(.4,0,.5,1);\n}\n\n.popup p {\n    margin: 0 0 20px;\n    text-align: left;\n}\n\n.button {\n    display: inline-block;\n    padding: 10px 30px;\n    border-radius: 3px;\n    color: #ffffff;\n    position: relative;\n    cursor: pointer;\n}\n\n.button.yes {\n    background: rgb(26, 188, 156);\n    margin-left: 6px;\n}\n\n.button.yes:hover {\n    background: rgb(29, 200, 166);\n}\n\n.button.no {\n    background: rgb(216, 73, 90);\n}\n\n.button.no:hover {\n    background: rgb(231, 79, 97);\n}\n\n.button:before {\n    content: \"\";\n    position: absolute;\n    width: 800px;\n    height: 800px;\n    top: 50%;\n    left: 50%;\n    transform: translateX(-50%)translateY(-50%)scale(0);\n    border-radius: 50%;\n    z-index: 10;\n    -webkit-transition: .5s;\n    -moz-transition: .5s;\n    transition: .5s;\n    -webkit-transition-timing-function: cubic-bezier(.4,0,.5,1);\n    -moz-transition-timing-function: cubic-bezier(.4,0,.5,1);\n    transition-timing-function: cubic-bezier(.4,0,.5,1);\n}\n\n.yes:before {\n    background: rgba(26, 188, 156, 1);\n}\n\n.no:before {\n    background: rgb(216, 73, 90);\n}\n\n.button.active:before {\n    transform: translateX(-50%)translateY(-50%)scale(1);\n}\n\n/* YES NO REPLY */\n\n.yes-reply,.no-reply {\n    display: none;\n    position: absolute;\n    z-index: 20;\n    left: 50%;\n    top: 50%;\n    width: 80px;\n    height: 80px;\n}\n\n/* YES REPLY */\n\n.yes-reply.active,.no-reply.active {\n    display: block;\n}\n\n.yes-reply:before, .yes-reply:after,.no-reply:before, .no-reply:after {\n    -webkit-transition: .5s;\n    -moz-transition: .5s;\n    transition: .5s;\n    -webkit-transition-timing-function: cubic-bezier(.4,0,.5,1);\n    -moz-transition-timing-function: cubic-bezier(.4,0,.5,1);\n    transition-timing-function: cubic-bezier(.4,0,.5,1);\n}\n\n.yes-reply:before {\n    content: \"\";\n    position: absolute;\n    width: 0px;\n    height: 10px;\n    background: white;\n    -webkit-transform: rotate(-45deg);\n    -moz-transform: rotate(-45deg);\n    transform: rotate(-45deg);\n    -webkit-border-radius: 5px;\n    -moz-border-radius: 5px;\n    border-radius: 5px;\n    top: 54px;\n    left: 26px;\n    -webkit-transform-origin: top left;\n    -moz-transform-origin: top left;\n    transform-origin: top left;\n}\n\n.yes-reply:after {\n    content: \"\";\n    position: absolute;\n    width: 0px;\n    height: 10px;\n    background: white;\n    -webkit-transform: rotate(225deg);\n    -moz-transform: rotate(225deg);\n    transform: rotate(225deg);\n    -webkit-border-radius: 5px;\n    -moz-border-radius: 5px;\n    border-radius: 5px;\n    top: 61px;\n    left: 33px;\n    -webkit-transform-origin: top left;\n    -moz-transform-origin: top left;\n    transform-origin: top left;\n}\n\n.yes-reply.active:before {\n    width: 50px;\n}\n\n.yes-reply.active:after {\n    width: 30px;\n}\n\n/* NO REPLY */\n\n.no-reply:before,.no-reply:after {\n    content: \"\";\n    position: absolute;\n    width: 0px;\n    height: 10px;\n    background: white;\n    -webkit-border-radius: 5px;\n    -moz-border-radius: 5px;\n    border-radius: 5px;\n    top: 50%;\n    left: 50%;\n    -webkit-transform-origin: top left;\n    -moz-transform-origin: top left;\n    transform-origin: top left;\n}\n\n.no-reply:before {\n    -webkit-transform: rotate(-45deg)translateX(-50%)translateY(-50%);\n    -moz-transform: rotate(-45deg)translateX(-50%)translateY(-50%);\n    transform: rotate(-45deg)translateX(-50%)translateY(-50%);\n}\n\n.no-reply:after {\n    -webkit-transform: rotate(45deg)translateX(-50%)translateY(-50%);\n    -moz-transform: rotate(45deg)translateX(-50%)translateY(-50%);\n    transform: rotate(45deg)translateX(-50%)translateY(-50%);\n}\n\n.no-reply.active:before,.no-reply.active:after {\n    width: 50px;\n}\n\n.styles_closeButton__20ID4 {\n    display: none;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+/* 348 */,
+/* 349 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(350);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(42)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../../../node_modules/css-loader/index.js!./CategoryList.css", function() {
+			var newContent = require("!!../../../../../node_modules/css-loader/index.js!./CategoryList.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 350 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(41)(false);
+// imports
+
+
+// module
+exports.push([module.i, ".parent{\n    display: flex;\n    flex-direction: row;\n}\n\n.last-parent {\n    margin-bottom: 40px;\n}\n\n.child{\n    height: 100px;\n    width: 50%;\n    text-align: center;\n}\n\n\n.child-full-width {\n    width: 100%;\n}\n\n.child-60 {\n    height: 20px;\n    border-right-width: 2px;\n    border-right-style: solid;\n    border-right-color: #f2f2f2;\n}\n\n.last-child-60 {\n    border: none;\n}\n\n\n.fas {\n    display: inline-block;\n    border-radius: 60px;\n    padding: 20px 20px;\n    font-size: 36px;\n\n}\n\n.fas:hover{\n    opacity: 0.7\n}\n\n.fa-music {\n    box-shadow: 0px 0px 2px #75ffd3;\n    background: #75ffd3;\n    color: white;\n    border-color: #75ffd3\n}\n\n.fa-utensils {\n    box-shadow: 0px 0px 2px #ffc391;\n    background: #ffc391;\n    color: white;\n    border-color: #ffc391;\n    padding: 20px 24px 20px 24px;\n}\n\n.fa-basketball-ball {\n    box-shadow: 0px 0px 2px #89c6ff;\n    background: #89c6ff;\n    color: white;\n    border-color: #89c6ff;\n    padding: 20px 22px 20px 22px;\n}\n\n.fa-users {\n    box-shadow: 0px 0px 2px #ff8a8e;\n    background: #ff8a8e;\n    color: white;\n    border-color: #ff8a8e;\n    padding: 20px 16px 20px 16px;\n}\n\n.icon-title {\n    height: 40px;\n    width: 50%;\n    text-align: center;\n}\n\n.border-top-bottom {\n    border-bottom-width: 2px;\n    border-bottom-style: solid;\n    border-bottom-color: #f2f2f2;\n\n}\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 351 */,
+/* 352 */,
+/* 353 */,
+/* 354 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+__webpack_require__(77);
+
+var _eventController = __webpack_require__(128);
+
+var _eventController2 = _interopRequireDefault(_eventController);
+
+var _reactJsPagination = __webpack_require__(324);
+
+var _reactJsPagination2 = _interopRequireDefault(_reactJsPagination);
+
+var _reactRouter = __webpack_require__(22);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var EventsByPage = function (_React$Component) {
+    _inherits(EventsByPage, _React$Component);
+
+    function EventsByPage(props) {
+        _classCallCheck(this, EventsByPage);
+
+        var _this = _possibleConstructorReturn(this, (EventsByPage.__proto__ || Object.getPrototypeOf(EventsByPage)).call(this, props));
+
+        _this.state = {
+            events: false,
+            error: false,
+            activePage: 1,
+            totalCount: 300,
+            totalPages: 1,
+            sortBy: _this.props.sortBy,
+            filters: _this.props.filters
+        };
+        _this.getData = _this.getData.bind(_this);
+        _this.handlePageChange = _this.handlePageChange.bind(_this);
+
+        return _this;
+    }
+
+    _createClass(EventsByPage, [{
+        key: 'handlePageChange',
+        value: function handlePageChange(pageNumber) {
+            this.setState({
+                activePage: pageNumber
+            });
+        }
+    }, {
+        key: 'isEmpty',
+        value: function isEmpty(obj) {
+            for (var key in obj) {
+                if (obj.hasOwnProperty(key)) return false;
+            }
+            return true;
+        }
+    }, {
+        key: 'getData',
+        value: function getData() {
+            var _this2 = this;
+
+            var data = {
+                page_limit: "10",
+                page_num: this.state.activePage.toString()
+            };
+
+            // if (!this.isEmpty(this.state.filters)) {
+            //     let filters = this.state.filters;
+            //     data = Object.assign(filters, data);
+            //
+            // }
+
+            _eventController2.default.getEvents(data).then(function (response) {
+                if (response.status === 'success') {
+                    _this2.setState({
+                        totalCount: response.total_pages,
+                        events: JSON.parse(response.events)
+                    });
+                } else {
+                    _this2.setState({
+                        error: response.desc
+                    });
+                }
+            });
+        }
+    }, {
+        key: 'componentWillMount',
+        value: function componentWillMount() {
+            this.getData();
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            if (this.state.events[0] && this.state.events) {
+                var events = void 0;
+                if (this.props.eventLimit === 'null') {
+                    events = this.state.events;
+                } else {
+                    events = this.state.events.slice(0, this.props.eventLimit);
+                }
+                var listOfEvents = events.map(function (event) {
+                    return _react2.default.createElement(
+                        'div',
+                        { key: event.pk,
+                            className: 'col-md-12 col-sm-12 col-xs-12 the-artist the-artist-horizontal events-page-list pad0 m-bot60' },
+                        _react2.default.createElement(
+                            'a',
+                            { href: 'events-details.html' },
+                            _react2.default.createElement('img', {
+                                src: '/assets/images/latestblog-img.png',
+                                className: 'img-responsive' })
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'text-slider3' },
+                            _react2.default.createElement(
+                                'div',
+                                null,
+                                _react2.default.createElement(
+                                    _reactRouter.Link,
+                                    { to: '/events/' + event.pk },
+                                    _react2.default.createElement(
+                                        'span',
+                                        {
+                                            className: 'country-label' },
+                                        event.fields.event_title
+                                    )
+                                )
+                            ),
+                            _react2.default.createElement(
+                                _reactRouter.Link,
+                                { to: '/events/' + event.pk },
+                                _react2.default.createElement(
+                                    'h3',
+                                    null,
+                                    event.fields.event_desc
+                                )
+                            ),
+                            _react2.default.createElement(
+                                'span',
+                                { className: 'address', style: { fontSize: '0.9em' } },
+                                _react2.default.createElement('i', { className: 'fas fa-map-marker-alt',
+                                    style: {
+                                        fontSize: '10px',
+                                        padding: '0px 6px 0px 0px'
+                                    } }),
+                                '541 Avenue Street, Milano'
+                            ),
+                            _react2.default.createElement(
+                                'p',
+                                null,
+                                _react2.default.createElement(
+                                    'span',
+                                    null,
+                                    'Category: '
+                                ),
+                                event.fields.event_type,
+                                _react2.default.createElement('br', null),
+                                _react2.default.createElement(
+                                    'span',
+                                    null,
+                                    'Date: '
+                                ),
+                                ' ',
+                                event.fields.event_start_date,
+                                ' - ',
+                                event.fields.event_end_date,
+                                _react2.default.createElement('br', null),
+                                _react2.default.createElement(
+                                    'span',
+                                    null,
+                                    'People: '
+                                ),
+                                event.fields.num_participants
+                            )
+                        )
+                    );
+                });
+                return _react2.default.createElement(
+                    'div',
+                    null,
+                    _react2.default.createElement(
+                        'div',
+                        null,
+                        listOfEvents
+                    ),
+                    this.props.pagination ? _react2.default.createElement(
+                        'div',
+                        { className: 'col-md-12 pad0 pagination-section text-center pos-inherit' },
+                        _react2.default.createElement(_reactJsPagination2.default, {
+                            activePage: this.state.activePage,
+                            itemsCountPerPage: 10,
+                            totalItemsCount: this.state.totalCount,
+                            pageRangeDisplayed: 5,
+                            onChange: this.handlePageChange
+                        })
+                    ) : _react2.default.createElement('div', null)
+                );
+            } else if (!this.state.events[0] && this.state.events) {
+                return _react2.default.createElement(
+                    'div',
+                    null,
+                    'No event'
+                );
+            } else if (this.state.error) {
+                return _react2.default.createElement(
+                    'div',
+                    null,
+                    this.state.error
+                );
+            } else {
+                return _react2.default.createElement(
+                    'div',
+                    null,
+                    'Loading'
+                );
+            }
+        }
+    }]);
+
+    return EventsByPage;
+}(_react2.default.Component);
+
+exports.default = EventsByPage;
+
+/***/ }),
+/* 355 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouter = __webpack_require__(22);
+
+__webpack_require__(77);
+
+var _Events = __webpack_require__(356);
+
+var _Events2 = _interopRequireDefault(_Events);
+
+var _CategoryList = __webpack_require__(358);
+
+var _CategoryList2 = _interopRequireDefault(_CategoryList);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Index = function (_React$Component) {
+    _inherits(Index, _React$Component);
+
+    function Index(props) {
+        _classCallCheck(this, Index);
+
+        return _possibleConstructorReturn(this, (Index.__proto__ || Object.getPrototypeOf(Index)).call(this, props));
+    }
+
+    _createClass(Index, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {}
+    }, {
+        key: 'componentWillMount',
+        value: function componentWillMount() {}
+    }, {
+        key: 'componentDidUpdate',
+        value: function componentDidUpdate() {}
+    }, {
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(
+                    'div',
+                    { className: 'u-form-group-pink',
+                        style: _defineProperty({ margin: '0 auto', textAlign: 'center' }, 'margin', '40px 0px 20px 0px') },
+                    _react2.default.createElement(
+                        _reactRouter.Link,
+                        { to: '/events/new' },
+                        _react2.default.createElement(
+                            'button',
+                            { type: 'button' },
+                            'Create event'
+                        )
+                    )
+                ),
+                _react2.default.createElement(_CategoryList2.default, null),
+                _react2.default.createElement(_Events2.default, null)
+            );
+        }
+    }]);
+
+    return Index;
+}(_react2.default.Component);
+
+exports.default = Index;
+
+/***/ }),
+/* 356 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _Filters = __webpack_require__(357);
+
+var _Filters2 = _interopRequireDefault(_Filters);
+
+var _EventsByPage = __webpack_require__(354);
+
+var _EventsByPage2 = _interopRequireDefault(_EventsByPage);
+
+__webpack_require__(365);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Events = function (_React$Component) {
+    _inherits(Events, _React$Component);
+
+    function Events(props) {
+        _classCallCheck(this, Events);
+
+        var _this = _possibleConstructorReturn(this, (Events.__proto__ || Object.getPrototypeOf(Events)).call(this, props));
+
+        _this.state = {
+            filters: {
+                event_type: "1"
+            }
+        };
+
+        return _this;
+    }
+
+    _createClass(Events, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {}
+    }, {
+        key: 'componentWillMount',
+        value: function componentWillMount() {}
+    }, {
+        key: 'componentDidUpdate',
+        value: function componentDidUpdate() {}
+    }, {
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(
+                    'div',
+                    { id: 'section-contentblogs', className: 'section-artistlist' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'container' },
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'row' },
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'col-md-12 artistlist-title', style: { marginBottom: '80px' } },
+                                _react2.default.createElement(
+                                    'h3',
+                                    { style: { display: 'inline-block', float: 'left' } },
+                                    'Popular Events'
+                                ),
+                                _react2.default.createElement(
+                                    'span',
+                                    { style: { display: 'inline-block', float: 'right', marginTop: '20px', color: '#8f939c' } },
+                                    _react2.default.createElement(
+                                        'p',
+                                        null,
+                                        _react2.default.createElement(
+                                            'span',
+                                            { className: 'viewAll' },
+                                            'View all'
+                                        ),
+                                        ' ',
+                                        _react2.default.createElement('i', { className: 'fas fa-chevron-right', style: { fontSize: '1em', padding: '0px 0px 0px 10px' } }),
+                                        ' '
+                                    )
+                                )
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'content-right col-md-9' },
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'tab-content' },
+                                    _react2.default.createElement(
+                                        'div',
+                                        { id: 'list-view', className: 'tab-pane fade active in', role: 'tabpanel' },
+                                        _react2.default.createElement(_EventsByPage2.default, { activePage: this.state.activePage, eventLimit: 3, pagination: false,
+                                            sortBy: 'num_participants',
+                                            filters: this.state.filters
+                                        })
+                                    )
+                                )
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'col-md-12 artistlist-title' },
+                                _react2.default.createElement(
+                                    'h3',
+                                    { style: { display: 'inline-block', float: 'left', marginBottom: '40px' } },
+                                    'All Events'
+                                ),
+                                _react2.default.createElement(
+                                    'span',
+                                    { style: { display: 'inline-block', float: 'right', marginTop: '20px', color: '#8f939c' } },
+                                    _react2.default.createElement(
+                                        'p',
+                                        null,
+                                        _react2.default.createElement(
+                                            'span',
+                                            { className: 'viewAll' },
+                                            'View all'
+                                        ),
+                                        ' ',
+                                        _react2.default.createElement('i', { className: 'fas fa-chevron-right', style: { fontSize: '1em', padding: '0px 0px 0px 10px' } }),
+                                        ' '
+                                    )
+                                )
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'content-right col-md-9' },
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'tab-content' },
+                                    _react2.default.createElement(
+                                        'div',
+                                        { id: 'list-view', className: 'tab-pane fade active in', role: 'tabpanel' },
+                                        _react2.default.createElement(_EventsByPage2.default, { activePage: this.state.activePage, eventLimit: 3, pagination: false,
+                                            sortBy: 'event_start_date',
+                                            filters: this.state.filters
+                                        })
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+
+    return Events;
+}(_react2.default.Component);
+
+exports.default = Events;
+
+/***/ }),
+/* 357 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouter = __webpack_require__(22);
+
+var _Auth = __webpack_require__(27);
+
+var _Auth2 = _interopRequireDefault(_Auth);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Filters = function (_React$Component) {
+    _inherits(Filters, _React$Component);
+
+    function Filters(props) {
+        _classCallCheck(this, Filters);
+
+        return _possibleConstructorReturn(this, (Filters.__proto__ || Object.getPrototypeOf(Filters)).call(this, props));
+    }
+
+    _createClass(Filters, [{
+        key: 'componentWillMount',
+        value: function componentWillMount() {}
+    }, {
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(
+                    'div',
+                    { className: 'genre sidebar-popularcategories col-md-12 pad0 col-sm-12' },
+                    _react2.default.createElement(
+                        'h4',
+                        null,
+                        'CATEGORY'
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'col-md-12 popularcategories-item genre-type border-btm' },
+                        _react2.default.createElement(
+                            'h5',
+                            null,
+                            _react2.default.createElement(
+                                'label',
+                                null,
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'custom-checkbox' },
+                                    _react2.default.createElement('input', { type: 'checkbox', className: 'list-5', name: 'list-5', id: 'list-5',
+                                        value: '' }),
+                                    ' Music',
+                                    _react2.default.createElement('label', { htmlFor: 'list-5' })
+                                )
+                            )
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'col-md-12 popularcategories-item genre-type border-btm' },
+                        _react2.default.createElement(
+                            'h5',
+                            null,
+                            _react2.default.createElement(
+                                'label',
+                                null,
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'custom-checkbox' },
+                                    _react2.default.createElement('input', { type: 'checkbox', className: 'list-6', name: 'list-6', id: 'list-6',
+                                        value: '' }),
+                                    ' Art',
+                                    _react2.default.createElement('label', { htmlFor: 'list-6' })
+                                )
+                            )
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+
+    return Filters;
+}(_react2.default.Component);
+
+exports.default = Filters;
+
+/***/ }),
+/* 358 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+__webpack_require__(349);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var CategoryList = function (_React$Component) {
+    _inherits(CategoryList, _React$Component);
+
+    function CategoryList(props) {
+        _classCallCheck(this, CategoryList);
+
+        var _this = _possibleConstructorReturn(this, (CategoryList.__proto__ || Object.getPrototypeOf(CategoryList)).call(this, props));
+
+        _this.state = {
+            events: true
+        };
+
+        return _this;
+    }
+
+    _createClass(CategoryList, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {}
+    }, {
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(
+                    'div',
+                    { className: 'parent' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'child' },
+                        _react2.default.createElement('i', { className: 'fas fa-music', 'aria-hidden': 'true' })
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'child' },
+                        _react2.default.createElement('i', { className: 'fas fa-utensils', 'aria-hidden': 'true' })
+                    )
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'parent' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'icon-title' },
+                        _react2.default.createElement(
+                            'p',
+                            null,
+                            'Arts'
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'icon-title' },
+                        _react2.default.createElement(
+                            'p',
+                            null,
+                            'Food'
+                        )
+                    )
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'parent' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'child' },
+                        _react2.default.createElement('i', { className: 'fas fa-basketball-ball', 'aria-hidden': 'true' })
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'child' },
+                        _react2.default.createElement('i', { className: 'fas fa-users', 'aria-hidden': 'true' })
+                    )
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'parent last-parent' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'icon-title' },
+                        _react2.default.createElement(
+                            'p',
+                            null,
+                            'Sports'
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'icon-title' },
+                        _react2.default.createElement(
+                            'p',
+                            null,
+                            'Social'
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+
+    return CategoryList;
+}(_react2.default.Component);
+
+exports.default = CategoryList;
+
+/***/ }),
+/* 359 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _Auth = __webpack_require__(27);
+
+var _Auth2 = _interopRequireDefault(_Auth);
+
+var _reactDatez = __webpack_require__(328);
+
+__webpack_require__(330);
+
+var _reactDropdown = __webpack_require__(332);
+
+var _reactDropdown2 = _interopRequireDefault(_reactDropdown);
+
+__webpack_require__(333);
+
+__webpack_require__(77);
+
+var _TextField = __webpack_require__(64);
+
+var _TextField2 = _interopRequireDefault(_TextField);
+
+var _eventController = __webpack_require__(128);
+
+var _eventController2 = _interopRequireDefault(_eventController);
+
+var _reactRouter = __webpack_require__(22);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var CreateEvent = function (_React$Component) {
+    _inherits(CreateEvent, _React$Component);
+
+    function CreateEvent(props) {
+        _classCallCheck(this, CreateEvent);
+
+        var _this = _possibleConstructorReturn(this, (CreateEvent.__proto__ || Object.getPrototypeOf(CreateEvent)).call(this, props));
+
+        _this.state = {
+            data: {
+                title: '',
+                location: '',
+                description: '',
+                category: 'Choose an option',
+                maxQuota: 20,
+                startTime: '00:00',
+                endTime: '00:00'
+            },
+            file: '',
+            imagePreviewUrl: '',
+            error: false,
+            submissionSuccess: false,
+            submissionError: false
+        };
+        _this.handleClick = _this.handleClick.bind(_this);
+        _this.onChange = _this.onChange.bind(_this);
+        _this.onSelect = _this.onSelect.bind(_this);
+        _this.changeStartTime = _this.changeStartTime.bind(_this);
+        _this.changeEndTime = _this.changeEndTime.bind(_this);
+        _this.changeStartDate = _this.changeStartDate.bind(_this);
+        _this.changeEndDate = _this.changeEndDate.bind(_this);
+        _this.handleImageChange = _this.handleImageChange.bind(_this);
+        return _this;
+    }
+
+    _createClass(CreateEvent, [{
+        key: 'handleImageChange',
+        value: function handleImageChange(e) {
+            var _this2 = this;
+
+            e.preventDefault();
+
+            var reader = new FileReader();
+            var file = e.target.files[0];
+
+            reader.onloadend = function () {
+                _this2.setState({
+                    file: file,
+                    imagePreviewUrl: reader.result
+                });
+            };
+
+            reader.readAsDataURL(file);
+        }
+    }, {
+        key: 'onSelect',
+        value: function onSelect(e) {
+            var data = this.state.data;
+            data['category'] = 1.0;
+            console.log(e.value);
+            this.setState({
+                data: data
+            });
+        }
+    }, {
+        key: 'onChange',
+        value: function onChange(event) {
+            event.preventDefault();
+            var field = event.target.name;
+            var data = this.state.data;
+            data[field] = event.target.value;
+            this.setState({
+                data: data
+            });
+        }
+    }, {
+        key: 'changeStartTime',
+        value: function changeStartTime(time) {
+            this.setState({ startTime: time });
+        }
+    }, {
+        key: 'changeEndTime',
+        value: function changeEndTime(time) {
+            this.setState({ endTime: time });
+        }
+    }, {
+        key: 'changeStartDate',
+        value: function changeStartDate(date) {
+            this.setState({ startDate: date });
+        }
+    }, {
+        key: 'changeEndDate',
+        value: function changeEndDate(date) {
+            this.setState({ endDate: date });
+        }
+    }, {
+        key: 'formatDate',
+        value: function formatDate(date) {
+            return new Date(date).toISOString().substr(0, 10);
+        }
+    }, {
+        key: 'handleClick',
+        value: function handleClick(event) {
+            var _this3 = this;
+
+            event.preventDefault();
+            var postData = {
+                "event_title": this.state.data.title,
+                "event_desc": this.state.data.description,
+                "max_quota": this.state.data.maxQuota,
+                "event_type": this.state.data.category,
+                "event_start_date": this.formatDate(this.state.startDate) + " " + this.state.data.startTime,
+                "event_end_date": this.formatDate(this.state.endDate) + " " + this.state.data.endTime,
+                "is_open_ended": true,
+                "location": this.state.data.location
+            };
+            _eventController2.default.createEvent(postData).then(function (response) {
+                console.log(response);
+                if (response.status === 'success') {
+                    _this3.setState({
+                        submissionSuccess: true
+                    });
+                    // browserHistory.push('/');
+                } else {
+                    _this3.setState({
+                        submissionError: response.desc
+                    });
+                }
+            });
+        }
+    }, {
+        key: 'componentWillMount',
+        value: function componentWillMount() {
+            if (!_Auth2.default.getUserData()) {
+                _reactRouter.browserHistory.push('/login');
+            }
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this4 = this;
+
+            var options = [{ value: 'none', label: 'Choose an option' }, { value: 'arts', label: 'Arts' }, { value: 'food', label: 'Food' }, { value: 'sports', label: 'Sports' }, { value: 'social', label: 'Social' }];
+            var defaultOption = options[0];
+
+            var imagePreviewUrl = this.state.imagePreviewUrl;
+
+            var $imagePreview = null;
+            if (imagePreviewUrl) {
+                $imagePreview = _react2.default.createElement('img', { style: { width: '300px', height: '200px' }, src: imagePreviewUrl });
+            }
+            return _react2.default.createElement(
+                'div',
+                { id: 'section-contactform' },
+                _react2.default.createElement(
+                    'div',
+                    { className: 'container' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'col-md-12 text-center' },
+                        _react2.default.createElement(
+                            'h1',
+                            null,
+                            'Create your own event'
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'form',
+                        null,
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'col-md-3 col-subject' },
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'form-group' },
+                                _react2.default.createElement(
+                                    'label',
+                                    { className: 'control-label' },
+                                    'TITLE',
+                                    _react2.default.createElement(
+                                        'span',
+                                        null,
+                                        '*'
+                                    )
+                                ),
+                                _react2.default.createElement('input', { type: 'text', className: 'form-control', id: 'formInput113', name: 'title',
+                                    onChange: this.onChange,
+                                    value: this.state.data.title, required: true })
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'col-md-3 col-subject' },
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'form-group' },
+                                _react2.default.createElement(
+                                    'label',
+                                    { className: 'control-label' },
+                                    'LOCATION',
+                                    _react2.default.createElement(
+                                        'span',
+                                        null,
+                                        '*'
+                                    )
+                                ),
+                                _react2.default.createElement('input', { type: 'text', className: 'form-control', id: 'formInput113', name: 'location',
+                                    onChange: this.onChange,
+                                    value: this.state.data.location, required: true })
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'col-md-3 col-phone' },
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'form-group' },
+                                _react2.default.createElement(
+                                    'label',
+                                    { className: 'control-label' },
+                                    'CATEGORY',
+                                    _react2.default.createElement(
+                                        'span',
+                                        null,
+                                        '*'
+                                    )
+                                ),
+                                _react2.default.createElement(_reactDropdown2.default, { options: options, onChange: this.onSelect, value: this.state.data.category,
+                                    placeholder: 'Select an option', required: true })
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'col-md-3 col-subject' },
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'form-group' },
+                                _react2.default.createElement(
+                                    'label',
+                                    { className: 'control-label' },
+                                    'NUMBER OF PARTICIPANTS',
+                                    _react2.default.createElement(
+                                        'span',
+                                        null,
+                                        '*'
+                                    )
+                                ),
+                                _react2.default.createElement('input', { type: 'number', className: 'form-control', id: 'formInput113', name: 'maxQuota',
+                                    onChange: this.onChange,
+                                    value: this.state.data.maxQuota, required: true })
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'col-md-3 col-phone' },
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'form-group' },
+                                _react2.default.createElement(
+                                    'label',
+                                    { className: 'control-label' },
+                                    'START DATE',
+                                    _react2.default.createElement(
+                                        'span',
+                                        null,
+                                        '*'
+                                    )
+                                ),
+                                _react2.default.createElement(_reactDatez.ReactDatez, { name: 'dateInput', handleChange: this.changeStartDate,
+                                    value: this.state.startDate, required: true })
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'col-md-3 col-phone' },
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'form-group' },
+                                _react2.default.createElement(
+                                    'label',
+                                    { className: 'control-label' },
+                                    'START TIME'
+                                ),
+                                _react2.default.createElement(_TextField2.default, {
+                                    id: 'time',
+                                    type: 'time',
+                                    defaultValue: '07:30',
+                                    InputLabelProps: {
+                                        shrink: true
+                                    },
+                                    inputProps: {
+                                        step: 300 // 5 min
+                                    },
+                                    name: 'startTime',
+                                    onChange: this.onChange,
+                                    value: this.state.data.startTime
+                                })
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'col-md-3 col-phone' },
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'form-group' },
+                                _react2.default.createElement(
+                                    'label',
+                                    { className: 'control-label' },
+                                    'END DATE'
+                                ),
+                                _react2.default.createElement(_reactDatez.ReactDatez, { name: 'dateInput', handleChange: this.changeEndDate,
+                                    value: this.state.endDate })
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'col-md-3 col-phone' },
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'form-group' },
+                                _react2.default.createElement(
+                                    'label',
+                                    { className: 'control-label' },
+                                    'END TIME'
+                                ),
+                                _react2.default.createElement(_TextField2.default, {
+                                    id: 'time',
+                                    type: 'time',
+                                    defaultValue: '07:30',
+                                    InputLabelProps: {
+                                        shrink: true
+                                    },
+                                    inputProps: {
+                                        step: 300 // 5 min
+                                    },
+                                    name: 'endTime',
+                                    onChange: this.onChange,
+                                    value: this.state.data.endTime
+                                })
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'col-md-12 col-message' },
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'form-group' },
+                                _react2.default.createElement(
+                                    'label',
+                                    { className: 'control-label' },
+                                    'DESCRIPTION'
+                                ),
+                                _react2.default.createElement('textarea', { className: 'form-control', rows: '10', id: 'formInput135', name: 'description',
+                                    onChange: this.onChange,
+                                    value: this.state.data.description })
+                            ),
+                            _react2.default.createElement('input', { className: 'fileInput',
+                                type: 'file',
+                                onChange: function onChange(e) {
+                                    return _this4.handleImageChange(e);
+                                } }),
+                            $imagePreview ? _react2.default.createElement(
+                                'div',
+                                null,
+                                $imagePreview
+                            ) : _react2.default.createElement('div', null),
+                            _react2.default.createElement(
+                                'button',
+                                { className: 'btn btn-warning pull-right btn-subscribe',
+                                    onClick: this.handleClick },
+                                'CREATE EVENT'
+                            )
+                        )
+                    )
+                ),
+                this.state.submissionError ? _react2.default.createElement(
+                    'div',
+                    { style: { color: 'red' } },
+                    this.state.submissionError
+                ) : _react2.default.createElement('div', null)
+            );
+        }
+    }]);
+
+    return CreateEvent;
+}(_react2.default.Component);
+
+exports.default = CreateEvent;
+
+/***/ }),
+/* 360 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+__webpack_require__(349);
+
+__webpack_require__(77);
+
+var _SpecialCategoryList = __webpack_require__(364);
+
+var _SpecialCategoryList2 = _interopRequireDefault(_SpecialCategoryList);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var EventsByCategory = function (_React$Component) {
+    _inherits(EventsByCategory, _React$Component);
+
+    function EventsByCategory(props) {
+        _classCallCheck(this, EventsByCategory);
+
+        var _this = _possibleConstructorReturn(this, (EventsByCategory.__proto__ || Object.getPrototypeOf(EventsByCategory)).call(this, props));
+
+        _this.state = {
+            events: true
+        };
+
+        return _this;
+    }
+
+    _createClass(EventsByCategory, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {}
+    }, {
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(_SpecialCategoryList2.default, { category: this.props.params.category })
+            );
+        }
+    }]);
+
+    return EventsByCategory;
+}(_react2.default.Component);
+
+exports.default = EventsByCategory;
+
+/***/ }),
+/* 361 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactResponsiveModal = __webpack_require__(336);
+
+var _reactResponsiveModal2 = _interopRequireDefault(_reactResponsiveModal);
+
+__webpack_require__(346);
+
+var _Auth = __webpack_require__(27);
+
+var _Auth2 = _interopRequireDefault(_Auth);
+
+var _reactRouter = __webpack_require__(22);
+
+var _eventController = __webpack_require__(128);
+
+var _eventController2 = _interopRequireDefault(_eventController);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+// Showing one event details
+var Event = function (_React$Component) {
+    _inherits(Event, _React$Component);
+
+    function Event(props) {
+        _classCallCheck(this, Event);
+
+        var _this = _possibleConstructorReturn(this, (Event.__proto__ || Object.getPrototypeOf(Event)).call(this, props));
+
+        _this.state = {
+            event: true,
+            openConfirmModal: false,
+            openTokenModal: false
+        };
+        _this.onOpenConfirmModal = _this.onOpenConfirmModal.bind(_this);
+        _this.onCloseConfirmModal = _this.onCloseConfirmModal.bind(_this);
+        _this.onOpenTokenModal = _this.onOpenTokenModal.bind(_this);
+        _this.onCloseTokenModal = _this.onCloseTokenModal.bind(_this);
+        _this.confirmEvent = _this.confirmEvent.bind(_this);
+
+        return _this;
+    }
+
+    _createClass(Event, [{
+        key: 'onOpenConfirmModal',
+        value: function onOpenConfirmModal() {
+            if (!_Auth2.default.getUserData()) {
+                _reactRouter.browserHistory.push('/login');
+            } else {
+                this.setState({ openConfirmModal: true });
+            }
+        }
+    }, {
+        key: 'onCloseConfirmModal',
+        value: function onCloseConfirmModal() {
+            this.setState({ openConfirmModal: false });
+        }
+    }, {
+        key: 'onOpenTokenModal',
+        value: function onOpenTokenModal() {
+            this.setState({ openTokenModal: true });
+        }
+    }, {
+        key: 'onCloseTokenModal',
+        value: function onCloseTokenModal() {
+            this.setState({ openTokenModal: true });
+        }
+    }, {
+        key: 'getData',
+        value: function getData() {
+            var _this2 = this;
+
+            var data = {
+                eeid: this.props.params.eventID
+            };
+
+            _eventController2.default.getEvent(data).then(function (response) {
+                if (response.status == 'success') {
+                    _this2.setState({
+                        event: response.data.event
+                    });
+                } else {
+                    _this2.setState({
+                        error: response.desc
+                    });
+                }
+            });
+        }
+    }, {
+        key: 'confirmEvent',
+        value: function confirmEvent() {
+            this.onCloseConfirmModal();
+            this.onOpenTokenModal();
+        }
+    }, {
+        key: 'componentWillMount',
+        value: function componentWillMount() {}
+    }, {
+        key: 'render',
+        value: function render() {
+
+            if (this.state.event) {
+                return _react2.default.createElement(
+                    'div',
+                    { id: 'section-aboutus', className: 'section-eventsdetails' },
+                    _react2.default.createElement(
+                        _reactResponsiveModal2.default,
+                        { open: this.state.openConfirmModal, onClose: this.onCloseConfirmModal, center: true,
+                            className: 'popup centred' },
+                        _react2.default.createElement('span', { className: 'yes-reply centred' }),
+                        _react2.default.createElement('span', { className: 'no-reply centred' }),
+                        _react2.default.createElement(
+                            'p',
+                            null,
+                            'Please confirm your registration '
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'button yes transition', style: { float: 'right' },
+                                onClick: this.confirmEvent },
+                            'Confirm'
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'button no transition', style: { float: 'right' },
+                                onClick: this.onCloseConfirmModal },
+                            'Cancel'
+                        ),
+                        _react2.default.createElement('div', { className: 'refresh transition' })
+                    ),
+                    _react2.default.createElement(
+                        _reactResponsiveModal2.default,
+                        { open: this.state.openTokenModal, onClose: this.onCloseTokenModal, center: true,
+                            className: 'popup centred' },
+                        _react2.default.createElement('span', { className: 'yes-reply centred' }),
+                        _react2.default.createElement('span', { className: 'no-reply centred' }),
+                        _react2.default.createElement(
+                            'p',
+                            null,
+                            'Please key in the registration code sent to your mobile number'
+                        ),
+                        _react2.default.createElement('div', { className: 'refresh transition' })
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'container' },
+                        _react2.default.createElement(
+                            'div',
+                            { id: 'list-view' },
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'col-md-8 the-artist the-artist-horizontal events-page-list pad0 m-bot60' },
+                                _react2.default.createElement('img', { src: 'assets/images/latestblog-img.png', className: 'img-responsive' }),
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'text-slider3' },
+                                    _react2.default.createElement(
+                                        'div',
+                                        null,
+                                        _react2.default.createElement(
+                                            'span',
+                                            { className: 'country-label' },
+                                            'Milano'
+                                        )
+                                    ),
+                                    _react2.default.createElement(
+                                        'h3',
+                                        null,
+                                        'The Awesome Party Event'
+                                    ),
+                                    _react2.default.createElement(
+                                        'span',
+                                        { className: 'address' },
+                                        _react2.default.createElement('i', {
+                                            className: 'fa fa-map-marker' }),
+                                        ' 541 Avenue Street, Milano ',
+                                        _react2.default.createElement(
+                                            'div',
+                                            {
+                                                className: 'rating-stars' },
+                                            _react2.default.createElement(
+                                                'a',
+                                                { href: '#' },
+                                                _react2.default.createElement('i', { className: 'fa fa-lg fa-star' })
+                                            )
+                                        )
+                                    ),
+                                    _react2.default.createElement(
+                                        'p',
+                                        null,
+                                        _react2.default.createElement(
+                                            'span',
+                                            null,
+                                            'Genre:'
+                                        ),
+                                        ' Rock \xA0',
+                                        _react2.default.createElement(
+                                            'span',
+                                            null,
+                                            'Date:'
+                                        ),
+                                        ' 11/11/2016 \xA0',
+                                        _react2.default.createElement(
+                                            'span',
+                                            null,
+                                            'Artists:'
+                                        ),
+                                        ' Jonathan Doe, Megan Tylor \xA0',
+                                        _react2.default.createElement(
+                                            'span',
+                                            null,
+                                            'People:'
+                                        ),
+                                        ' 5000+'
+                                    ),
+                                    _react2.default.createElement(
+                                        'div',
+                                        { className: 'pricing' },
+                                        _react2.default.createElement('i', { className: 'fa fa-dollar' }),
+                                        _react2.default.createElement(
+                                            'h1',
+                                            null,
+                                            '59'
+                                        ),
+                                        _react2.default.createElement(
+                                            'p',
+                                            null,
+                                            '/ PER PERSON'
+                                        )
+                                    )
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    _react2.default.createElement(
+                                        'h3',
+                                        null,
+                                        'Rating'
+                                    )
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'contents pad0 col-md-12' },
+                                    _react2.default.createElement(
+                                        'p',
+                                        null,
+                                        'Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, dolore eu nulla facilisis at vero eros accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla zzril facilisi, consectetuer.',
+                                        _react2.default.createElement('br', null),
+                                        _react2.default.createElement('br', null),
+                                        'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, eos ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.'
+                                    ),
+                                    _react2.default.createElement(
+                                        'button',
+                                        { type: 'button', onClick: this.onOpenConfirmModal },
+                                        'Register'
+                                    )
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'button-share-events col-md-12 pad0' },
+                                    _react2.default.createElement(
+                                        'button',
+                                        { type: 'button', className: 'btn btn-info' },
+                                        _react2.default.createElement('i', { className: 'fab fa-twitter' }),
+                                        ' Twitt'
+                                    ),
+                                    _react2.default.createElement(
+                                        'button',
+                                        { type: 'button', className: 'btn btn-primary' },
+                                        _react2.default.createElement('i', { className: 'far fa-thumbs-up' }),
+                                        ' Like'
+                                    ),
+                                    _react2.default.createElement(
+                                        'button',
+                                        { type: 'button', className: 'btn btn-danger' },
+                                        _react2.default.createElement('i', { className: 'fab fa-google-plus-g' })
+                                    )
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'col-md-12 pad0 left5' },
+                                    _react2.default.createElement(
+                                        'h3',
+                                        null,
+                                        'Event Position'
+                                    ),
+                                    _react2.default.createElement(
+                                        'div',
+                                        { className: 'content pad0' },
+                                        _react2.default.createElement('div', { id: 'map' })
+                                    )
+                                )
+                            )
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'content-right col-md-4' },
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'col-md-12 sidebar-eventsdetails artist-information padr0' },
+                            _react2.default.createElement(
+                                'h3',
+                                null,
+                                'Artist Information'
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'col-md-3 padl0' },
+                                _react2.default.createElement('img', { src: 'assets/images/photo_Artist_Details.jpg',
+                                    className: 'img-responsive img-circle' })
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'col-md-9' },
+                                _react2.default.createElement(
+                                    'h4',
+                                    null,
+                                    'Jack Gillenhall'
+                                ),
+                                _react2.default.createElement(
+                                    'span',
+                                    { className: 'country-label' },
+                                    'Rock'
+                                ),
+                                _react2.default.createElement(
+                                    'h5',
+                                    null,
+                                    'Singer'
+                                )
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'col-md-12 pad0' },
+                                _react2.default.createElement(
+                                    'h6',
+                                    null,
+                                    'Biography'
+                                ),
+                                _react2.default.createElement(
+                                    'p',
+                                    null,
+                                    'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, invidunt ut labore et dolore.'
+                                )
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'col-md-12 pad0 address' },
+                                _react2.default.createElement(
+                                    'p',
+                                    { className: 'lists' },
+                                    _react2.default.createElement(
+                                        'span',
+                                        null,
+                                        'Address'
+                                    ),
+                                    ': 185 Dow Street3207 Melbourne Australia'
+                                ),
+                                _react2.default.createElement(
+                                    'p',
+                                    { className: 'lists' },
+                                    _react2.default.createElement(
+                                        'span',
+                                        null,
+                                        'Fax:'
+                                    ),
+                                    ' 432 034 544'
+                                ),
+                                _react2.default.createElement(
+                                    'p',
+                                    { className: 'lists' },
+                                    _react2.default.createElement(
+                                        'span',
+                                        null,
+                                        'Phone:'
+                                    ),
+                                    ' 432 034 542'
+                                ),
+                                _react2.default.createElement(
+                                    'p',
+                                    { className: 'lists' },
+                                    _react2.default.createElement(
+                                        'span',
+                                        null,
+                                        'Email:'
+                                    ),
+                                    ' mail@artist.com'
+                                ),
+                                _react2.default.createElement(
+                                    'p',
+                                    { className: 'lists' },
+                                    _react2.default.createElement(
+                                        'span',
+                                        null,
+                                        'Website:'
+                                    ),
+                                    ' artistwebsite.com'
+                                )
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'col-md-12 address-eventmanager' },
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'col-md-12 pad0 address' },
+                                _react2.default.createElement(
+                                    'h3',
+                                    null,
+                                    'Event: Manager'
+                                ),
+                                _react2.default.createElement(
+                                    'h4',
+                                    null,
+                                    'John Warlick'
+                                ),
+                                _react2.default.createElement(
+                                    'p',
+                                    { className: 'lists' },
+                                    _react2.default.createElement(
+                                        'span',
+                                        null,
+                                        'Phone:'
+                                    ),
+                                    ' 432 034 542'
+                                ),
+                                _react2.default.createElement(
+                                    'p',
+                                    { className: 'lists' },
+                                    _react2.default.createElement(
+                                        'span',
+                                        null,
+                                        'Fax:'
+                                    ),
+                                    ' 432 034 544'
+                                ),
+                                _react2.default.createElement(
+                                    'p',
+                                    { className: 'lists' },
+                                    _react2.default.createElement(
+                                        'span',
+                                        null,
+                                        'Email:'
+                                    ),
+                                    ' mail@artist.com'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'social-links' },
+                                    _react2.default.createElement(
+                                        'a',
+                                        { href: '#' },
+                                        _react2.default.createElement('i', { className: 'fab fa-facebook-f fa-lg' })
+                                    ),
+                                    _react2.default.createElement(
+                                        'a',
+                                        { href: '#' },
+                                        _react2.default.createElement('i', { className: 'fab fa-twitter fa-lg' })
+                                    ),
+                                    _react2.default.createElement(
+                                        'a',
+                                        { href: '#' },
+                                        _react2.default.createElement('i', { className: 'fab fa-google-plus-g fa-lg' })
+                                    ),
+                                    _react2.default.createElement(
+                                        'a',
+                                        { href: '#' },
+                                        _react2.default.createElement('i', { className: 'fab fa-instagram fa-lg' })
+                                    )
+                                )
+                            )
+                        )
+                    )
+                );
+            } else if (this.state.error) {
+                return _react2.default.createElement(
+                    'div',
+                    null,
+                    this.state.error
+                );
+            } else {
+                return _react2.default.createElement(
+                    'div',
+                    null,
+                    'Loading'
+                );
+            }
+        }
+    }]);
+
+    return Event;
+}(_react2.default.Component);
+
+exports.default = Event;
+
+/***/ }),
+/* 362 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -50505,7 +51185,7 @@ var MyEvents = function (_React$Component) {
 exports.default = MyEvents;
 
 /***/ }),
-/* 344 */
+/* 363 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -50540,7 +51220,6 @@ var AttendingEvents = function (_React$Component) {
         _this.state = {
             events: true
         };
-
         return _this;
     }
 
@@ -50572,14 +51251,164 @@ var AttendingEvents = function (_React$Component) {
 exports.default = AttendingEvents;
 
 /***/ }),
-/* 345 */,
-/* 346 */
+/* 364 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+__webpack_require__(349);
+
+__webpack_require__(77);
+
+var _reactRouter = __webpack_require__(22);
+
+var _EventsByPage = __webpack_require__(354);
+
+var _EventsByPage2 = _interopRequireDefault(_EventsByPage);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var SpecialCategoryList = function (_React$Component) {
+    _inherits(SpecialCategoryList, _React$Component);
+
+    function SpecialCategoryList(props) {
+        _classCallCheck(this, SpecialCategoryList);
+
+        var _this = _possibleConstructorReturn(this, (SpecialCategoryList.__proto__ || Object.getPrototypeOf(SpecialCategoryList)).call(this, props));
+
+        _this.state = {
+            events: true,
+            filters: {
+                event_type: "1"
+            }
+        };
+
+        return _this;
+    }
+
+    _createClass(SpecialCategoryList, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {}
+    }, {
+        key: 'render',
+        value: function render() {
+            var _ref;
+
+            return _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(
+                    'div',
+                    null,
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'u-form-group-pink',
+                            style: (_ref = { margin: '0 auto', textAlign: 'center' }, _defineProperty(_ref, 'margin', '40px 0px 0px 0px'), _defineProperty(_ref, 'backgroundColor', "#f2f2f2"), _ref) },
+                        _react2.default.createElement(
+                            _reactRouter.Link,
+                            { to: '/events/new' },
+                            _react2.default.createElement(
+                                'button',
+                                { type: 'button' },
+                                'Create event'
+                            )
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'parent border-top-bottom', style: { padding: '20px 0px 20px 00px' } },
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'child child-60' },
+                            _react2.default.createElement(
+                                'p',
+                                null,
+                                'Chinese'
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'child child-60' },
+                            _react2.default.createElement(
+                                'p',
+                                null,
+                                'Japanese'
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'child child-60 last-child-60' },
+                            _react2.default.createElement(
+                                'p',
+                                null,
+                                'Western'
+                            )
+                        )
+                    )
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { style: { backgroundColor: "#f2f2f2", height: '100%', marginTop: '-20px' } },
+                    _react2.default.createElement(
+                        'h4',
+                        { style: { padding: '20px 20px', fontWeight: 'bold' } },
+                        'All ',
+                        this.props.category,
+                        ' events'
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'content-right col-md-9' },
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'tab-content' },
+                            _react2.default.createElement(
+                                'div',
+                                { id: 'list-view', className: 'tab-pane fade active in', role: 'tabpanel' },
+                                _react2.default.createElement(_EventsByPage2.default, { activePage: this.state.activePage, eventLimit: 'null',
+                                    pagination: true,
+                                    filters: this.state.filters
+                                })
+                            )
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+
+    return SpecialCategoryList;
+}(_react2.default.Component);
+
+exports.default = SpecialCategoryList;
+
+/***/ }),
+/* 365 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(347);
+var content = __webpack_require__(366);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -50593,8 +51422,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../../../../node_modules/css-loader/index.js!./Event.css", function() {
-			var newContent = require("!!../../../../../node_modules/css-loader/index.js!./Event.css");
+		module.hot.accept("!!../../../../../node_modules/css-loader/index.js!./Index.css", function() {
+			var newContent = require("!!../../../../../node_modules/css-loader/index.js!./Index.css");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -50604,7 +51433,7 @@ if(false) {
 }
 
 /***/ }),
-/* 347 */
+/* 366 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(41)(false);
@@ -50612,7 +51441,7 @@ exports = module.exports = __webpack_require__(41)(false);
 
 
 // module
-exports.push([module.i, "/* Modal popup */\n\n.styles_modal__gNwvD{\n    width: 1000px;\n}\n.popup {\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    width: 400px;\n    height: 100px;\n    background: #f1f1f1;\n    border-radius: 5px;\n    overflow: hidden;\n    padding: 20px;\n    text-align: right;\n    z-index: 1;\n}\n\n.popup.active {\n    width: 80px;\n    height: 80px;\n    border-radius: 50%;\n    -webkit-transition: .5s;\n    -moz-transition: .5s;\n    transition: .5s;\n    -webkit-transition-timing-function: cubic-bezier(.4,0,.5,1);\n    -moz-transition-timing-function: cubic-bezier(.4,0,.5,1);\n    transition-timing-function: cubic-bezier(.4,0,.5,1);\n}\n\n.popup p {\n    margin: 0 0 20px;\n    text-align: left;\n}\n\n.button {\n    display: inline-block;\n    padding: 10px 30px;\n    border-radius: 3px;\n    color: #ffffff;\n    position: relative;\n    cursor: pointer;\n}\n\n.button.yes {\n    background: rgb(26, 188, 156);\n    margin-left: 6px;\n}\n\n.button.yes:hover {\n    background: rgb(29, 200, 166);\n}\n\n.button.no {\n    background: rgb(216, 73, 90);\n}\n\n.button.no:hover {\n    background: rgb(231, 79, 97);\n}\n\n.button:before {\n    content: \"\";\n    position: absolute;\n    width: 800px;\n    height: 800px;\n    top: 50%;\n    left: 50%;\n    transform: translateX(-50%)translateY(-50%)scale(0);\n    border-radius: 50%;\n    z-index: 10;\n    -webkit-transition: .5s;\n    -moz-transition: .5s;\n    transition: .5s;\n    -webkit-transition-timing-function: cubic-bezier(.4,0,.5,1);\n    -moz-transition-timing-function: cubic-bezier(.4,0,.5,1);\n    transition-timing-function: cubic-bezier(.4,0,.5,1);\n}\n\n.yes:before {\n    background: rgba(26, 188, 156, 1);\n}\n\n.no:before {\n    background: rgb(216, 73, 90);\n}\n\n.button.active:before {\n    transform: translateX(-50%)translateY(-50%)scale(1);\n}\n\n/* YES NO REPLY */\n\n.yes-reply,.no-reply {\n    display: none;\n    position: absolute;\n    z-index: 20;\n    left: 50%;\n    top: 50%;\n    width: 80px;\n    height: 80px;\n}\n\n/* YES REPLY */\n\n.yes-reply.active,.no-reply.active {\n    display: block;\n}\n\n.yes-reply:before, .yes-reply:after,.no-reply:before, .no-reply:after {\n    -webkit-transition: .5s;\n    -moz-transition: .5s;\n    transition: .5s;\n    -webkit-transition-timing-function: cubic-bezier(.4,0,.5,1);\n    -moz-transition-timing-function: cubic-bezier(.4,0,.5,1);\n    transition-timing-function: cubic-bezier(.4,0,.5,1);\n}\n\n.yes-reply:before {\n    content: \"\";\n    position: absolute;\n    width: 0px;\n    height: 10px;\n    background: white;\n    -webkit-transform: rotate(-45deg);\n    -moz-transform: rotate(-45deg);\n    transform: rotate(-45deg);\n    -webkit-border-radius: 5px;\n    -moz-border-radius: 5px;\n    border-radius: 5px;\n    top: 54px;\n    left: 26px;\n    -webkit-transform-origin: top left;\n    -moz-transform-origin: top left;\n    transform-origin: top left;\n}\n\n.yes-reply:after {\n    content: \"\";\n    position: absolute;\n    width: 0px;\n    height: 10px;\n    background: white;\n    -webkit-transform: rotate(225deg);\n    -moz-transform: rotate(225deg);\n    transform: rotate(225deg);\n    -webkit-border-radius: 5px;\n    -moz-border-radius: 5px;\n    border-radius: 5px;\n    top: 61px;\n    left: 33px;\n    -webkit-transform-origin: top left;\n    -moz-transform-origin: top left;\n    transform-origin: top left;\n}\n\n.yes-reply.active:before {\n    width: 50px;\n}\n\n.yes-reply.active:after {\n    width: 30px;\n}\n\n/* NO REPLY */\n\n.no-reply:before,.no-reply:after {\n    content: \"\";\n    position: absolute;\n    width: 0px;\n    height: 10px;\n    background: white;\n    -webkit-border-radius: 5px;\n    -moz-border-radius: 5px;\n    border-radius: 5px;\n    top: 50%;\n    left: 50%;\n    -webkit-transform-origin: top left;\n    -moz-transform-origin: top left;\n    transform-origin: top left;\n}\n\n.no-reply:before {\n    -webkit-transform: rotate(-45deg)translateX(-50%)translateY(-50%);\n    -moz-transform: rotate(-45deg)translateX(-50%)translateY(-50%);\n    transform: rotate(-45deg)translateX(-50%)translateY(-50%);\n}\n\n.no-reply:after {\n    -webkit-transform: rotate(45deg)translateX(-50%)translateY(-50%);\n    -moz-transform: rotate(45deg)translateX(-50%)translateY(-50%);\n    transform: rotate(45deg)translateX(-50%)translateY(-50%);\n}\n\n.no-reply.active:before,.no-reply.active:after {\n    width: 50px;\n}\n\n.styles_closeButton__20ID4 {\n    display: none;\n}", ""]);
+exports.push([module.i, ".viewAll:hover {\n    text-decoration: underline;\n    opacity: 0.7\n}", ""]);
 
 // exports
 

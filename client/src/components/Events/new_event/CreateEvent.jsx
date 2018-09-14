@@ -1,12 +1,12 @@
 import React, {PropTypes} from 'react';
-import Auth from '../../modules/Auth';
+import Auth from '../../../modules/Auth';
 import {ReactDatez} from 'react-datez';
 import 'react-datez/dist/css/react-datez.css';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
-import '../Events/css/Events.css';
+import '../css/Events.css';
 import TextField from '@material-ui/core/TextField';
-import eventController from '../../controllers/eventController.js';
+import eventController from '../../../controllers/eventController.js';
 import {browserHistory} from 'react-router';
 
 
@@ -24,6 +24,8 @@ class CreateEvent extends React.Component {
                 startTime: '00:00',
                 endTime: '00:00'
             },
+            file: '',
+            imagePreviewUrl: '',
             error: false,
             submissionSuccess: false,
             submissionError: false
@@ -35,6 +37,23 @@ class CreateEvent extends React.Component {
         this.changeEndTime = this.changeEndTime.bind(this);
         this.changeStartDate = this.changeStartDate.bind(this);
         this.changeEndDate = this.changeEndDate.bind(this);
+        this.handleImageChange = this.handleImageChange.bind(this);
+    }
+
+    handleImageChange(e) {
+        e.preventDefault();
+
+        let reader = new FileReader();
+        let file = e.target.files[0];
+
+        reader.onloadend = () => {
+            this.setState({
+                file: file,
+                imagePreviewUrl: reader.result
+            });
+        }
+
+        reader.readAsDataURL(file)
     }
 
     onSelect(e) {
@@ -117,10 +136,18 @@ class CreateEvent extends React.Component {
     render() {
         const options = [
             {value: 'none', label: 'Choose an option'},
-            {value: 'music', label: 'Music'},
-            {value: 'art', label: 'Art'}
+            {value: 'arts', label: 'Arts'},
+            {value: 'food', label: 'Food'},
+            {value: 'sports', label: 'Sports'},
+            {value: 'social', label: 'Social'}
         ];
         const defaultOption = options[0];
+
+        let {imagePreviewUrl} = this.state;
+        let $imagePreview = null;
+        if (imagePreviewUrl) {
+            $imagePreview = (<img style={{width: '300px', height: '200px'}} src={imagePreviewUrl} />);
+        }
         return (
             <div id="section-contactform">
                 <div className="container">
@@ -238,6 +265,17 @@ class CreateEvent extends React.Component {
                                           onChange={this.onChange}
                                           value={this.state.data.description}></textarea>
                             </div>
+
+                            <input className="fileInput"
+                                   type="file"
+                                   onChange={(e)=>this.handleImageChange(e)} />
+                            {$imagePreview ? (
+                                    <div>
+                                        {$imagePreview}
+                                    </div>
+                                ): (
+                                <div></div>
+                            )}
                             <button className="btn btn-warning pull-right btn-subscribe"
                                     onClick={this.handleClick}>CREATE EVENT
                             </button>

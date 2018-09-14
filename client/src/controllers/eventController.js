@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 axios.defaults.withCredentials = true;
 
 const endPoint = "http://54.169.251.138";
@@ -6,11 +7,9 @@ const endPoint = "http://54.169.251.138";
 let eventController = {};
 
 eventController.getEvents = (data) => {
+    console.log(data);
     let response = axios.get(endPoint + '/api/v1/event/list/', {
-        params: {
-            page_limit: data.pageLimit,
-            page_num: data.pageNum
-        }
+        params: data
     })
         .then(function (response) {
             // handle success
@@ -20,16 +19,16 @@ eventController.getEvents = (data) => {
             // handle error
             return {
                 status: 'failed',
-                desc: error
+                desc: error.message
             }
         });
     return response;
-}
+};
 
 eventController.getEvent = (data) => {
-    axios.get(endPoint + '/api/v1/event/', {
+    let response = axios.get(endPoint + '/api/v1/event/', {
         params: {
-            event_title: data.event_title
+            eeid: data.eeid
         }
     })
         .then(function (response) {
@@ -40,7 +39,8 @@ eventController.getEvent = (data) => {
             // handle error
             return {error: error}
         })
-}
+    return response;
+};
 
 eventController.createEvent = (data) => {
     console.log(data);
@@ -52,7 +52,7 @@ eventController.createEvent = (data) => {
         "event_start_date": data.event_start_date,
         "event_end_date": data.event_end_date,
         "is_open_ended": data.is_open_ended
-    }, {headers: { 'Content-Type': 'application/json' }})
+    }, {headers: {'Content-Type': 'application/json'}})
         .then(function (response) {
             // handle success
             return response.data
@@ -63,7 +63,7 @@ eventController.createEvent = (data) => {
                 status: 'failed',
                 desc: error
             }
-        })
+        });
     return response;
 }
 
@@ -77,6 +77,6 @@ eventController.participateEvent = (data) => {
             // handle error
             return {error: error}
         })
-}
+};
 
 export default eventController;
