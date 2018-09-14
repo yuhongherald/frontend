@@ -9,6 +9,7 @@ import MyEvents from "./components/Events/MyEvents.jsx";
 import CreatedEvents from "./components/Events/CreateEvent.jsx";
 import AttendingEvents from "./components/Events/AttendingEvents.jsx";
 import Auth from './modules/Auth';
+import Schedule from "./components/Events/Schedule.jsx";
 
 const routes = {
         // base component (wrapper for the whole application).
@@ -55,6 +56,11 @@ const routes = {
                 path: '/events/page/1',
                 exactly: true,
                 component: EventsByPage
+            },
+            {
+                path: '/schedule',
+                exactly: true,
+                component: Schedule
             },
             {
                 path: '/my_events',

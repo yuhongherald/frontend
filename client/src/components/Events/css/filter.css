@@ -26,6 +26,14 @@ hr {
     margin-bottom: 30px;
 }
 
+.btn:active {
+    background-color: #a22;
+}
+
+.btn:focus {
+    background-color: #b44;
+}
+
 .input-field {
     height:40px;
     display: inline-block;
