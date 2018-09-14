@@ -3,7 +3,6 @@ import React, {PropTypes} from 'react';
 import '../Events/css/Events.css';
 import "../Events/css/schedule.css";
 
-import Modal from 'react-modal';
 import './css/filter.css';
 
 class Schedule extends React.Component {
@@ -58,7 +57,7 @@ class Schedule extends React.Component {
     createEventTemplateEditable() {
         return <div className="eventContainer">
                         <span className="dateLabel">
-                            30 Sep
+                            30 Sep Sun
                         </span>
             <span className="eventContent">
                             <div className="eventBanner">

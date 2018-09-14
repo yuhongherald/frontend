@@ -77,9 +77,9 @@ class EventsByPage extends React.Component {
             <button className = "btn" onClick={() => this.setState({ isPaneOpen: true })}>Click me to open right pane!</button>
             <SlidingPane
                 isOpen={ this.state.isPaneOpen }
-                title='Filters'
+                title='Search'
                 from='right'
-                subtitle='Optional subtitle.'
+                // subtitle='Optional subtitle.'
                 onRequestClose={ () => {
                     // triggered on "<" on left top click or on outside click
                     this.setState({ isPaneOpen: false });
