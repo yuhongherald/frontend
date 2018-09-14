@@ -1,10 +1,7 @@
 import React, {PropTypes} from 'react';
-import axios from "axios";
 import {Link} from 'react-router';
 import TextField from '@material-ui/core/TextField';
-import Card from '@material-ui/core/Card';
 import './css/Login.css';
-import Auth from "../../modules/Auth";
 import userController from "../../controllers/userController";
 import Modal from 'react-responsive-modal';
 
@@ -23,6 +20,7 @@ class Signup extends React.Component {
 
             },
             user_token: '',
+            uid: '',
             openTokenModal: false,
             error: false,
             isVerified: false,
@@ -51,20 +49,20 @@ class Signup extends React.Component {
         this.setState({
             user_token: event.target.value
         });
-        console.log(this.state.user_token);
     }
 
     signUp() {
         let postData = this.state.user;
         console.log(postData);
         userController.register(postData).then(response => {
-            console.log(response);
             if (response.status === 'success') {
                 this.setState({
                     openTokenModal: true,
-                    isRegistered: true
+                    isRegistered: true,
+                    uid: response.uid
                 });
-                Auth.setID(response.uid);
+                console.log(response);
+
 
             }
             else {
@@ -76,10 +74,9 @@ class Signup extends React.Component {
     }
 
     verify() {
-        console.log()
         let postData = {
             user_token: this.state.user_token,
-            uid: Auth.getID()
+            uid: this.state.uid.toString()
         }
         userController.confirmAccount(postData).then(response => {
             if (response.status === 'success') {
@@ -113,12 +110,12 @@ class Signup extends React.Component {
     render() {
         if (this.state.error && !this.state.isRegistered) {
             return (
-                <Card>{this.state.error}</Card>
+                <div>{this.state.error}</div>
             )
         }
         else if(this.state.isVerified) {
             return (
-                <Card><h2>You have successfully registered. You can now sign in</h2></Card>
+                <div><h2>You have successfully registered. You can now sign in</h2></div>
             )
         }
         else {
@@ -146,7 +143,7 @@ class Signup extends React.Component {
 
                         {
                             this.state.error && this.state.isRegistered ? (
-                                <Card>{this.state.error}</Card>
+                                <div>{this.state.error}</div>
                             ) : (
                                 <div></div>
                             )

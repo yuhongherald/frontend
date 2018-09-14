@@ -200,3 +200,7 @@
 .styles_closeButton__20ID4 {
     display: none;
 }
+
+.error-message{
+    color: darkred;
+}

@@ -20,13 +20,6 @@ class Auth {
 
     }
 
-    static setID(uuid) {
-        sessionStorage.setItem('uid', JSON.stringify(uuid));
-    }
-
-    static getID() {
-        sessionStorage.getItem('uid');
-    }
 
     static getUserData() {
         return JSON.parse(sessionStorage.getItem('userData'));

@@ -26,10 +26,8 @@ eventController.getEvents = (data) => {
 };
 
 eventController.getEvent = (data) => {
-    let response = axios.get(endPoint + '/api/v1/event/', {
-        params: {
-            eeid: data.eeid
-        }
+    let response = axios.get(endPoint + '/api/v1/event/get_event/', {
+        params: data
     })
         .then(function (response) {
             // handle success
@@ -37,7 +35,10 @@ eventController.getEvent = (data) => {
         })
         .catch(function (error) {
             // handle error
-            return {error: error}
+            return {
+                status: 'failed',
+                desc: error.message
+            }
         })
     return response;
 };
@@ -68,15 +69,23 @@ eventController.createEvent = (data) => {
 }
 
 eventController.participateEvent = (data) => {
-    axios.post(endPoint + '/api/v1/event/participate/', data)
+    let response = axios.post(endPoint + '/api/v1/event/participate/', {
+        eid: data.eid,
+        op_type: data.op_type
+    })
         .then(function (response) {
             // handle success
             return response.data
         })
         .catch(function (error) {
             // handle error
-            return {error: error}
+            return {
+                status: 'failed',
+                desc: error
+            }
         })
+
+    return response;
 };
 
 export default eventController;

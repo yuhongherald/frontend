@@ -5,22 +5,21 @@ import Auth from "../../../modules/Auth";
 import {browserHistory} from "react-router";
 import eventController from "../../../controllers/eventController";
 
+
 // Showing one event details
 class Event extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            event: true,
+            event: false,
             openConfirmModal: false,
-            openTokenModal: false
+            error: false
         }
         this.onOpenConfirmModal = this.onOpenConfirmModal.bind(this);
         this.onCloseConfirmModal = this.onCloseConfirmModal.bind(this);
-        this.onOpenTokenModal = this.onOpenTokenModal.bind(this);
-        this.onCloseTokenModal = this.onCloseTokenModal.bind(this);
-        this.confirmEvent = this.confirmEvent.bind(this);
-
+        this.onClickConfirm = this.onClickConfirm.bind(this);
+        this.getData = this.getData.bind(this);
     }
 
     onOpenConfirmModal() {
@@ -37,24 +36,15 @@ class Event extends React.Component {
         this.setState({openConfirmModal: false});
     };
 
-    onOpenTokenModal() {
-        this.setState({openTokenModal: true});
-    }
-
-    onCloseTokenModal() {
-        this.setState({openTokenModal: true});
-    }
-
-
     getData() {
         let data = {
-            eeid: this.props.params.eventID
+            eid: this.props.params.eventID
         };
 
         eventController.getEvent(data).then(response => {
             if (response.status == 'success') {
                 this.setState({
-                    event: response.data.event
+                    event: response.event
                 });
             }
             else {
@@ -65,12 +55,26 @@ class Event extends React.Component {
         });
     }
 
-    confirmEvent() {
-        this.onCloseConfirmModal();
-        this.onOpenTokenModal();
+    onClickConfirm() {
+        let postData = {
+            eid: this.props.params.eventID,
+            op_type: 1
+        };
+        eventController.participateEvent(postData).then(response => {
+            if (response.status === 'success') {
+                this.onCloseConfirmModal();
+            }
+            else {
+                this.setState({
+                    error: response.desc
+                });
+            }
+        });
     }
 
+
     componentWillMount() {
+        this.getData()
     }
 
 
@@ -85,20 +89,21 @@ class Event extends React.Component {
                         <span className="no-reply centred"></span>
                         <p>Please confirm your registration </p>
                         <div className="button yes transition" style={{float: 'right'}}
-                             onClick={this.confirmEvent}>Confirm
+                             onClick={this.onClickConfirm}>Confirm
                         </div>
                         <div className="button no transition" style={{float: 'right'}}
                              onClick={this.onCloseConfirmModal}>Cancel
                         </div>
-                        <div className="refresh transition"></div>
-                    </Modal>
-                    <Modal open={this.state.openTokenModal} onClose={this.onCloseTokenModal} center
-                           className="popup centred">
-                        <span className="yes-reply centred"></span>
-                        <span className="no-reply centred"></span>
-                        <p>Please key in the registration code sent to your mobile number</p>
+                        <div className="error-message" style={{display: 'block', marginTop: '60px', textAlign: 'center'}}>
+                            {
+                                this.state.error ?(
+                                    <div>{this.state.error}. Please try again</div>
+                                ) : (
+                                    <div></div>
+                                )
+                            }
+                        </div>
 
-                        <div className="refresh transition"></div>
                     </Modal>
                     <div className="container">
                         <div id="list-view">
