@@ -1,8 +1,8 @@
 import React from 'react';
 import {Link} from 'react-router';
-import Auth from '../../modules/Auth';
-import '../Events/css/Events.css';
-import Events from '../Events/Events.jsx';
+import '../../Events/css/Events.css';
+import Events from './Events.jsx';
+import CategoryList from './CategoryList.jsx';
 
 
 class Index extends React.Component {
@@ -32,6 +32,7 @@ class Index extends React.Component {
                         <button type="button">Create event</button>
                     </Link>
                 </div>
+                <CategoryList/>
                 <Events/>
             </div>
         )

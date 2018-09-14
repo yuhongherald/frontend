@@ -94,6 +94,10 @@ iframe{
 li {
   list-style-type: none !important;
 }
+
+#main-content {
+	padding: 0px 0px;
+}
 /* Load Map In Tab*/
 .tab-content > .tab-pane-map2 {
     display: block;

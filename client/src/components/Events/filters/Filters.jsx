@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 import {Link} from 'react-router';
-import Auth from '../../modules/Auth';
+import Auth from '../../../modules/Auth';
 
 
 class Filters extends React.Component {
@@ -16,7 +16,6 @@ class Filters extends React.Component {
     }
 
     componentWillMount() {
-
     }
 
 

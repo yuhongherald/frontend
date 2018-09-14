@@ -1,5 +1,9 @@
 import React, {PropTypes} from 'react';
 import Modal from 'react-responsive-modal';
+import '../css/Event.css';
+import Auth from "../../../modules/Auth";
+import {browserHistory} from "react-router";
+import eventController from "../../../controllers/eventController";
 
 
 // Showing one event details
@@ -8,34 +12,98 @@ class Event extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            event: true,
-            open: false
+            event: false,
+            openConfirmModal: false,
+            error: false
         }
-        this.onOpenModal = this.onOpenModal.bind(this);
-        this.onCloseModal = this.onCloseModal.bind(this);
+        this.onOpenConfirmModal = this.onOpenConfirmModal.bind(this);
+        this.onCloseConfirmModal = this.onCloseConfirmModal.bind(this);
+        this.onClickConfirm = this.onClickConfirm.bind(this);
+        this.getData = this.getData.bind(this);
     }
 
-    onOpenModal() {
-        this.setState({ open: true });
+    onOpenConfirmModal() {
+        if (!Auth.getUserData()) {
+            browserHistory.push('/login');
+        }
+        else {
+            this.setState({openConfirmModal: true});
+        }
+
     };
 
-    onCloseModal() {
-        this.setState({ open: false });
+    onCloseConfirmModal() {
+        this.setState({openConfirmModal: false});
     };
+
+    getData() {
+        let data = {
+            eid: this.props.params.eventID
+        };
+
+        eventController.getEvent(data).then(response => {
+            if (response.status == 'success') {
+                this.setState({
+                    event: response.event
+                });
+            }
+            else {
+                this.setState({
+                    error: response.desc
+                });
+            }
+        });
+    }
+
+    onClickConfirm() {
+        let postData = {
+            eid: this.props.params.eventID,
+            op_type: 1
+        };
+        eventController.participateEvent(postData).then(response => {
+            if (response.status === 'success') {
+                this.onCloseConfirmModal();
+            }
+            else {
+                this.setState({
+                    error: response.desc
+                });
+            }
+        });
+    }
 
 
     componentWillMount() {
-
+        this.getData()
     }
 
 
     render() {
-        
+
         if (this.state.event) {
             return (
                 <div id="section-aboutus" className="section-eventsdetails">
-                    <Modal open={this.state.open} onClose={this.onCloseModal} center>
-                        <h2>Registration form</h2>
+                    <Modal open={this.state.openConfirmModal} onClose={this.onCloseConfirmModal} center
+                           className="popup centred">
+                        <span className="yes-reply centred"></span>
+                        <span className="no-reply centred"></span>
+                        <p>Please confirm your registration </p>
+                        <div className="button yes transition" style={{float: 'right'}}
+                             onClick={this.onClickConfirm}>Confirm
+                        </div>
+                        <div className="button no transition" style={{float: 'right'}}
+                             onClick={this.onCloseConfirmModal}>Cancel
+                        </div>
+                        <div className="error-message" style={{display: 'block', marginTop: '60px', textAlign: 'center'}}>
+                            {
+                                this.state.error ?(
+                                    <div>{this.state.error}. Please try again</div>
+                                ) : (
+                                    <div></div>
+                                )
+                            }
+                        </div>
+
                     </Modal>
                     <div className="container">
                         <div id="list-view">
@@ -88,7 +156,8 @@ class Event extends React.Component {
                                         accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
                                         takimata sanctus est Lorem ipsum dolor sit amet.
                                     </p>
-                                    <button type="button" onClick={this.onOpenModal}>Register</button>
+                                    <button type="button" onClick={this.onOpenConfirmModal}>Register
+                                    </button>
 
 
                                 </div>
@@ -104,36 +173,6 @@ class Event extends React.Component {
                                     </button>
                                 </div>
 
-
-                                {/*<div className="col-md-12 pad0 left4">*/}
-                                {/*<h3>Photo Gallery</h3>*/}
-                                {/*<div className="content pad0">*/}
-                                {/*<div className="col-md-3 pad0 col-sm-6 col-xs-12">*/}
-                                {/*<img src="assets/images/latestevent-img.png"/>*/}
-                                {/*</div>*/}
-                                {/*<div className="col-md-3 pad0 col-sm-6 col-xs-12">*/}
-                                {/*<img src="assets/images/latestevent-img.png"/>*/}
-                                {/*</div>*/}
-                                {/*<div className="col-md-3 pad0 col-sm-6 col-xs-12">*/}
-                                {/*<img src="assets/images/latestevent-img.png"/>*/}
-                                {/*</div>*/}
-                                {/*<div className="col-md-3 pad0 col-sm-6 col-xs-12">*/}
-                                {/*<img src="assets/images/latestevent-img.png"/>*/}
-                                {/*</div>*/}
-                                {/*<div className="col-md-3 pad0 col-sm-6 col-xs-12">*/}
-                                {/*<img src="assets/images/latestevent-img.png"/>*/}
-                                {/*</div>*/}
-                                {/*<div className="col-md-3 pad0 col-sm-6 col-xs-12">*/}
-                                {/*<img src="assets/images/latestevent-img.png"/>*/}
-                                {/*</div>*/}
-                                {/*<div className="col-md-3 pad0 col-sm-6 col-xs-12">*/}
-                                {/*<img src="assets/images/latestevent-img.png"/>*/}
-                                {/*</div>*/}
-                                {/*<div className="col-md-3 pad0 col-sm-6 col-xs-12">*/}
-                                {/*<img src="assets/images/latestevent-img.png"/>*/}
-                                {/*</div>*/}
-                                {/*</div>*/}
-                                {/*</div>*/}
                                 <div className="col-md-12 pad0 left5">
                                     <h3>Event Position</h3>
                                     <div className="content pad0">
@@ -186,6 +225,11 @@ class Event extends React.Component {
                         </div>
                     </div>
                 </div>
+            )
+        }
+        else if (this.state.error) {
+            return (
+                <div>{this.state.error}</div>
             )
         }
         else {

@@ -7,7 +7,6 @@ class AttendingEvents extends React.Component {
         this.state = {
             events: true
         }
-
     }
 
     componentDidMount(){
