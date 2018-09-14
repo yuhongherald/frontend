@@ -44,6 +44,7 @@ class Base extends React.Component {
                                 </div>
                                 <span className="pull-right search-btn"><span
                                     className="glyphicon glyphicon-search"></span></span>
+                                {/*Navbar, keep the logic*/}
                                 <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                                     {Auth.isUserAuthenticated() ? (
                                         <ul className="nav navbar-nav navbar-right">
@@ -68,8 +69,8 @@ class Base extends React.Component {
                     </div>
                 </div>
 
-
-                <div style={{marginTop: '118px', minWidth: '100%'}}>
+                <div style={{height: '118px'}}></div>
+                <div style={{minWidth: '100%'}}>
                     {children}
                 </div>
 
