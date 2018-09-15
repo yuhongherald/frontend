@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
 import {Link} from 'react-router';
 import Auth from '../../modules/Auth';
+import "../Main/css/Index.css";
 
 const styles = {
     navbar: {
@@ -42,17 +43,21 @@ class Base extends React.Component {
                                         App name
                                     </Link>
                                 </div>
-                                <span className="pull-right search-btn"><span
-                                    className="glyphicon glyphicon-search"></span></span>
+                                <span className="pull-right search-btn"><span>
+                                <Link to={`/`}> Explore Events</Link></span></span>
+
                                 {/*Navbar, keep the logic*/}
                                 <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                                     {Auth.isUserAuthenticated() ? (
                                         <ul className="nav navbar-nav navbar-right">
-                                            <li><Link to={`/`}>Events</Link></li>
                                             <li style={styles.navbar}>
                                                 <i className="fas fa-user" aria-hidden="true"></i>
                                                 {Auth.getUserData().username}
                                             </li>
+                                            <li><Link to={`/`}> My schedule</Link></li>
+                                            <li><Link to={`/`}> Manage events</Link></li>
+                                            <li><Link to={`/`}><button className="create-event">Create events</button></Link></li>
+
                                             <li><Link to={`/logout`}>Log out</Link></li>
                                         </ul>
                                     ) : (

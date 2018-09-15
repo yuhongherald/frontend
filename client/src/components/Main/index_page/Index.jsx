@@ -26,12 +26,6 @@ class Index extends React.Component {
     render() {
         return (
             <div>
-                <div className="u-form-group-pink"
-                     style={{textAlign: 'center', margin: '40px 0px 20px 0px'}}>
-                    <Link to={`/events/new`}>
-                        <button type="button">Create event</button>
-                    </Link>
-                </div>
                 <CategoryList/>
                 <Events/>
             </div>
