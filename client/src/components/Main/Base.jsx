@@ -56,7 +56,7 @@ class Base extends React.Component {
                                             </li>
                                             <li><Link to={`/`}> My schedule</Link></li>
                                             <li><Link to={`/`}> Manage events</Link></li>
-                                            <li><Link to={`/`}><button className="create-event">Create events</button></Link></li>
+                                            <li><Link to={`/events/new`}><button className="create-event">Create events</button></Link></li>
 
                                             <li><Link to={`/logout`}>Log out</Link></li>
                                         </ul>
