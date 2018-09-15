@@ -15,3 +15,109 @@
 .SingleDatePicker {
     display: block !important
 }
+
+._fhlaevk {
+    margin: 0px !important;
+    word-wrap: break-word !important;
+    font-size: 12px !important;
+    line-height: 16px !important;
+    letter-spacing: 1px !important;
+    font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif !important;
+    text-transform: undefined !important;
+    color: #484848 !important;
+    padding-top: undefined !important;
+    padding-bottom: undefined !important;
+    font-weight: 800 !important;
+}
+
+._djxl322 {
+    display: table !important;
+    position: relative !important;
+    height: 100% !important;
+    width: 100% !important;
+}
+
+._ni9axhe {
+    display: table-cell !important;
+    vertical-align: middle !important;
+}
+
+._iv990q {
+    line-height: 36px !important;
+    letter-spacing: normal !important;
+    font-family: Circular,-apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif !important;
+    text-transform: undefined !important;
+    color: #ffffff !important;
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
+    font-weight: bold !important;
+    margin: 0px !important;
+    padding: 0px !important;
+    position: absolute;
+    top: -100px;
+}
+
+._tpbrp {
+    padding: 20px 20px;
+    font-size: 36px;
+}
+
+.event-small-category {
+    word-wrap: break-word !important;
+    font-size: 12px !important;
+    line-height: 16px !important;
+    letter-spacing: normal !important;
+    font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif !important;
+    text-transform: uppercase;
+    padding-top: 10px;
+    margin-bottom: 0px;
+    font-weight: bold;
+    color: rgb(57, 87, 106);
+}
+
+._3uc7cf {
+    cursor: pointer !important;
+    display: inline-block !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    width: 100% !important;
+    background: transparent !important;
+    border-width: 1px !important;
+    border-style: solid !important;
+    border-color: rgb(0, 132, 137) !important;
+    border-image: initial !important;
+    border-radius: 4px !important;
+    padding: 14px !important;
+    text-decoration: none !important;
+    color: rgb(0, 132, 137);
+    font-weight: bold;
+}
+
+.big-form {
+    height: 50px;
+}
+
+.Dropdown-control {
+    height: 50px;
+    padding-top: 10px;
+    font-family: Helvetica Neue;
+    font-size: 14px;
+    line-height: 1.42857143;
+}
+
+.Dropdown-placeholder.is-selected {
+    font-family: Helvetica Neue;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+}
+
+.rdatez {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 20px 5px 20px 5px;
+}
+
+
+
+

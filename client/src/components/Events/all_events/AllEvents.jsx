@@ -27,12 +27,6 @@ class AllEvents extends React.Component {
         return (
             <div>
                 <div>
-                    <div className="u-form-group-pink"
-                         style={{margin: '0 auto', textAlign: 'center', margin: '40px 0px 0px 0px', backgroundColor: "#f2f2f2"}}>
-                        <Link to={`/events/new`}>
-                            <button type="button">Create event</button>
-                        </Link>
-                    </div>
                     <div className="parent border-top-bottom" style={{padding: '20px 0px 20px 00px'}}>
                         <div className="child child-60"><p>Arts</p></div>
                         <div className="child child-60"><p>Food</p></div>

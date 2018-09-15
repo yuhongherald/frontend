@@ -4,7 +4,6 @@ import TextField from '@material-ui/core/TextField';
 import FacebookLogin from 'react-facebook-login';
 import GoogleLogin from 'react-google-login';
 import Auth from '../../modules/Auth';
-import {browserHistory} from 'react-router';
 import {Link} from 'react-router';
 import userController from '../../controllers/userController.js';
 import {hashHistory} from 'react-router';

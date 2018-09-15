@@ -16,7 +16,8 @@ class EventsByPage extends React.Component {
             totalCount: 300,
             totalPages: 1,
             sortBy: this.props.sortBy,
-            filters: this.props.filters
+            filters: this.props.filters,
+            smallView: this.props.smallView
         };
         this.getData = this.getData.bind(this);
         this.handlePageChange = this.handlePageChange.bind(this);
@@ -105,11 +106,35 @@ class EventsByPage extends React.Component {
 
                 </div>
             );
+
+            const listOfEventsSmall = events.map((event) =>
+                <div style={{width: '50%'}} key={event.pk}>
+                    <div className="event-container">
+                        <div className="event-box">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQhWs2_oaas5sO0iEjtkZKIBG5Civh0-X3Tk1eoO2rnFVLJBdviw"
+                            height="100"
+                            width="150"
+                            style={{marginRight: '20px', borderRadius: '5px'}}/>
+                             <p className="event-small-category">Music</p>
+                             <p className="event-small-title">{event.fields.event_title}</p>
+                        </div>
+                    </div>
+                </div>
+            );
             return (
                 <div>
-                    <div>
-                        {listOfEvents}
-                    </div>
+                    {
+                        this.state.smallView ? (
+                            <div style={{display: 'flex', flewDirection: 'row', flexWrap:'wrap'}}>
+                                {listOfEventsSmall}
+                            </div>
+                        ):(
+                            <div>
+                                {listOfEvents}
+                            </div>
+                        )
+
+                    }
 
                     {/*PAGINATION*/}
                     {
@@ -139,7 +164,6 @@ class EventsByPage extends React.Component {
             return (
                 <div>{this.state.error}</div>
             )
-
         }
         else {
             return (
