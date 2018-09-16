@@ -2,3 +2,21 @@
     text-decoration: underline;
     opacity: 0.7
 }
+
+.navbar-default {
+    padding-top:0px !important;
+}
+
+.create-event {
+
+}
+
+.create-event {
+    margin: 0 auto;
+    text-align: center;
+    background-color: #f55692;
+    padding: 5px 5px;
+    border-radius: 3px;
+    border: 1px solid #f55692;
+    color: white;
+}

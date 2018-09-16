@@ -9,7 +9,7 @@ $(function(){
      */
 
     //  Init Map
-        initMap()
+    initMap()
 
     // 1. Map allEvents	
     	var map;
@@ -123,6 +123,8 @@ $(function(){
 
 		    ];
 
+
+
 		    var map = new google.maps.Map(document.getElementById('map2'), {
 		        zoom: 14,
 		        center: new google.maps.LatLng(40.692446, -73.947126),
@@ -180,6 +182,8 @@ $(function(){
 		        icon: iconBase + 'marker.png'
 		    });
 		}
+
+
 	// End Map allEvents	
 });		
 
