@@ -6,6 +6,11 @@ hr {
     width: 100%;
 }
 
+button {
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
 .filter-panel {
     background-color: #FFE2FB;
     width:100%;

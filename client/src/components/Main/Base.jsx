@@ -30,8 +30,6 @@ class Base extends React.Component {
                 <div>
                     <Navbar/>
                 </div>
-
-                <div style={{height: '118px'}}></div>
                 <div style={{minWidth: '100%'}}>
                     {children}
                 </div>

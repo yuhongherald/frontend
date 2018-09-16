@@ -15,7 +15,11 @@
 }
 
 .tab[aria-selected="true"] {
-    background-color: #b44;
+    background-color: #f55692;
+}
+
+.tab[aria-selected="false"] {
+    background-color: #fdd;
 }
 
 /*Use relative styling for the 2 icons*/
@@ -39,7 +43,7 @@
     height: 100%;
     width: 20%;
     text-wrap: normal;
-    font-size: 30px;
+    font-size: 22px;
     text-align: center;
     color: #fff;
     background-color: #fdd;
@@ -133,6 +137,25 @@
 .edit-btn {
     display: inline-block;
     background-image: url(/assets/images/edit.png);
+    background-color: transparent;
+    width:34px;
+    height:100%;
+    color:#FFFFFF;
+    margin-left:-34px;
+    margin-top:-50%;
+    padding:0px;
+    border-color:Transparent;
+
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    float: right;
+    position:relative;
+}
+
+.exit-btn {
+    display: inline-block;
+    background-image: url(/assets/images/exit.png);
     background-color: transparent;
     width:34px;
     height:100%;

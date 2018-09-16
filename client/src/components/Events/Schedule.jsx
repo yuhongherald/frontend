@@ -75,7 +75,7 @@ class Schedule extends React.Component {
                                     </span>
                                 </div>
                             </div>
-                            <span className="edit-btn"></span>
+                            <button className="edit-btn"></button>
             </span>
         </div>;
     }
@@ -83,7 +83,7 @@ class Schedule extends React.Component {
     createEventTemplate() {
         return <div className="eventContainer">
                         <span className="dateLabel">
-                            30 Sep
+                            30 Sep Sun
                         </span>
             <span className="eventContent">
                             <div className="eventBanner">
@@ -101,6 +101,7 @@ class Schedule extends React.Component {
                                     </span>
                                 </div>
                             </div>
+                            <button className="exit-btn"></button>
             </span>
         </div>;
     }
