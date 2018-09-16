@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
 import {Link} from 'react-router';
 import Auth from '../../modules/Auth';
+import Navbar from './Navbar.jsx';
 import "../Main/css/Index.css";
 
 const styles = {
@@ -28,6 +29,7 @@ class Base extends React.Component {
         return (
             <div>
                 <div>
+                    <Navbar/>
                     <div id="navigation-header">
                         <nav className="navbar navbar-default" role="navigation">
                             <div className="container">
@@ -73,17 +75,14 @@ class Base extends React.Component {
 
                     </div>
                 </div>
-
-                <div style={{height: '118px'}}></div>
                 <div style={{minWidth: '100%'}}>
                     {children}
                 </div>
-
-
             </div>
 
         )
     }
+
 }
 
 
