@@ -3164,7 +3164,7 @@ figure.figure2.hover:after {
 	    margin-top: -30px;
 	    margin-bottom: 100px;
 	}
-    /*Navbar Collapse Edit*/
+    /*Navbar.jsx Collapse Edit*/
     .navbar-header {
         float: none;
     }
@@ -3199,7 +3199,7 @@ figure.figure2.hover:after {
     .collapse.in{
         display:block !important;
     }
-    /*END Navbar Collapse Edit*/
+    /*END Navbar.jsx Collapse Edit*/
 }
 @media only screen and (min-width: 768px) {
     .container{
