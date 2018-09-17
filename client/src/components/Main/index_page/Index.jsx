@@ -17,15 +17,15 @@ class Index extends React.Component {
         this.state = {
             gotFilters: false,
             filters: {
-                location: 'Bedok',
-                category: 'Choose an option',
+                address: 'Bedok',
+                event_type: 'Choose an option',
                 event_start_date: '',
                 event_end_date: ''
             },
             startDate: new Date('09/12/2018'),
             endDate: new Date('9/20/2018')
         };
-        this.onChange = this.onChange.bind(this);
+        this.onInputChange = this.onInputChange.bind(this);
         this.onSelect = this.onSelect.bind(this);
         this.changeStartDate = this.changeStartDate.bind(this);
         this.changeEndDate = this.changeEndDate.bind(this);
@@ -37,8 +37,8 @@ class Index extends React.Component {
     resetFilters() {
         this.setState({
             filters: {
-                location: '',
-                category: '',
+                address: '',
+                event_type: '',
                 event_start_date: '',
                 event_end_date: ''
             },
@@ -46,9 +46,10 @@ class Index extends React.Component {
         })
     }
 
-    onChange(event) {
+    onInputChange(event) {
         event.preventDefault();
         const field = event.target.name;
+        console.log(field);
         const filters = this.state.filters;
         filters[field] = event.target.filters;
         this.setState({
@@ -71,7 +72,7 @@ class Index extends React.Component {
 
     onSelect(e) {
         const filters = this.state.filters;
-        filters['category'] = this.remapEventType(e.value);
+        filters['event_type'] = this.remapEventType(e.value);
         this.setState({
             filters: filters,
             gotFilters: true
@@ -189,9 +190,9 @@ class Index extends React.Component {
 
                                                     </label></div>
                                                     <input type="text" className="form-control big-form"
-                                                           id="formInput113" name="location"
-                                                           onChange={this.onChange}
-                                                           value={this.state.filters.location} required
+                                                           id="formInput113" name="address"
+                                                           onChange={this.onInputChange}
+                                                           value={this.state.filters.address} required
                                                            style={{marginBottom: '20px'}}
                                                     />
                                                 </div>
@@ -235,7 +236,7 @@ class Index extends React.Component {
                                                 </label></div>
                                                 <Dropdown
                                                     options={options} onChange={this.onSelect}
-                                                    value={this.state.filters.category}
+                                                    value={this.state.filters.event_type}
                                                     placeholder="Select an option" required/>
 
                                             </div>

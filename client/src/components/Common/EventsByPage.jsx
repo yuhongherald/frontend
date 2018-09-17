@@ -25,6 +25,7 @@ class EventsByPage extends React.Component {
         this.handlePageChange = this.handlePageChange.bind(this);
         this.readImage = this.readImage.bind(this);
         this.readImageSmall = this.readImageSmall.bind(this);
+        this.mapEventCategory = this.mapEventCategory.bind(this);
 
     }
 
@@ -107,8 +108,24 @@ class EventsByPage extends React.Component {
 
     }
 
+    mapEventCategory(event){
+        let mapList = {
+            "0": "arts",
+            "1": "food",
+            "2": "sports",
+            "3": "social"
+        };
+        if (event in mapList){
+            return mapList[event];
+        }
+    }
+
     componentWillMount() {
         this.getData();
+    }
+
+    componentWillUpdate() {
+        setTimeout(this.getData(), 3000);
     }
 
 
@@ -132,7 +149,7 @@ class EventsByPage extends React.Component {
                             </Link>
                             <div className="col-md-12 events-description eventslistartist-grid">
                                 <span className="country-label"
-                                      style={{textTransform: 'uppercase', backgroundColor: "#FF5A5F"}}>Music</span>
+                                      style={{textTransform: 'uppercase', backgroundColor: "#FF5A5F"}}>{this.mapEventCategory(event.fields.event_type)}</span>
                                 <div className="events-text">
                                     <Link to={`/events/${event.pk}`}><h3
                                         style={{textTransform: 'uppercase'}}>{event.fields.event_title}</h3></Link>
@@ -159,9 +176,9 @@ class EventsByPage extends React.Component {
                     <div style={{width: '50%'}} key={event.pk}>
                         <div className="event-container">
                             <div className="event-box" style={{marginBottom: '40px'}}>
-                                {this.readImageSmall(event.fields.image)}
-                                <p className="event-small-category">Music</p>
-                                <p className="event-small-title">{event.fields.event_title}</p>
+                                <Link to={`/events/${event.pk}`}>{this.readImageSmall(event.fields.image)}</Link>
+                                <p className="event-small-category">{this.mapEventCategory(event.fields.event_type)}</p>
+                                <Link to={`/events/${event.pk}`}><p className="event-small-title">{event.fields.event_title}</p></Link>
                             </div>
                         </div>
                     </div>

@@ -2848,6 +2848,7 @@ var EventsByPage = function (_React$Component) {
         _this.handlePageChange = _this.handlePageChange.bind(_this);
         _this.readImage = _this.readImage.bind(_this);
         _this.readImageSmall = _this.readImageSmall.bind(_this);
+        _this.mapEventCategory = _this.mapEventCategory.bind(_this);
 
         return _this;
     }
@@ -2923,9 +2924,27 @@ var EventsByPage = function (_React$Component) {
             }
         }
     }, {
+        key: 'mapEventCategory',
+        value: function mapEventCategory(event) {
+            var mapList = {
+                "0": "arts",
+                "1": "food",
+                "2": "sports",
+                "3": "social"
+            };
+            if (event in mapList) {
+                return mapList[event];
+            }
+        }
+    }, {
         key: 'componentWillMount',
         value: function componentWillMount() {
             this.getData();
+        }
+    }, {
+        key: 'componentWillUpdate',
+        value: function componentWillUpdate() {
+            setTimeout(this.getData(), 3000);
         }
     }, {
         key: 'render',
@@ -2960,7 +2979,7 @@ var EventsByPage = function (_React$Component) {
                                         'span',
                                         { className: 'country-label',
                                             style: { textTransform: 'uppercase', backgroundColor: "#FF5A5F" } },
-                                        'Music'
+                                        _this3.mapEventCategory(event.fields.event_type)
                                     ),
                                     _react2.default.createElement(
                                         'div',
@@ -3022,16 +3041,24 @@ var EventsByPage = function (_React$Component) {
                                 _react2.default.createElement(
                                     'div',
                                     { className: 'event-box', style: { marginBottom: '40px' } },
-                                    _this3.readImageSmall(event.fields.image),
                                     _react2.default.createElement(
-                                        'p',
-                                        { className: 'event-small-category' },
-                                        'Music'
+                                        _reactRouter.Link,
+                                        { to: '/events/' + event.pk },
+                                        _this3.readImageSmall(event.fields.image)
                                     ),
                                     _react2.default.createElement(
                                         'p',
-                                        { className: 'event-small-title' },
-                                        event.fields.event_title
+                                        { className: 'event-small-category' },
+                                        _this3.mapEventCategory(event.fields.event_type)
+                                    ),
+                                    _react2.default.createElement(
+                                        _reactRouter.Link,
+                                        { to: '/events/' + event.pk },
+                                        _react2.default.createElement(
+                                            'p',
+                                            { className: 'event-small-title' },
+                                            event.fields.event_title
+                                        )
                                     )
                                 )
                             )
@@ -50235,15 +50262,15 @@ var Index = function (_React$Component) {
         _this.state = {
             gotFilters: false,
             filters: {
-                location: 'Bedok',
-                category: 'Choose an option',
+                address: 'Bedok',
+                event_type: 'Choose an option',
                 event_start_date: '',
                 event_end_date: ''
             },
             startDate: new Date('09/12/2018'),
             endDate: new Date('9/20/2018')
         };
-        _this.onChange = _this.onChange.bind(_this);
+        _this.onInputChange = _this.onInputChange.bind(_this);
         _this.onSelect = _this.onSelect.bind(_this);
         _this.changeStartDate = _this.changeStartDate.bind(_this);
         _this.changeEndDate = _this.changeEndDate.bind(_this);
@@ -50258,8 +50285,8 @@ var Index = function (_React$Component) {
         value: function resetFilters() {
             this.setState({
                 filters: {
-                    location: '',
-                    category: '',
+                    address: '',
+                    event_type: '',
                     event_start_date: '',
                     event_end_date: ''
                 },
@@ -50267,10 +50294,11 @@ var Index = function (_React$Component) {
             });
         }
     }, {
-        key: 'onChange',
-        value: function onChange(event) {
+        key: 'onInputChange',
+        value: function onInputChange(event) {
             event.preventDefault();
             var field = event.target.name;
+            console.log(field);
             var filters = this.state.filters;
             filters[field] = event.target.filters;
             this.setState({
@@ -50295,7 +50323,7 @@ var Index = function (_React$Component) {
         key: 'onSelect',
         value: function onSelect(e) {
             var filters = this.state.filters;
-            filters['category'] = this.remapEventType(e.value);
+            filters['event_type'] = this.remapEventType(e.value);
             this.setState({
                 filters: filters,
                 gotFilters: true
@@ -50464,9 +50492,9 @@ var Index = function (_React$Component) {
                                                         )
                                                     ),
                                                     _react2.default.createElement('input', { type: 'text', className: 'form-control big-form',
-                                                        id: 'formInput113', name: 'location',
-                                                        onChange: this.onChange,
-                                                        value: this.state.filters.location, required: true,
+                                                        id: 'formInput113', name: 'address',
+                                                        onChange: this.onInputChange,
+                                                        value: this.state.filters.address, required: true,
                                                         style: { marginBottom: '20px' }
                                                     })
                                                 )
@@ -50554,7 +50582,7 @@ var Index = function (_React$Component) {
                                                 ),
                                                 _react2.default.createElement(_reactDropdown2.default, {
                                                     options: options, onChange: this.onSelect,
-                                                    value: this.state.filters.category,
+                                                    value: this.state.filters.event_type,
                                                     placeholder: 'Select an option', required: true })
                                             )
                                         )
@@ -53151,7 +53179,7 @@ var CreateEvent = function (_React$Component) {
             var postData = {
                 "event_title": this.state.data.title,
                 "event_desc": this.state.data.description,
-                "max_quota": this.state.data.maxQuota,
+                "max_quota": this.state.data.maxQuota.toString(),
                 "event_type": this.remapEventType(this.state.data.category),
                 "event_start_date": this.formatDate(this.state.startDate) + " " + this.state.data.startTime,
                 "event_end_date": this.formatDate(this.state.endDate) + " " + this.state.data.endTime,

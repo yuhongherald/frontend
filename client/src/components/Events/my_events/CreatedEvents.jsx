@@ -1,11 +1,8 @@
 import React, {PropTypes} from 'react';
 <<<<<<< HEAD:client/src/components/Events/CreatedEvents.jsx
 import axios from 'axios';
-import {events} from '../Events/data.js';
-=======
+import {events} from '../..//Events/data.js';
 import 'axios' from 'axios';
-
->>>>>>> feature/logout:client/src/components/Events/my_events/CreatedEvents.jsx
 
 class CreatedEvents extends React.Component {
 
@@ -21,12 +18,10 @@ class CreatedEvents extends React.Component {
         //TODO get events created by the user
         //TODO get the list of registration for the event
         this.setState({
-<<<<<<< HEAD:client/src/components/Events/CreatedEvents.jsx
+
             events: events,
             registration: null,
-=======
-            events: events
->>>>>>> feature/logout:client/src/components/Events/my_events/CreatedEvents.jsx
+
         })
     }
 
