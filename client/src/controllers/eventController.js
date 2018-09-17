@@ -39,7 +39,7 @@ eventController.getEvent = (data) => {
                 status: 'failed',
                 desc: error.message
             }
-        })
+        });
     return response;
 };
 
@@ -66,7 +66,7 @@ eventController.createEvent = (data) => {
             }
         });
     return response;
-}
+};
 
 eventController.participateEvent = (data) => {
     let response = axios.post(endPoint + '/api/v1/event/participate/', {
@@ -83,9 +83,21 @@ eventController.participateEvent = (data) => {
                 status: 'failed',
                 desc: error
             }
-        })
+        });
 
     return response;
 };
+
+eventController.getNearbyEvents = (data) => {
+    return axios.get(endPoint + '/api/v1/event/nearby/', {
+        ...data
+    }).then(response => response.data).catch(err => {
+        return {
+            status: 'failed',
+            desc: err
+        }
+    });
+};
+
 
 export default eventController;
