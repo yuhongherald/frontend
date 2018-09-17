@@ -1635,7 +1635,7 @@ var Dropdown = function ($) {
           }
         }
 
-        // Disable Popper.js for Dropdown in Navbar
+        // Disable Popper.js for Dropdown in Navbar.jsx
       };if (this._inNavbar) {
         popperConfig.modifiers.applyStyle = {
           enabled: !this._inNavbar

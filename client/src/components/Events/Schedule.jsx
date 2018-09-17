@@ -3,8 +3,6 @@ import React, {PropTypes} from 'react';
 import '../Events/css/Events.css';
 import "../Events/css/schedule.css";
 
-import './css/filter.css';
-
 class Schedule extends React.Component {
     constructor(props) {
         super(props);

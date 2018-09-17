@@ -6,6 +6,14 @@
     margin-top:0px;
     margin-bottom:0px;
     font-size:18px;
+    text-align: center;
+    vertical-align: middle;
+    touch-action: manipulation;
+    cursor: pointer;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    color:#FFFFFF;
+    background-color: #f55692;
 }
 
 .tabList {
@@ -142,13 +150,13 @@
     height:100%;
     color:#FFFFFF;
     margin-left:-34px;
-    margin-top:-50%;
+    margin-top:-35%;
     padding:0px;
     border-color:Transparent;
 
     background-size: contain;
     background-repeat: no-repeat;
-    background-position: 50% 50%;
+    background-position: 50% 0%;
     float: right;
     position:relative;
 }
@@ -161,13 +169,13 @@
     height:100%;
     color:#FFFFFF;
     margin-left:-34px;
-    margin-top:-50%;
+    margin-top:-35%;
     padding:0px;
     border-color:Transparent;
 
     background-size: contain;
     background-repeat: no-repeat;
-    background-position: 50% 50%;
+    background-position: 50% 0%;
     float: right;
     position:relative;
 }
