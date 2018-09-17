@@ -53787,7 +53787,7 @@ var PopularEvents = function (_React$Component) {
                                 null,
                                 _react2.default.createElement(
                                     _reactRouter.Link,
-                                    { to: '/events/categories/sports', style: { color: '#333' } },
+                                    { to: '/events/categories/social', style: { color: '#333' } },
                                     'Social'
                                 )
                             )
@@ -53988,7 +53988,11 @@ var AllEvents = function (_React$Component) {
                             _react2.default.createElement(
                                 'p',
                                 null,
-                                'Arts'
+                                _react2.default.createElement(
+                                    _reactRouter.Link,
+                                    { to: '/events/categories/arts', style: { color: '#333' } },
+                                    'Arts'
+                                )
                             )
                         ),
                         _react2.default.createElement(
@@ -53997,7 +54001,11 @@ var AllEvents = function (_React$Component) {
                             _react2.default.createElement(
                                 'p',
                                 null,
-                                'Food'
+                                _react2.default.createElement(
+                                    _reactRouter.Link,
+                                    { to: '/events/categories/food', style: { color: '#333' } },
+                                    'Food'
+                                )
                             )
                         ),
                         _react2.default.createElement(
@@ -54006,7 +54014,11 @@ var AllEvents = function (_React$Component) {
                             _react2.default.createElement(
                                 'p',
                                 null,
-                                'Sports'
+                                _react2.default.createElement(
+                                    _reactRouter.Link,
+                                    { to: '/events/categories/sports', style: { color: '#333' } },
+                                    'Sports'
+                                )
                             )
                         ),
                         _react2.default.createElement(
@@ -54015,7 +54027,11 @@ var AllEvents = function (_React$Component) {
                             _react2.default.createElement(
                                 'p',
                                 null,
-                                'Social'
+                                _react2.default.createElement(
+                                    _reactRouter.Link,
+                                    { to: '/events/categories/social', style: { color: '#333' } },
+                                    'Social'
+                                )
                             )
                         )
                     )
