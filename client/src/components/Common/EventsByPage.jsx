@@ -124,9 +124,9 @@ class EventsByPage extends React.Component {
         this.getData();
     }
 
-    componentWillUpdate() {
-        setTimeout(this.getData(), 3000);
-    }
+    // componentWillUpdate() {
+    //     setTimeout(this.getData(), 3000);
+    // }
 
 
     render() {
