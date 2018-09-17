@@ -204,3 +204,60 @@
 .error-message{
     color: darkred;
 }
+._hauh0a {
+    background-color: #ffffff !important;
+    padding: 16px 20px 20px 0px !important;
+    z-index: 4 !important;
+    border-top: 1px solid #EBEBEB !important;
+    position: fixed;
+    bottom: 0px;
+    height: 80px;
+    width: 100%
+}
+
+._qy64md {
+    cursor: pointer !important;
+    display: inline-block !important;
+    margin: 0px !important;
+    position: relative !important;
+    text-align: center !important;
+    text-decoration: none !important;
+    -webkit-transition-property: background, border-color, color !important;
+    -moz-transition-property: background, border-color, color !important;
+    transition-property: background, border-color, color !important;
+    -webkit-transition-duration: 0.2s !important;
+    transition-duration: 0.2s !important;
+    -webkit-transition-timing-function: ease-out !important;
+    transition-timing-function: ease-out !important;
+    border-radius: 4px !important;
+    width: 100% !important;
+    font-size: 16px !important;
+    line-height: 22px !important;
+    letter-spacing: normal !important;
+    font-family: Circular,-apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif !important;
+    text-transform: undefined !important;
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+    font-weight: 800 !important;
+    border-width: 2px !important;
+    border-style: solid !important;
+    min-width: 77.66563145999496px !important;
+    padding-right: 8px !important;
+    padding-left: 8px !important;
+    box-shadow: none !important;
+    background: #FF5A5F !important;
+    border-color: transparent !important;
+    color: #ffffff !important;
+}
+
+.event-description {
+    margin: 0px !important;
+    word-wrap: break-word !important;
+    font-size: 16px !important;
+    line-height: 22px !important;
+    letter-spacing: normal !important;
+    font-family: Circular,-apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif !important;
+    text-transform: undefined !important;
+    color: #484848 !important;
+    text-align: left;
+}

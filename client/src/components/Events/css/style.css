@@ -2066,7 +2066,7 @@ figure.figure2.hover:after {
     font-size:11px;
 }
 .nav-tabs > li.active{
-  background-color:#f55692;
+  background-color: rgb(255, 90, 95);
 }
 .nav-tabs > li {
     float: left;

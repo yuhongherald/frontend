@@ -2,20 +2,24 @@ import React, {PropTypes} from 'react';
 import {Link} from 'react-router';
 import Auth from '../../modules/Auth';
 import "../Main/css/Index.css";
-import Filters from "../Events/filters/Filters.jsx";
+
+const styles = {
+    navbar: {
+        color: '#FF5A5F',
+        paddingTop: '10px'
+    },
+};
 
 class Base extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            //activePage: this.props.activePage,
-            isPaneOpen: false,
         }
     }
 
     componentDidMount() {
-        // Modal.setAppElement(this.el);
+
     }
 
     componentWillMount() {
@@ -29,7 +33,8 @@ class Base extends React.Component {
         return (
             <div>
                 <div id="navigation-header">
-                    <nav className="navbar navbar-default" role="navigation">
+                    <nav className="navbar navbar-default"  style={{paddingBottom: '10px'}} role="navigation">
+
                         <div className="container">
                             <div className="navbar-header">
                                 <button type="button" className="navbar-toggle" data-toggle="collapse"
@@ -39,44 +44,41 @@ class Base extends React.Component {
                                     <span className="icon-bar"></span>
                                     <span className="icon-bar"></span>
                                 </button>
-                                <Link to="/" className="navbar-brand">
-                                    App name
+                                <Link to="/" className="navbar-brand" style={{paddingTop: '28px', fontWeight: 'bold'}}>
+                                    <span style={{color: '#FF5A5F', marginRight: '3px'}}>bored</span><span style={{color: '#000'}}>gowhere</span>
                                 </Link>
                             </div>
                             <span className="pull-right search-btn"><span>
-                                <Link to={`/`}> Explore Events</Link></span></span>
+                            <Link to={`/`} style={{color: 'rgb(0, 132, 137)', paddingRight: '20px'}}> Browse</Link></span></span>
 
-                            {/*Navbar, keep the logic*/}
-                            <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                                {Auth.isUserAuthenticated() ? (
-                                    <ul className="nav navbar-nav navbar-right">
-                                        <li style={styles.navbar}>
-                                            <i className="fas fa-user" aria-hidden="true"></i>
-                                            {Auth.getUserData().username}
-                                        </li>
-                                        <li><Link to={`/`}> My schedule</Link></li>
-                                        <li><Link to={`/`}> Manage events</Link></li>
-                                        <li><Link to={`/events/new`}>
-                                            <button className="create-event">Create events</button>
-                                        </Link></li>
+                        </div>
+                        {/*Navbar, keep the logic*/}
+                        <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            {Auth.isUserAuthenticated() ? (
+                                <ul className="nav navbar-nav navbar-right">
+                                    <li style={styles.navbar}>
+                                        <i className="fas fa-user" aria-hidden="true"></i>
+                                        {Auth.getUserData().username}
+                                    </li>
+                                    <li><Link to={`/`}> My schedule</Link></li>
+                                    <li><Link to={`/`}> Manage events</Link></li>
+                                    <li><Link to={`/events/new`}>
+                                        <button className="create-event">Create events</button>
+                                    </Link></li>
+                                    <li><Link to={`/logout`}>Log out</Link></li>
+                                </ul>
+                            ) : (
+                                <ul className="nav navbar-nav navbar-right">
+                                    <li className="nav navbar-left-link"><Link to={`/login`}>Log in</Link></li>
+                                    <li className="nav"><Link to={`/signup`}>Sign up</Link></li>
+                                </ul>
 
-                                        <li><Link to={`/logout`}>Log out</Link></li>
-                                    </ul>
-                                ) : (
-                                    <ul className="nav navbar-nav navbar-right">
-                                        <li className="nav navbar-left-link"><Link to={`/login`}>Log in</Link></li>
-                                        <li className="nav"><Link to={`/signup`}>Sign up</Link></li>
-                                    </ul>
-
-                                )}
-                            </div>
+                            )}
                         </div>
                     </nav>
-                </div>
-                <div style={{minWidth: '100%'}}>
-                    <div style={{height: "118px"}}></div>
-                    <Filters/>
-                    {children}
+                    <div>
+                        {children}
+                    </div>
                 </div>
             </div>
 

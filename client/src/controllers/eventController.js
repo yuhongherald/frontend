@@ -2,7 +2,7 @@ import axios from 'axios';
 
 axios.defaults.withCredentials = true;
 
-const endPoint = "http://54.169.251.138";
+const endPoint = 'http://54.169.251.138';
 
 let eventController = {};
 
@@ -45,26 +45,35 @@ eventController.getEvent = (data) => {
 
 eventController.createEvent = (data) => {
     console.log(data);
-    let response = axios.post(endPoint + '/api/v1/event/create_event/', {
-        "event_title": data.event_title,
-        "event_desc": data.event_desc,
-        "max_quota": parseInt(data.max_quota),
-        "event_type": data.event_type,
-        "event_start_date": data.event_start_date,
-        "event_end_date": data.event_end_date,
-        "is_open_ended": data.is_open_ended
-    }, {headers: {'Content-Type': 'application/json'}})
-        .then(function (response) {
-            // handle success
-            return response.data
-        })
-        .catch(function (error) {
-            // handle error
-            return {
-                status: 'failed',
-                desc: error
-            }
-        });
+    let formData = new FormData();
+    formData.append('event_title', data.event_title);
+    formData.append('event_desc', data.event_desc);
+    formData.append('max_quota', data.max_quota);
+    formData.append('event_type', data.event_type);
+    formData.append('event_start_date', data.event_start_date);
+    formData.append('event_end_date', data.event_end_date);
+    formData.append('is_open_ended', data.is_open_ended);
+    formData.append('postal_code', data.postal_code);
+    formData.append('image', data.image);
+    console.log(formData);
+    let response = axios({
+        url: endPoint + '/api/v1/event/create_event/',
+        method: 'POST',
+        data: formData,
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'multipart/form-data'
+        }
+    }).then(function (response) {
+        // handle success
+        return response.data
+    }).catch(function (error) {
+        // handle error
+        return {
+            status: 'failed',
+            desc: error
+        }
+    });
     return response;
 }
 

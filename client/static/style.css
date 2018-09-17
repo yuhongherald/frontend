@@ -364,12 +364,10 @@ figure.figure2.hover:after {
 
 #navigation-header{
     position: absolute;
-    z-index: 99;
     background-color: #fff;
     top: 0;
     right: 0;
     left: 0;
-    opacity: 0.8;
 }
 
 /*====================
@@ -1042,7 +1040,7 @@ figure.figure2.hover:after {
     font-size: 16px; /* Edited */
 }
 .the-artist > p{
-    color: #56c1ff !important;
+    color: #56c1ff;
     font-family: 'Montserrat', sans-serif;
     font-size: 14px !important;
     margin-top: -8px !important;
