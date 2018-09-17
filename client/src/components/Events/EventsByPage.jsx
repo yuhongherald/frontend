@@ -9,7 +9,7 @@ import Modal from 'react-modal';
 import SlidingPane from 'react-sliding-pane';
 import 'react-sliding-pane/dist/react-sliding-pane.css';
 import './css/filter.css';
-import Filters from './Filters.jsx';
+import Filters from './filters/Filters.jsx';
 
 class EventsByPage extends React.Component {
     constructor(props) {

@@ -1,23 +1,17 @@
 import React, {PropTypes} from 'react';
 import { render } from 'react-dom';
-import Modal from 'react-modal';
-import SlidingPane from 'react-sliding-pane';
-import 'react-sliding-pane/dist/react-sliding-pane.css';
 import '../css/filter.css';
-import FilterForm from "./FilterForm.jsx";
 
-class Filters extends React.Component {
+class FilterForm extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            //activePage: this.props.activePage,
-            isPaneOpen: false,
+            location: undefined,
+            startDate: undefined,
+            endDate: undefined,
+            selectedCategories : [false, false, false, false]
         }
-    }
-
-    componentDidMount() {
-        Modal.setAppElement(this.el);
     }
 
     componentWillMount() {
@@ -27,31 +21,13 @@ class Filters extends React.Component {
     render() {
         return (
             <div>
-                {this.getSlidingPane()}
+                {this.getForm()}
             </div>
         )
     }
 
-    getSlidingPane() {
-        return <div ref={ref => this.el = ref}>
-            <button className = "btn" onClick={() => this.setState({ isPaneOpen: true })}>Click me to open right pane!</button>
-            <SlidingPane
-                isOpen={ this.state.isPaneOpen }
-                title='Search'
-                from='right'
-                // subtitle='Optional subtitle.'
-                onRequestClose={ () => {
-                    // triggered on "<" on left top click or on outside click
-                    this.setState({ isPaneOpen: false });
-                } }>
-                <FilterForm/>
-                {/*{this.getForm()}*/}
-            </SlidingPane>
-        </div>;
-    }
-
     getForm() {
-        <div className="filter-panel">
+        return <div className="filter-panel">
             <div className="col-md-12 pad0 col-sm-12">
                 <div id="custom-search-input">
                     <div className="input-group col-xs-12 col-sm-12 col-md-12 absolute width-80">
@@ -145,6 +121,4 @@ class Filters extends React.Component {
 }
 
 
-export default Filters;
-
-
+export default FilterForm;

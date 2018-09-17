@@ -2,12 +2,20 @@ import React, {PropTypes} from 'react';
 import {Link} from 'react-router';
 import Auth from '../../modules/Auth';
 import "../Main/css/Index.css";
+import Filters from "../Events/filters/Filters.jsx";
 
 class Base extends React.Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            //activePage: this.props.activePage,
+            isPaneOpen: false,
+        }
+    }
 
+    componentDidMount() {
+        // Modal.setAppElement(this.el);
     }
 
     componentWillMount() {
@@ -31,7 +39,7 @@ class Base extends React.Component {
                                     <span className="icon-bar"></span>
                                     <span className="icon-bar"></span>
                                 </button>
-                                <Link to="/" className="navbar-brand" >
+                                <Link to="/" className="navbar-brand">
                                     App name
                                 </Link>
                             </div>
@@ -48,7 +56,9 @@ class Base extends React.Component {
                                         </li>
                                         <li><Link to={`/`}> My schedule</Link></li>
                                         <li><Link to={`/`}> Manage events</Link></li>
-                                        <li><Link to={`/events/new`}><button className="create-event">Create events</button></Link></li>
+                                        <li><Link to={`/events/new`}>
+                                            <button className="create-event">Create events</button>
+                                        </Link></li>
 
                                         <li><Link to={`/logout`}>Log out</Link></li>
                                     </ul>
@@ -65,14 +75,15 @@ class Base extends React.Component {
                 </div>
                 <div style={{minWidth: '100%'}}>
                     <div style={{height: "118px"}}></div>
+                    <Filters/>
                     {children}
                 </div>
             </div>
 
         )
     }
-
 }
+
 
 
 export default Base;
