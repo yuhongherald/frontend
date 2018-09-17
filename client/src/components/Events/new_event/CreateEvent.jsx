@@ -38,6 +38,7 @@ class CreateEvent extends React.Component {
         this.changeStartDate = this.changeStartDate.bind(this);
         this.changeEndDate = this.changeEndDate.bind(this);
         this.handleImageChange = this.handleImageChange.bind(this);
+        this.remapEventType = this.remapEventType.bind(this);
     }
 
     handleImageChange(e) {
@@ -58,8 +59,7 @@ class CreateEvent extends React.Component {
 
     onSelect(e) {
         const data = this.state.data;
-        data['category'] = 1.0;
-        console.log(e.value);
+        data['category'] = e.value;
         this.setState({
             data: data
         });
@@ -74,6 +74,18 @@ class CreateEvent extends React.Component {
         this.setState({
             data: data
         });
+    }
+
+    remapEventType(event){
+        let mapList = {
+            "arts": "0",
+            "food": "1",
+            "sports": "2",
+            "social": "3"
+        };
+        if (event in mapList){
+            return mapList[event];
+        }
     }
 
     changeStartTime(time) {
@@ -104,10 +116,10 @@ class CreateEvent extends React.Component {
             "event_title": this.state.data.title,
             "event_desc": this.state.data.description,
             "max_quota": this.state.data.maxQuota,
-            "event_type": this.state.data.category,
+            "event_type": this.remapEventType(this.state.data.category),
             "event_start_date": this.formatDate(this.state.startDate) + " " + this.state.data.startTime,
             "event_end_date": this.formatDate(this.state.endDate) + " " + this.state.data.endTime,
-            "is_open_ended": true,
+            "is_open_ended": "1",
             "postal_code": this.state.data.location,
             "image": this.state.file
         };

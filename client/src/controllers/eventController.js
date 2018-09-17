@@ -44,17 +44,19 @@ eventController.getEvent = (data) => {
 };
 
 eventController.createEvent = (data) => {
+    console.log(data);
     let formData = new FormData();
     formData.append('event_title', data.event_title);
     formData.append('event_desc', data.event_desc);
-    formData.append('max_quota', parseInt(data.max_quota));
+    formData.append('max_quota', data.max_quota);
     formData.append('event_type', data.event_type);
     formData.append('event_start_date', data.event_start_date);
     formData.append('event_end_date', data.event_end_date);
     formData.append('is_open_ended', data.is_open_ended);
     formData.append('postal_code', data.postal_code);
     formData.append('image', data.image);
-    axios({
+    console.log(formData);
+    let response = axios({
         url: endPoint + '/api/v1/event/create_event/',
         method: 'POST',
         data: formData,

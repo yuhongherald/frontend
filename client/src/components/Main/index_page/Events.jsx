@@ -11,7 +11,6 @@ class Events extends React.Component {
         super(props);
         this.state = {
             filters: {
-                event_type: "1"
             }
         };
 
@@ -40,7 +39,7 @@ class Events extends React.Component {
                                 <span style={{display: 'inline-block', float: 'right', marginTop: '20px'}}><Link to="/popular_events" style={{color: '#8f939c'}}><span className="viewAll">View all</span> <i className="fas fa-chevron-right" style={{fontSize: '1em', padding: '0px 0px 0px 10px'}}></i> </Link></span>
                             </div>
 
-                            <div className="content-right col-md-9">
+                            <div className="content-right col-md-9" style={{marginTop: '20px', paddingTop: '10px'}}>
                                 <div className="tab-content">
                                     {/*LIST VIEW*/}
                                     <div id="list-view" className="tab-pane fade active in" role="tabpanel">
