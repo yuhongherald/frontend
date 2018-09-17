@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {withScriptjs, withGoogleMap, GoogleMap, Marker} from "react-google-maps";
 import {compose, withProps} from "recompose";
 import InfoBox from "react-google-maps/lib/components/addons/InfoBox";
-import marker from "../../../../static/assets/images/marker.png";
+import marker from "../assets/images/marker.png";
 import eventController from "../../../controllers/eventController";
 
 
@@ -34,7 +34,7 @@ const MyMapComponent = compose(
                     }}>
                         <div style={{backgroundColor: `white`, opacity: 0.75, padding: `12px`}}>
                             <div style={{fontSize: `16px`, fontColor: `#08233B`}}>
-                                Hello, InfoBox!
+                                {props.events[index].fields.event_title}
                             </div>
                         </div>
                     </InfoBox>}
@@ -75,7 +75,7 @@ export default class EventMap extends Component {
 
             locations: [],
 
-            events: [],
+            events: []
         };
     }
 
@@ -87,8 +87,27 @@ export default class EventMap extends Component {
                     lng: parseFloat(position.coords.longitude.toFixed(6))
                 };
 
-                this.setState({
-                    center: coordinate
+                eventController.getNearbyEvents(coordinate).then(response => {
+                    let data = response.data;
+                    if (data.status === 'success') {
+                        let events = JSON.parse(data.events);
+                        let locations = events.map(event => {
+                            return {
+                                lat: parseFloat(event.fields.lat),
+                                lng: parseFloat(event.fields.lng)
+                            }
+                        });
+                        this.setState({
+                            locations: locations,
+                            center: coordinate,
+                            events: events
+                        });
+                    }
+                }).catch(err => {
+                    return {
+                        status: 'failed',
+                        desc: err
+                    }
                 });
 
             });
@@ -117,6 +136,7 @@ export default class EventMap extends Component {
                 toToggleClose={this.toToggleClose.bind(this)}
                 locations={this.state.locations}
                 cur_open={this.state.cur_open}
+                events={this.state.events}
             />
         );
     }

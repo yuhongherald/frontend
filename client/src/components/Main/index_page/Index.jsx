@@ -8,6 +8,7 @@ import 'react-dropdown/style.css';
 import {ReactDatez} from 'react-datez';
 import 'react-datez/dist/css/react-datez.css';
 import EventsByPage from "../../Common/EventsByPage.jsx";
+import EventMap from "./EventMap";
 
 
 class Index extends React.Component {
@@ -248,10 +249,12 @@ class Index extends React.Component {
                         <span style={{fontSize: '0'}}></span></div>
                 </div>
 
+
                 {
                     !this.state.gotFilters ? (
                         <div>
                             <CategoryList/>
+                            <EventMap/>
                             <Events/>
                         </div>
                     ) : (

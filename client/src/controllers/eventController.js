@@ -7,7 +7,6 @@ const endPoint = 'http://54.169.251.138';
 let eventController = {};
 
 eventController.getEvents = (data) => {
-    console.log(data);
     let response = axios.get(endPoint + '/api/v1/event/list/', {
         params: data
     })
@@ -99,7 +98,7 @@ eventController.participateEvent = (data) => {
 
 eventController.getNearbyEvents = (data) => {
     return axios.get(endPoint + '/api/v1/event/nearby/', {
-        ...data
+        params: data
     }).then(response => response.data).catch(err => {
         return {
             status: 'failed',
