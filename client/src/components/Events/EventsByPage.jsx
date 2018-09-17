@@ -9,7 +9,7 @@ import Modal from 'react-modal';
 import SlidingPane from 'react-sliding-pane';
 import 'react-sliding-pane/dist/react-sliding-pane.css';
 import './css/filter.css';
-import Filters from './Filters.jsx';
+import Filters from './filters/Filters.jsx';
 
 class EventsByPage extends React.Component {
     constructor(props) {
@@ -77,9 +77,9 @@ class EventsByPage extends React.Component {
             <button className = "btn" onClick={() => this.setState({ isPaneOpen: true })}>Click me to open right pane!</button>
             <SlidingPane
                 isOpen={ this.state.isPaneOpen }
-                title='Filters'
-                from='left'
-                subtitle='Optional subtitle.'
+                title='Search'
+                from='right'
+                // subtitle='Optional subtitle.'
                 onRequestClose={ () => {
                     // triggered on "<" on left top click or on outside click
                     this.setState({ isPaneOpen: false });
@@ -101,91 +101,6 @@ class EventsByPage extends React.Component {
             return <div>Loading</div>
         }
 
-    }
-
-    getForm() {
-        const form =
-            <div className="card card-body">
-                <div className="content-right col-md-3 z10">
-                    <div className="sidebar-searchbar col-md-12 pad0 col-sm-12">
-                        <h4>FIND AN EVENT</h4>
-                        <div id="custom-search-input">
-                            <div className="input-group col-xs-12 col-sm-12 col-md-12">
-                                <input type="text" className="  search-query form-control" placeholder="Event"/>
-                                <span className="input-group-btn"><button className="btn btn-danger" type="button">
-										<span className=" glyphicon glyphicon-search"></span>
-									</button></span>
-                            </div>
-                        </div>
-                    </div>
-                    <p>
-                        <button className="pink-borderless mobile-width btn non-mobile-hide" type="button"
-                                data-toggle="collapse" data-target="#search" aria-expanded="false"
-                                aria-controls="search">
-                            Advanced search
-                        </button>
-                    </p>
-
-                    <div className="collapse light-pink" id="search">
-                        <br/>
-                        <div className="height-auto sidebar-location col-md-12 pad0 col-sm-12">
-                            <h4>LOCATION</h4>
-                            <div id="custom-search-input">
-                                <div className="input-group col-xs-12 col-sm-12 col-md-12 absolute width-80">
-                                    <input type="text" className="  search-query form-control"
-                                           placeholder="search for location"/>
-                                    <span className="input-group-btn"><button className="btn btn-danger" type="button">
-														<span className=" glyphicon glyphicon-search"></span>
-													</button></span>
-                                </div>
-                            </div>
-                            <div className="map" id="map"></div>
-                        </div>
-                        <div className="sidebar-selectdate col-md-12 pad0 col-sm-12">
-                            <h4>SELECT DATE</h4>
-                            <div className="dates">
-                                <input className="form-control date1" id="date1" name="date" placeholder="07/15/2016"
-                                       type="text"></input>
-                                    <input className="form-control date2" id="date2" name="date"
-                                           placeholder="07/15/2016" type="text"></input>
-                            </div>
-                        </div>
-                        <div className="sidebar-popularcategories col-md-12 pad0 col-sm-12 mobile-hidden">
-                            <div className="col-md-12 popularcategories-item border-btm">
-                                <a href=""><h5>Today</h5></a>
-                            </div>
-                            <div className="col-md-12 popularcategories-item border-btm">
-                                <a href=""></a>
-                                <h5>Tomorrow</h5>
-                            </div>
-                            <div className="col-md-12 popularcategories-item border-btm">
-                                <a href=""><h5>This Week</h5></a>
-                            </div>
-                            <div className="col-md-12 popularcategories-item border-btm">
-                                <a href=""><h5>This Weekend</h5></a>
-                            </div>
-                            <div className="col-md-12 popularcategories-item border-btm">
-                                <a href=""><h5>Next Week</h5></a>
-                            </div>
-                            <div className="col-md-12 popularcategories-item">
-                                <a href=""><h5>This Month</h5></a>
-                            </div>
-                        </div>
-                        <div className="genre sidebar-popularcategories col-md-12 pad0 col-sm-12">
-
-                            <h4>TYPE</h4>
-                            <div className="col-md-12 popularcategories-item genre-type border-btm">
-                                <h5><label>
-                                    <div className="custom-checkbox">
-                                    </div>
-                                </label>
-                                </h5>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        return form;
     }
 
     getFormattedEvents() {

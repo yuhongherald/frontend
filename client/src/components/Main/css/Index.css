@@ -21,3 +21,7 @@
     border: 1px solid #FF5A5F;
     color: white;
 }
+
+.ReactModal__Overlay.ReactModal__Overlay--after-open.slide-pane__overlay {
+    z-index: 99;
+}

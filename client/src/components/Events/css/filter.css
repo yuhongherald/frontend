@@ -6,6 +6,11 @@ hr {
     width: 100%;
 }
 
+button {
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
 .filter-panel {
     background-color: #FFE2FB;
     width:100%;
@@ -24,6 +29,14 @@ hr {
     width:100%;
     margin-top: 30px;
     margin-bottom: 30px;
+}
+
+.btn:active {
+    background-color: #a22;
+}
+
+.btn:focus {
+    background-color: #b44;
 }
 
 .input-field {
