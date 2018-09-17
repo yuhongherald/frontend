@@ -115,7 +115,7 @@ class CreateEvent extends React.Component {
         let postData = {
             "event_title": this.state.data.title,
             "event_desc": this.state.data.description,
-            "max_quota": this.state.data.maxQuota,
+            "max_quota": this.state.data.maxQuota.toString(),
             "event_type": this.remapEventType(this.state.data.category),
             "event_start_date": this.formatDate(this.state.startDate) + " " + this.state.data.startTime,
             "event_end_date": this.formatDate(this.state.endDate) + " " + this.state.data.endTime,

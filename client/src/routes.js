@@ -66,6 +66,11 @@ const routes = {
                 component: Schedule
             },
             {
+                path: '/manage',
+                exactly: true,
+                component: Schedule
+            },
+            {
                 path: '/my_events',
                 exactly: true,
                 component: MyEvents
