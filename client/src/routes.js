@@ -12,6 +12,7 @@ import MyEvents from './components/Events/my_events/MyEvents.jsx';
 import CreatedEvents from './components/Events/new_event/CreateEvent.jsx';
 import AttendingEvents from './components/Events/my_events/AttendingEvents.jsx';
 import Auth from './modules/Auth';
+import Schedule from "./components/Events/Schedule.jsx";
 
 const routes = {
         // base component (wrapper for the whole application).
@@ -41,7 +42,7 @@ const routes = {
                     Auth.deauthenticateUser();
 
                     // change the current URL to /
-                    replace('/login');
+                    replace('/');
                 }
             },
             {
@@ -58,6 +59,11 @@ const routes = {
                 path: '/events/page/1',
                 exactly: true,
                 component: EventsByPage
+            },
+            {
+                path: '/schedule',
+                exactly: true,
+                component: Schedule
             },
             {
                 path: '/my_events',

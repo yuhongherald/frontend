@@ -4,6 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import './css/Login.css';
 import userController from "../../controllers/userController";
 import Modal from 'react-responsive-modal';
+import {browserHistory} from 'react-router';
 
 
 class Signup extends React.Component {
@@ -61,8 +62,6 @@ class Signup extends React.Component {
                     isRegistered: true,
                     uid: response.uid
                 });
-                console.log(response);
-
 
             }
             else {
@@ -84,6 +83,9 @@ class Signup extends React.Component {
                     isVerified: true,
                     openTokenModal: false
                 });
+
+                // Redirect to login after 3 seconds
+                setTimeout(browserHistory.push('/login'), 3000);
             }
             else {
                 this.setState({
