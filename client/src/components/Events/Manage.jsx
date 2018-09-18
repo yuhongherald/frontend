@@ -25,13 +25,6 @@ class Manage extends React.Component {
     render() {
         return (
             <div>
-                <div>
-                    <span className="width-20"></span>
-                    <span className="sticky-header width-80">
-                        <h1 className="text-center">Manage</h1>
-                        {this.getDropdown()}
-                    </span>
-                </div>
                 {this.getSchedule()}
             </div>
         )
@@ -100,6 +93,10 @@ class Manage extends React.Component {
                     <Tab className="btn tab">{this.createEventSummary()}</Tab>
                 </TabList>
                 <span className="tab-container">
+                    <div className="sticky-header">
+                        <h1 className="text-center">Manage</h1>
+                        {this.getDropdown()}
+                    </div>
                     <TabPanel className="createdEvents">
                         <br />
                         {this.createEventTemplateEditable()}

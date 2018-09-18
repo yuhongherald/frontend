@@ -34,7 +34,6 @@ class Base extends React.Component {
             <div>
                 <div id="navigation-header">
                     <nav className="navbar navbar-default"  style={{paddingBottom: '10px'}} role="navigation">
-
                         <div className="container">
                             <div className="navbar-header">
                                 <button type="button" className="navbar-toggle" data-toggle="collapse"

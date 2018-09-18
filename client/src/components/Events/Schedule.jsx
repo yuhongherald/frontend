@@ -25,11 +25,6 @@ class Schedule extends React.Component {
     render() {
         return (
             <div>
-                <span className="width-20"></span>
-                <span className="sticky-header width-80">
-                    <h1 className="text-center">Schedule</h1>
-                    {this.getDropdown()}
-                </span>
                 {this.getSchedule()}
             </div>
         )
@@ -82,6 +77,10 @@ class Schedule extends React.Component {
                     <Tab className="btn tab">{this.createEventSummary()}</Tab>
                 </TabList>
                 <span className="tab-container">
+                    <div className="sticky-header">
+                        <h1 className="text-center">Schedule</h1>
+                        {this.getDropdown()}
+                    </div>
                     <TabPanel className="createdEvents">
                         <br />
                         {this.createEventTemplate()}

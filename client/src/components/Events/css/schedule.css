@@ -146,15 +146,15 @@
     position: sticky;
     display: inline-block;
     width: 80%;
-    top: 160px;
+    top: 60px;
     vertical-align: top;
     background-color: #fff4f4;
 }
 
-.sticky-header {
+.sticky-header { /* not used */
     position: -webkit-sticky; /* Safari */
     position: sticky;
-    top: 60px;
+    top: 0px;
     z-index: 1;
 }
 
