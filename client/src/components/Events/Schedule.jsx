@@ -25,10 +25,11 @@ class Schedule extends React.Component {
     render() {
         return (
             <div>
-                <div className="sticky-header">
+                <span className="width-20"></span>
+                <span className="sticky-header width-80">
                     <h1 className="text-center">Schedule</h1>
                     {this.getDropdown()}
-                </div>
+                </span>
                 {this.getSchedule()}
             </div>
         )

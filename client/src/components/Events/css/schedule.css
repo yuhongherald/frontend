@@ -298,3 +298,13 @@
     display: inline-block;
     width: 35%;
 }
+
+.width-20 {
+    display: inline-block;
+    width: 20%;
+}
+
+.width-80 {
+    display: inline-block;
+    width: 80%;
+}
