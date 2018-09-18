@@ -25,6 +25,7 @@ class Schedule extends React.Component {
     render() {
         return (
             <div>
+                <h1 className="text-center">Schedule</h1>
                 {this.getSchedule()}
             </div>
         )

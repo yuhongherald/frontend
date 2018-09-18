@@ -60,8 +60,8 @@ class Base extends React.Component {
                                         <i className="fas fa-user" aria-hidden="true"></i>
                                         {Auth.getUserData().username}
                                     </li>
-                                    <li><Link to={`/`}> My schedule</Link></li>
-                                    <li><Link to={`/`}> Manage events</Link></li>
+                                    <li><Link to={`/schedule`}> My schedule</Link></li>
+                                    <li><Link to={`/manage`}> Manage events</Link></li>
                                     <li><Link to={`/events/new`}>
                                         <button className="create-event">Create events</button>
                                     </Link></li>

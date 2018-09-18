@@ -3,6 +3,7 @@ import '../../Main/css/CategoryList.css';
 import '../../Events/css/Events.css';
 import {Link} from 'react-router';
 import EventsByPage from "../../Common/EventsByPage.jsx";
+import Filters from "../filters/Filters.jsx";
 
 
 class AllEvents extends React.Component {
@@ -43,12 +44,8 @@ class AllEvents extends React.Component {
                 <div>
                     <div className="parent border-top-bottom" style={{padding: '20px 0px 20px 20px', height: '60px'}}>
                         <div className="child" style={{width: '100%', textAlign: 'center', fontWeight: 'bold'}}>
-                            <p><i className="fas fa-filter" style={{
-                                marginRight: '10px',
-                                fontSize: '16px',
-                                color: "rgb(255, 90, 95)",
-                                padding: '0px 0px'
-                            }}></i>Search & Filter</p></div>
+                            <Filters/>
+                        </div>
                     </div>
                 </div>
 
