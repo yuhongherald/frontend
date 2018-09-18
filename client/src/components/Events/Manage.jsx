@@ -204,21 +204,16 @@ class Manage extends React.Component {
         // name
         // phone number
         // registered since
-        return this.createEventTemplate();//<div>Particpant</div>;
-    }
-
-    createEventTemplate() {
         return <div className="participantContainer">
-            <span className="participantEmptySpace"></span>
             <span className="participantName">
                 <span className="profile-icon"></span>
-                3:00-5:00
+                <div>&nbsp;Name</div>
             </span>
             <span className="participantNumber">
                 <span className="phone-icon"></span>
-                91234567
+                <div>&nbsp;91234567</div>
             </span>
-            <span className="delete-icon"></span>
+            <button className="delete-icon"></button>
         </div>;
     }
 }

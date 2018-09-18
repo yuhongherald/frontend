@@ -130,9 +130,33 @@
     background-color:paleturquoise;
     height: 40px;
     border: solid 1px #b44;
-    border-radius: 4px;
+    border-radius: 20px;
     vertical-align: top;
     margin: 10px;
+}
+
+.participantContainer span {
+    display: inline-block;
+    height: 40px;
+    text-align: center;
+    vertical-align: top;
+}
+
+.participantContainer span span {
+    height: 30px;
+    width: 30px;
+    vertical-align: center;
+    margin: 2px;
+    /*padding-top: 10px;*/
+    /*padding-bottom: 10px;*/
+}
+
+.participantContainer span div {
+    display: inline-block;
+    height: 30px;
+    margin: 2px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .eventDetails {
@@ -286,10 +310,10 @@
     width:20px;
     height:20px;
     color:#FFFFFF;
-    margin-left:-20px;
+    margin-left: 0px;
     padding:10px;
     border-color:Transparent;
-    horiz-align: center;
+    border-radius:50%;
 
     background-size: cover;
     background-repeat: no-repeat;
@@ -302,10 +326,10 @@
     width:20px;
     height:20px;
     color:#FFFFFF;
-    margin-left:-20px;
-    horiz-align: center;
+    margin-left: 0px;
     padding:10px;
     border-color:Transparent;
+    border-radius:50%;
 
     background-size: contain;
     background-repeat: no-repeat;
@@ -315,11 +339,13 @@
 .delete-icon {
     display: inline-block;
     background-image: url(/assets/images/trash-can.png);
-    width:20px;
-    height:20px;
+    background-color: transparent;
+    width:30px;
+    height:30px;
+    margin:4px;
+    float: right;
     color:#FFFFFF;
-    margin-right: 0;
-    horiz-align: center;
+    margin-right: 4px;
     padding:10px;
     border-color:Transparent;
 
@@ -330,12 +356,14 @@
 
 .participantName {
     display: inline-block;
-    width: 35%;
+    width: 40%;
+    margin-left: -10px;
 }
 
 .participantNumber {
     display: inline-block;
-    width: 35%;
+    width: 40%;
+    margin-left: -10px;
 }
 
 .width-20 {
