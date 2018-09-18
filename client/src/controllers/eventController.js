@@ -7,7 +7,6 @@ const endPoint = 'http://54.169.251.138';
 let eventController = {};
 
 eventController.getEvents = (data) => {
-    console.log(data);
     let response = axios.get(endPoint + '/api/v1/event/list/', {
         params: data
     })
@@ -39,7 +38,7 @@ eventController.getEvent = (data) => {
                 status: 'failed',
                 desc: error.message
             }
-        })
+        });
     return response;
 };
 
@@ -75,7 +74,7 @@ eventController.createEvent = (data) => {
         }
     });
     return response;
-}
+};
 
 eventController.participateEvent = (data) => {
     let response = axios.post(endPoint + '/api/v1/event/participate/', {
@@ -92,9 +91,26 @@ eventController.participateEvent = (data) => {
                 status: 'failed',
                 desc: error
             }
-        })
+        });
 
     return response;
 };
+
+eventController.getNearbyEvents = (data) => {
+    return axios.get(endPoint + '/api/v1/event/nearby/', {
+        params: data
+    })
+        .then(response => {
+            return response;
+        })
+
+        .catch(err => {
+        return {
+            status: 'failed',
+            desc: err
+        }
+    });
+};
+
 
 export default eventController;

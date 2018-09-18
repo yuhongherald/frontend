@@ -51,7 +51,7 @@ class PopularEvents extends React.Component {
                         <div className="child child-60"><p><Link to="/events/categories/arts" style={{color: '#333'}}>Arts</Link></p></div>
                         <div className="child child-60"><p><Link to="/events/categories/food" style={{color: '#333'}}>Food</Link></p></div>
                         <div className="child child-60"><p><Link to="/events/categories/sports" style={{color: '#333'}}>Sports</Link></p></div>
-                        <div className="child child-60 last-child-60"><p><Link to="/events/categories/sports" style={{color: '#333'}}>Social</Link></p></div>
+                        <div className="child child-60 last-child-60"><p><Link to="/events/categories/social" style={{color: '#333'}}>Social</Link></p></div>
                     </div>
                 </div>
 
