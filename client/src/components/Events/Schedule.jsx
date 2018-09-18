@@ -119,7 +119,7 @@ class Schedule extends React.Component {
 
     createEventSummary() {
         return <div className="eventBanner">
-            <span className="eventLabel">
+            <span className="eventLabel event-title-large">
                 CS3216<br />
                 30 Sep<br />
                 Sun
@@ -166,6 +166,8 @@ class Schedule extends React.Component {
                                 </div>
                             </div>
                             <button className="exit-btn"></button>
+                            <h3>Ticket details</h3>
+            <img src="/assets/images/QR.png"/>
         </div>;
     }
 }
