@@ -40,6 +40,7 @@
     "react-sliding-pane": "^2.0.2",
     "react-tabs": "^2.3.0",
     "react-time-picker": "^2.7.0",
+    "react-web-tabs": "^1.0.1",
     "recompose": "latest",
     "url-loader": "^1.1.1"
   },
